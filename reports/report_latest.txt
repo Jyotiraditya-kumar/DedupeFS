@@ -1,0 +1,64 @@
+================================================================================
+                     DEDUPFS STORAGE EXECUTION REPORT
+            High-Performance Deduplication Engine (M.Tech Sem 1)
+================================================================================
+Execution Timestamp:    2026-10-31 16:51:39
+Target Directory:       ./datasets/test_small_250MB/work
+Execution Mode:         OPTIMIZE (POSIX Hard-Link Consolidation)
+Bloom Filter Target FPR:1.0000%
+Minimum File Size:      1.00 B (1 bytes)
+--------------------------------------------------------------------------------
+
+1. SCANNING & TIER 1/2 I/O SAVINGS
+--------------------------------------------------------------------------------
+Total Files Scanned:                      9516
+Total Raw Data Scanned:                   279.63 MB (293208213 bytes)
+Unique Size Files Discarded (Tier 1):     2346 (24.7%)
+4KB Prefix Hashes Evaluated (Tier 2):     7164
+Prefix Mismatches Discarded:              2060
+Full SHA-256 Hashes Computed (Tier 3):    5104
+
+2. PROBABILISTIC BLOOM FILTER TELEMETRY
+--------------------------------------------------------------------------------
+Bloom Filter Total Bits (m):              958506 (117.01 KB)
+Optimal Hash Functions Count (k):         7
+Bloom Filter Fill Ratio (1-bits):         1.46%
+Total Membership Queries:                 5104
+True Negative Rejections (O(k)):          2012
+Reported Positives (Hash Lookups):        3092
+Observed False Positives:                 0
+Theoretical False Positive Rate:          1.40e-13
+Empirical False Positive Rate:            0.00e+00
+
+3. PRIMARY HASH TABLE INVERTED INDEX DIAGNOSTICS
+--------------------------------------------------------------------------------
+Primary Index Stored Elements:            2012
+Allocated Power-of-Two Buckets:           4096
+Current Load Factor (lambda):             0.491
+Dynamic Rehash Expansions:                0
+Bucket Hash Collisions Resolved:          410
+Max Collision Chain Depth:                4
+Avg Non-Empty Chain Length:               1.26
+
+4. BYTE VERIFICATION & STORAGE DEDUPLICATION RESULTS
+--------------------------------------------------------------------------------
+Byte Verifications Performed:             3092
+Byte-by-Byte Confirmed Matches:           3092
+Duplicate Equivalence Classes:            1999
+Redundant Duplicate Files:                3092
+Storage Savings Potential:                76.03 MB
+Actually Reclaimed Physical Storage:      76.03 MB
+Deduplication Ratio (DR):                 1.37x
+Physical Space Savings Percentage:        27.19%
+
+5. EXECUTION LATENCY & THROUGHPUT TELEMETRY
+--------------------------------------------------------------------------------
+Directory Scan Latency:                   122.63 ms
+Hash, Bloom & Index Latency:              1.89 s
+Storage Optimization Latency:             161.23 ms
+End-to-End Total Runtime:                 2.17 s
+Overall Processing Throughput:            128.79 MB/s
+Peak Process Memory (RSS):                12.09 MB
+
+Associated File-Level Duplicate Report: reports/duplicates_20261031_165139.txt
+================================================================================

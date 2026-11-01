@@ -1,0 +1,42 @@
+# Compiled binaries
+bin/
+*.exe
+*.out
+
+# Object files and build directories
+build/
+*.o
+*.a
+*.so
+*.dylib
+
+# CMake artifacts
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile.cmake
+CTestTestfile.cmake
+
+# Datasets and raw sources (multi-gigabyte testing data)
+datasets/
+raw_datasets/
+*.tar.gz
+*.tar.xz
+*.zip
+
+# Logs
+logs/
+*.log
+
+# Generated duplicate detail dumps and historical reports (keep folder with .gitkeep)
+reports/duplicates_*.txt
+reports/report_20*.txt
+scratch_*
+*.tmp
+
+# Editor & OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
