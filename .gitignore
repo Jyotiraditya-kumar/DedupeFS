@@ -31,6 +31,7 @@ logs/
 # Generated duplicate detail dumps and historical reports (keep folder with .gitkeep)
 reports/duplicates_*.txt
 reports/report_20*.txt
+reports/report_20*.html
 scratch_*
 *.tmp
 

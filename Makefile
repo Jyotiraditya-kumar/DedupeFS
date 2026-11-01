@@ -41,9 +41,13 @@ TEST_OBJS = $(patsubst $(TESTS_DIR)/%.cpp, $(BUILD_DIR)/tests/%.o, $(TEST_SRCS))
 TARGET = $(BIN_DIR)/dedupfs
 TEST_TARGET = $(BIN_DIR)/test_runner
 
-.PHONY: all clean test dirs help
+.PHONY: all clean test dirs help ui
 
 all: dirs $(TARGET) $(TEST_TARGET)
+
+ui: all
+	@echo "Launching DedupFS Web UI Dashboard on http://127.0.0.1:5000..."
+	python3 ui/app.py 5000
 
 help:
 	@echo "DedupFS High-Performance Build System"

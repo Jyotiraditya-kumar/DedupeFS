@@ -85,6 +85,26 @@ SizeBucketMap FileScanner::scan_directory(const std::string& root_path, DedupSta
                 stats.total_files_scanned++;
                 stats.total_bytes_scanned += file_size;
 
+                // Track file type and subfolder distribution
+                {
+                    std::string ext = fs::path(current_path).extension().string();
+                    for (char& c : ext) c = static_cast<char>(std::tolower(c));
+                    if (ext.empty()) ext = "(no ext)";
+                    stats.file_type_metrics[ext].file_count++;
+                    stats.file_type_metrics[ext].total_bytes += file_size;
+
+                    std::string rel_path;
+                    try {
+                        rel_path = fs::relative(current_path, root_path).string();
+                    } catch (...) {
+                        rel_path = current_path;
+                    }
+                    auto slash_pos = rel_path.find('/');
+                    std::string folder = (slash_pos != std::string::npos) ? rel_path.substr(0, slash_pos) : "(root)";
+                    stats.subfolder_metrics[folder].file_count++;
+                    stats.subfolder_metrics[folder].total_bytes += file_size;
+                }
+
                 // Check size bounds
                 if (file_size < options_.min_file_size || file_size > options_.max_file_size) {
                     it.increment(ec);

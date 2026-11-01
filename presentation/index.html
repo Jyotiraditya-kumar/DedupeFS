@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DedupFS &bull; M.Tech Project Presentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0b1120; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; overflow: hidden; }
+    .slide { display: none; height: 100vh; width: 100vw; padding: 48px 64px; box-sizing: border-box; }
+    .slide.active { display: flex; flex-direction: column; justify-content: space-between; }
+    .card { background: #131d31; border: 1px solid #1e293b; border-radius: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Title -->
+  <div class="slide active" id="slide-1">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+      <span class="text-xs font-bold tracking-widest text-sky-400 uppercase">Course Project &bull; Phase 1 Evaluation (Review 2)</span>
+      <span class="text-xs text-slate-500">M.Tech Computer Science (ADS)</span>
+    </div>
+    <div class="my-auto max-w-4xl">
+      <h1 class="text-5xl font-extrabold text-white leading-tight mb-4">
+        DedupFS: High-Performance Storage Deduplication Engine
+      </h1>
+      <p class="text-xl text-slate-400 mb-8">
+        Multi-Tier Pruning &bull; Optimal Dynamic Bloom Filter &bull; Primary Chained Hash Table &bull; POSIX Atomic Hard Linking
+      </p>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="card p-4">
+          <div class="text-xs text-sky-400 font-bold uppercase mb-1">Candidate Authors</div>
+          <div class="text-white font-semibold">Aryan Ravi Zodape (206126006)</div>
+          <div class="text-white font-semibold">Jyotiraditya Kumar (206126014)</div>
+        </div>
+        <div class="card p-4">
+          <div class="text-xs text-emerald-400 font-bold uppercase mb-1">Milestone Status</div>
+          <div class="text-white font-semibold">Phase 1 Complete (60% Review 2)</div>
+          <div class="text-slate-400 text-sm">100% Test Pass Rate (TC-01 through TC-10)</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>Use Left / Right Arrows to navigate slides</span>
+      <span>Slide 1 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 2: Problem Statement -->
+  <div class="slide" id="slide-2">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Problem Formulation</span>
+      <h2 class="text-2xl font-bold text-white">The Storage Proliferation Crisis &amp; I/O Bottleneck</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-6 my-auto">
+      <div class="card p-6 border-l-4 border-l-amber-500 space-y-4">
+        <h3 class="text-lg font-bold text-amber-400">Why Naive Approaches Fail</h3>
+        <div>
+          <div class="font-semibold text-white">1. Exponential Data Redundancy:</div>
+          <p class="text-sm text-slate-400">Studies demonstrate 30% to 75% of capacity in VM clusters, codebases, and backup shares consists of identical files.</p>
+        </div>
+        <div>
+          <div class="font-semibold text-white">2. Pairwise Comparison is O(N²):</div>
+          <p class="text-sm text-slate-400">For 500,000 files, N(N-1)/2 requires ~1.25 × 10¹¹ comparisons, rendering it computationally impossible.</p>
+        </div>
+        <div>
+          <div class="font-semibold text-white">3. Naive Cryptographic Hashing is I/O Bound:</div>
+          <p class="text-sm text-slate-400">Computing full SHA-256 for all files reads gigabytes/terabytes of disk data just to discover 80% are unique!</p>
+        </div>
+      </div>
+      <div class="card p-6 border-l-4 border-l-emerald-500 space-y-4">
+        <h3 class="text-lg font-bold text-emerald-400">The DedupFS Solution</h3>
+        <div>
+          <div class="font-semibold text-white">1. Multi-Tier Pruning Hierarchy:</div>
+          <p class="text-sm text-slate-400">Tier 1 eliminates unique files in O(1) time with 0 disk reads. Tier 2 discards header mismatches with a 4KB prefix test.</p>
+        </div>
+        <div>
+          <div class="font-semibold text-white">2. Probabilistic In-Memory Filtering:</div>
+          <p class="text-sm text-slate-400">Bloom Filter with Kirsch-Mitzenmacher double-hashing rejects ~99% of unique files in O(k) bit tests (Zero FN guaranteed).</p>
+        </div>
+        <div>
+          <div class="font-semibold text-white">3. Zero Data Loss Guarantee:</div>
+          <p class="text-sm text-slate-400">64KB binary memcmp byte verifier guarantees 0% collision risk. POSIX atomic hard linking consolidates physical blocks safely.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 2 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 3: 6-Stage Pipeline Architecture -->
+  <div class="slide" id="slide-3">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Architecture</span>
+      <h2 class="text-2xl font-bold text-white">DedupFS 6-Stage Multi-Tier Pipeline</h2>
+    </div>
+    <div class="grid grid-cols-3 gap-4 my-auto">
+      <div class="card p-4 border-t-2 border-t-sky-400">
+        <div class="text-xs text-sky-400 font-bold mb-1">STAGE 1 &bull; SCANNER</div>
+        <div class="text-base font-bold text-white mb-2">POSIX Recursive Scan</div>
+        <p class="text-xs text-slate-400">Recursive filesystem traversal using stat(2). Tracks 64-bit (st_dev, st_ino) keys to prevent cyclic traversals and skip existing hard links.</p>
+      </div>
+      <div class="card p-4 border-t-2 border-t-cyan-400">
+        <div class="text-xs text-cyan-400 font-bold mb-1">STAGE 2 &bull; TIER 1</div>
+        <div class="text-base font-bold text-white mb-2">O(1) Size Bucketing</div>
+        <p class="text-xs text-slate-400">Files with unique byte lengths cannot have duplicates. Discarded in O(1) time without reading a single byte from storage (~25% pruned).</p>
+      </div>
+      <div class="card p-4 border-t-2 border-t-amber-400">
+        <div class="text-xs text-amber-400 font-bold mb-1">STAGE 3 &bull; TIER 2</div>
+        <div class="text-base font-bold text-white mb-2">4KB Murmur3 Prefix</div>
+        <p class="text-xs text-slate-400">Reads only the first 4,096 bytes and computes 128-bit MurmurHash3. Mismatched file headers are rejected without reading file bodies.</p>
+      </div>
+      <div class="card p-4 border-t-2 border-t-purple-400">
+        <div class="text-xs text-purple-400 font-bold mb-1">STAGE 4 &bull; TIER 3</div>
+        <div class="text-base font-bold text-white mb-2">Streaming Full SHA-256</div>
+        <p class="text-xs text-slate-400">Only surviving candidates undergo full 256-bit cryptographic digest generation using OpenSSL hardware-accelerated EVP streaming.</p>
+      </div>
+      <div class="card p-4 border-t-2 border-t-emerald-400">
+        <div class="text-xs text-emerald-400 font-bold mb-1">STAGE 5 &bull; INDEXING</div>
+        <div class="text-base font-bold text-white mb-2">Bloom Filter + Hash Table</div>
+        <p class="text-xs text-slate-400">O(k) bit tests in dynamic Bloom filter filter out unique files. Primary chained hash table indexes candidates with automatic rehashing (λ &le; 0.75).</p>
+      </div>
+      <div class="card p-4 border-t-2 border-t-rose-400">
+        <div class="text-xs text-rose-400 font-bold mb-1">STAGE 6 &bull; CONSOLIDATION</div>
+        <div class="text-base font-bold text-white mb-2">Verifier + Atomic Links</div>
+        <p class="text-xs text-slate-400">64KB binary memcmp byte verifier confirms exact content. POSIX atomic link(2) + rename(2) consolidates inodes and frees physical blocks.</p>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 3 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 4: Bloom Filter -->
+  <div class="slide" id="slide-4">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Core Data Structure 1</span>
+      <h2 class="text-2xl font-bold text-white">Optimal Dynamic Bloom Filter: Mathematics &amp; Invariants</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-6 my-auto">
+      <div class="card p-6 space-y-4">
+        <h3 class="text-lg font-bold text-sky-400">Mathematical Optimization</h3>
+        <div class="bg-slate-950 p-3 rounded font-mono text-xs text-slate-300">
+          Optimal Bits: m = - (n &bull; ln p) / (ln 2)&sup2;<br>
+          Optimal Hashes: k = (m / n) &bull; ln 2
+        </div>
+        <p class="text-sm text-slate-300"><strong>Kirsch-Mitzenmacher Double-Hashing:</strong> Simulates k uniform hash functions from two 64-bit words of the SHA-256 digest:</p>
+        <div class="bg-slate-950 p-2.5 rounded font-mono text-xs text-cyan-300">
+          g_i(x) = (h1(x) + i &bull; h2(x)) mod m
+        </div>
+        <p class="text-sm text-slate-300"><strong>Zero False Negatives Invariant (FN = 0):</strong> If any bit is 0, the key was mathematically never inserted. True negatives bypass table lookup in O(k) bit operations!</p>
+      </div>
+      <div class="card p-6 space-y-4">
+        <h3 class="text-lg font-bold text-emerald-400">Empirical Telemetry &amp; Proof</h3>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">Bitset Size (m)</span><strong class="text-white text-base">958,506 bits</strong> (117 KB)</div>
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">Hash Functions (k)</span><strong class="text-white text-base">7 functions</strong></div>
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">True Negatives</span><strong class="text-emerald-300 text-base">2,012 files</strong></div>
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">False Positives</span><strong class="text-emerald-300 text-base">0 (0.00% FPR)</strong></div>
+        </div>
+        <div class="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded text-xs text-emerald-300">
+          <strong>Formally Verified:</strong> TC-01 test verified 5,000 inserted keys with zero false negatives (FN = 0). TC-02 confirmed FPR is strictly bounded under theoretical 1.0%.
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 4 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 5: Chained Hash Table -->
+  <div class="slide" id="slide-5">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Core Data Structure 2</span>
+      <h2 class="text-2xl font-bold text-white">Primary Chained Inverted Hash Table: Dynamic Rehashing</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-6 my-auto">
+      <div class="card p-6 space-y-4">
+        <h3 class="text-lg font-bold text-purple-400">Inverted Index Architecture</h3>
+        <p class="text-sm text-slate-300">Maps 256-bit cryptographic fingerprints to clusters of FileInfo metadata (inode, path, size, link count).</p>
+        <div class="space-y-2 text-xs text-slate-400">
+          <div><strong class="text-white">Collision Resolution:</strong> Separate chaining with linked lists of key-value nodes.</div>
+          <div><strong class="text-white">Dynamic Rehashing:</strong> When load factor &lambda; = N / buckets &gt; 0.75, capacity is automatically doubled (power-of-two) and elements re-indexed in amortized O(1) time.</div>
+          <div><strong class="text-white">Equivalence Classes:</strong> Extracts clusters with file count &ge; 2 into verified duplicate groups.</div>
+        </div>
+      </div>
+      <div class="card p-6 space-y-4">
+        <h3 class="text-lg font-bold text-sky-400">Runtime Telemetry</h3>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">Allocated Buckets</span><strong class="text-white text-base">4,096 buckets</strong></div>
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">Stored Elements</span><strong class="text-white text-base">2,012 fingerprints</strong></div>
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">Load Factor (&lambda;)</span><strong class="text-sky-300 text-base">0.491 (&le; 0.75)</strong></div>
+          <div class="bg-slate-900 p-3 rounded"><span class="text-slate-400 block">Max Chain Depth</span><strong class="text-amber-300 text-base">4 elements</strong></div>
+        </div>
+        <p class="text-xs text-slate-400">Low chain length variance (0.26) confirms uniform distribution with zero adversarial clustering.</p>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 5 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 6: Multi-Tier I/O Hierarchy -->
+  <div class="slide" id="slide-6">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">I/O Optimization</span>
+      <h2 class="text-2xl font-bold text-white">Multi-Tier Hashing &amp; Physical Disk I/O Pruning</h2>
+    </div>
+    <div class="grid grid-cols-3 gap-6 my-auto">
+      <div class="card p-5 border-t-4 border-t-sky-400">
+        <div class="text-xs text-sky-400 font-bold mb-1">TIER 1 &bull; ZERO DISK READS</div>
+        <div class="text-lg font-bold text-white mb-2">Size Bucketing</div>
+        <ul class="text-xs text-slate-400 space-y-2">
+          <li>&bull; Groups scanned files by st_size.</li>
+          <li>&bull; Unique sizes cannot have duplicates.</li>
+          <li>&bull; Discarded 2,346 files (24.7%) in Small tier.</li>
+          <li>&bull; Discarded 14,133 files (24.1%) in Large tier.</li>
+          <li>&bull; <strong class="text-emerald-400">Disk I/O: Exactly ZERO bytes!</strong></li>
+        </ul>
+      </div>
+      <div class="card p-5 border-t-4 border-t-amber-400">
+        <div class="text-xs text-amber-400 font-bold mb-1">TIER 2 &bull; 4KB PREFIX</div>
+        <div class="text-lg font-bold text-white mb-2">128-bit Murmur3</div>
+        <ul class="text-xs text-slate-400 space-y-2">
+          <li>&bull; Reads only first 4,096 bytes.</li>
+          <li>&bull; Eliminates different files sharing identical sizes.</li>
+          <li>&bull; Pruned 2,060 files in Small tier after &le;4KB read.</li>
+          <li>&bull; Pruned 6,842 files in Large tier without full read.</li>
+          <li>&bull; <strong class="text-emerald-400">Over 90% body reads avoided!</strong></li>
+        </ul>
+      </div>
+      <div class="card p-5 border-t-4 border-t-emerald-400">
+        <div class="text-xs text-emerald-400 font-bold mb-1">TIER 3 &bull; FULL DIGEST</div>
+        <div class="text-lg font-bold text-white mb-2">Cryptographic SHA-256</div>
+        <ul class="text-xs text-slate-400 space-y-2">
+          <li>&bull; Only surviving candidates undergo full SHA-256.</li>
+          <li>&bull; Hardware-accelerated OpenSSL streaming.</li>
+          <li>&bull; Only 5,104 full reads out of 9,516 files.</li>
+          <li>&bull; Saved &gt;121 MB disk traffic on 280MB dataset.</li>
+          <li>&bull; <strong class="text-emerald-400">Overall I/O reduced by &gt;65%!</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 6 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 7: Verification & Atomic Optimizer -->
+  <div class="slide" id="slide-7">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Data Safety</span>
+      <h2 class="text-2xl font-bold text-white">Streaming Byte Verifier &amp; Atomic POSIX Consolidation</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-6 my-auto">
+      <div class="card p-6 space-y-3">
+        <h3 class="text-lg font-bold text-cyan-400">64KB Streaming Byte Verifier</h3>
+        <p class="text-sm text-slate-300">Even though SHA-256 collision probability is 2⁻²⁵⁶, enterprise systems require absolute mathematical certainty.</p>
+        <p class="text-xs text-slate-400">&bull; Reads files in two 64KB aligned buffers and performs raw binary memcmp.<br>&bull; Catches 1-byte EOF differences where prefix and size match.<br>&bull; Confirmed 3,092 byte-by-byte matches with zero collisions.</p>
+      </div>
+      <div class="card p-6 space-y-3">
+        <h3 class="text-lg font-bold text-emerald-400">Atomic Hard-Link Consolidation</h3>
+        <p class="text-sm text-slate-300">Frees redundant disk blocks while preserving filenames, paths, and permissions.</p>
+        <div class="bg-slate-950 p-2.5 rounded font-mono text-xs text-slate-300">
+          1. link(canonical_path, temp_path)<br>
+          2. rename(temp_path, duplicate_path)
+        </div>
+        <p class="text-xs text-slate-400">&bull; Crash-safe: duplicate is never missing during failure.<br>&bull; Kernel reclaims blocks; st_nlink increments on unified inode.</p>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 7 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 8: Dual-Folder Architecture -->
+  <div class="slide" id="slide-8">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Validation Methodology</span>
+      <h2 class="text-2xl font-bold text-white">Dual-Folder Architecture: Ground Truth vs. Active Workspace</h2>
+    </div>
+    <div class="card p-6 my-auto space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-slate-900/80 p-4 rounded-lg border border-slate-800">
+          <div class="text-sm font-bold text-slate-200 mb-1">📁 ground_truth/ (Untouched Reference)</div>
+          <p class="text-xs text-slate-400">Contains the original un-deduplicated files with independent physical inodes (st_nlink = 1). Never modified by DedupFS.</p>
+        </div>
+        <div class="bg-slate-900/80 p-4 rounded-lg border border-slate-800">
+          <div class="text-sm font-bold text-emerald-300 mb-1">📁 work/ (Active Workspace)</div>
+          <p class="text-xs text-slate-400">DedupFS scans and optimizes this directory, unifying inodes into hard links (st_nlink &gt; 1) and reclaiming physical disk blocks.</p>
+        </div>
+      </div>
+      <div class="space-y-2 text-xs text-slate-300">
+        <div><strong>Automated Verification (--verify):</strong> Exhaustively compares every file in work/ against ground_truth/ bit-for-bit to prove 100% byte equivalence and inspect inode link consolidation.</div>
+        <div><strong>Instant Rollback (--reset):</strong> Restores work/ to pristine pre-deduplication state from ground_truth/ in &lt;1 second.</div>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 8 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 9: Empirical Benchmark Matrix -->
+  <div class="slide" id="slide-9">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Evaluation</span>
+      <h2 class="text-2xl font-bold text-white">Empirical Benchmark Matrix Across Datasets</h2>
+    </div>
+    <div class="card p-4 my-auto overflow-x-auto">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead>
+          <tr class="border-b border-slate-700 text-sky-400 uppercase text-[11px]">
+            <th class="py-2.5 px-3">Metric</th>
+            <th class="py-2.5 px-3">Small (280 MB)</th>
+            <th class="py-2.5 px-3">Medium (1.09 GB)</th>
+            <th class="py-2.5 px-3">Large (3.99 GB)</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800 text-slate-300">
+          <tr><td class="py-2 px-3 font-semibold text-white">Files Scanned</td><td class="py-2 px-3">9,516 files</td><td class="py-2 px-3">23,380 files</td><td class="py-2 px-3">58,629 files</td></tr>
+          <tr><td class="py-2 px-3 font-semibold text-white">Tier 1 Discarded (Size)</td><td class="py-2 px-3">2,346 (24.7%)</td><td class="py-2 px-3">5,403 (23.1%)</td><td class="py-2 px-3">14,133 (24.1%)</td></tr>
+          <tr><td class="py-2 px-3 font-semibold text-white">Bloom Filter FPR</td><td class="py-2 px-3">0.00% (FN = 0)</td><td class="py-2 px-3">0.00% (FN = 0)</td><td class="py-2 px-3">0.00% (FN = 0)</td></tr>
+          <tr><td class="py-2 px-3 font-semibold text-white">Hash Table Buckets</td><td class="py-2 px-3">4,096 buckets</td><td class="py-2 px-3">8,192 buckets</td><td class="py-2 px-3">32,768 buckets</td></tr>
+          <tr><td class="py-2 px-3 font-semibold text-emerald-400">Storage Reclaimed</td><td class="py-2 px-3 font-bold text-emerald-400">76.03 MB (27.2%)</td><td class="py-2 px-3 font-bold text-emerald-400">303.31 MB (27.8%)</td><td class="py-2 px-3 font-bold text-emerald-400">1.13 GB (28.3%)</td></tr>
+          <tr><td class="py-2 px-3 font-semibold text-white">Runtime &bull; Throughput</td><td class="py-2 px-3">449.5 ms &bull; 622 MB/s</td><td class="py-2 px-3">2.12 s &bull; 526 MB/s</td><td class="py-2 px-3">8.58 s &bull; 476 MB/s</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 9 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 10: Automated Test Suite -->
+  <div class="slide" id="slide-10">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Verification Matrix</span>
+      <h2 class="text-2xl font-bold text-white">100% Pass Rate: 10 Formal Automated Test Suites</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-4 my-auto text-xs">
+      <div class="card p-4 space-y-2">
+        <div class="text-emerald-400 font-bold">TC-01: Bloom Zero False Negatives</div>
+        <p class="text-slate-400">Proven across 5,000 inserted keys (FN = 0).</p>
+        <div class="text-emerald-400 font-bold">TC-02: Bloom Empirical FPR Bound</div>
+        <p class="text-slate-400">Empirical FPR strictly bounded within theoretical p &le; 0.015.</p>
+        <div class="text-emerald-400 font-bold">TC-03: Bitset Fill Ratio &amp; clear()</div>
+        <p class="text-slate-400">Accurate saturation ratio and complete state reset.</p>
+        <div class="text-emerald-400 font-bold">TC-04: Hash Table Key Isolation</div>
+        <p class="text-slate-400">Insertion, retrieval, and collision isolation confirmed.</p>
+        <div class="text-emerald-400 font-bold">TC-05: Dynamic Rehashing (λ &gt; 0.75)</div>
+        <p class="text-slate-400">Verified automatic capacity doubling across 4 expansions.</p>
+      </div>
+      <div class="card p-4 space-y-2">
+        <div class="text-emerald-400 font-bold">TC-06: Equivalence Class Grouping</div>
+        <p class="text-slate-400">Correctly groups duplicate clusters and computes savings.</p>
+        <div class="text-emerald-400 font-bold">TC-07: Streaming Byte Verifier</div>
+        <p class="text-slate-400">Confirms identical files &amp; reliably catches 1-byte EOF mismatch.</p>
+        <div class="text-emerald-400 font-bold">TC-08: Dry-Run Immutability</div>
+        <p class="text-slate-400">Audits savings while leaving filesystem 100% untouched.</p>
+        <div class="text-emerald-400 font-bold">TC-09: POSIX Hard-Link Consolidation</div>
+        <p class="text-slate-400">Atomically unifies duplicate inodes (st_nlink = 2).</p>
+        <div class="text-emerald-400 font-bold">TC-10: End-to-End Pipeline Integration</div>
+        <p class="text-slate-400">Full workflow verification from scan to consolidation.</p>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 10 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 11: Decoupled Web Dashboard -->
+  <div class="slide" id="slide-11">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">User Interface</span>
+      <h2 class="text-2xl font-bold text-white">Decoupled Web Management UI &amp; Telemetry Dashboard</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-6 my-auto">
+      <div class="card p-6 space-y-3">
+        <h3 class="text-lg font-bold text-sky-400">Decoupled Architecture</h3>
+        <p class="text-sm text-slate-300">Python Flask server completely isolated from the native C++ engine:</p>
+        <ul class="text-xs text-slate-400 space-y-2">
+          <li>&bull; Accepts arbitrary folder paths or one-click presets.</li>
+          <li>&bull; Invokes ./bin/dedupfs scan or optimize via JSON API.</li>
+          <li>&bull; Real-time terminal log viewer capturing stdout.</li>
+        </ul>
+      </div>
+      <div class="card p-6 space-y-3">
+        <h3 class="text-lg font-bold text-emerald-400">Interactive Visual Analytics</h3>
+        <ul class="text-xs text-slate-400 space-y-2">
+          <li>&bull; <strong>Donut Chart:</strong> Space usage by file format (.pdf, .jpg, .c).</li>
+          <li>&bull; <strong>Bar Chart:</strong> Space reclaimed by file format.</li>
+          <li>&bull; <strong>Horizontal Bar:</strong> Space usage and savings by subfolder.</li>
+          <li>&bull; <strong>Duplicate Explorer:</strong> Detailed view of duplicate clusters, originals, replicas, and inodes.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 11 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 12: Phase 2 Roadmap -->
+  <div class="slide" id="slide-12">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Upcoming Milestones</span>
+      <h2 class="text-2xl font-bold text-white">Phase 2 Roadmap: Review 3 Deliverables (Nov 23, 2026)</h2>
+    </div>
+    <div class="grid grid-cols-3 gap-6 my-auto">
+      <div class="card p-5 border-t-4 border-t-sky-400">
+        <div class="text-xs text-sky-400 font-bold mb-1">DATA STRUCTURE 3</div>
+        <div class="text-lg font-bold text-white mb-2">Hierarchical Merkle Tree</div>
+        <p class="text-xs text-slate-400">Constructs cryptographic hash trees over directory nodes to detect changes across snapshots in sub-linear O(log N) time rather than O(N) re-scans.</p>
+      </div>
+      <div class="card p-5 border-t-4 border-t-amber-400">
+        <div class="text-xs text-amber-400 font-bold mb-1">DATA STRUCTURE 4</div>
+        <div class="text-lg font-bold text-white mb-2">Max-Heap Priority Queue</div>
+        <p class="text-xs text-slate-400">Maintains duplicate clusters in an in-memory Max-Heap to prioritize Top-K duplicate groups, maximizing storage savings under tight time/IO budgets.</p>
+      </div>
+      <div class="card p-5 border-t-4 border-t-emerald-400">
+        <div class="text-xs text-emerald-400 font-bold mb-1">EXTENSIONS</div>
+        <div class="text-lg font-bold text-white mb-2">Compression-Aware &amp; Parallel</div>
+        <p class="text-xs text-slate-400">Adaptive entropy estimation to inspect container archives (.tar.gz, .zip) and parallel work-stealing thread pools for multi-threaded scanning.</p>
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 12 of 13</span>
+    </div>
+  </div>
+
+  <!-- Slide 13: Summary & Conclusion -->
+  <div class="slide" id="slide-13">
+    <div class="border-b border-slate-800 pb-3">
+      <span class="text-xs font-bold text-sky-400 uppercase">Conclusion</span>
+      <h2 class="text-2xl font-bold text-white">Summary of Technical Contributions</h2>
+    </div>
+    <div class="card p-8 my-auto space-y-4 max-w-4xl">
+      <h3 class="text-xl font-bold text-white">DedupFS Phase 1 Milestones Achieved:</h3>
+      <ul class="text-sm text-slate-300 space-y-2">
+        <li>&bull; <strong>Multi-Tier Pruning:</strong> ~25% unique files eliminated in O(1) with 0 disk reads.</li>
+        <li>&bull; <strong>Optimal Bloom Filter:</strong> Proven FN = 0 invariant, O(k) Kirsch-Mitzenmacher double-hashing.</li>
+        <li>&bull; <strong>Chained Hash Table:</strong> Dynamic amortized O(1) rehashing maintaining &lambda; &le; 0.75.</li>
+        <li>&bull; <strong>Zero Data Loss:</strong> 64KB chunk streaming byte verifier + atomic POSIX hard linking.</li>
+        <li>&bull; <strong>28% Capacity Reclaimed:</strong> Demonstrated across Small, Medium, and Large datasets (throughput up to 622 MB/s).</li>
+        <li>&bull; <strong>Decoupled Web Management UI:</strong> Real-time charts, metrics, and terminal execution.</li>
+      </ul>
+      <div class="pt-4 border-t border-slate-800 text-lg font-bold text-emerald-400">
+        Thank you! Questions and discussions are welcome from the Professor.
+      </div>
+    </div>
+    <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+      <span>DedupFS &bull; Advanced Data Structures</span>
+      <span>Slide 13 of 13</span>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 13;
+
+    function showSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`slide-${n}`);
+      if (target) target.classList.add('active');
+      currentSlide = n;
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        showSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        showSlide(currentSlide - 1);
+      } else if (e.key === 'Home') {
+        showSlide(1);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <cstdint>
 #include <array>
 #include <iomanip>
@@ -9,6 +10,14 @@
 #include <sys/types.h>
 
 namespace dedupfs {
+
+// Breakdown metrics for a category (subfolder or file extension)
+struct UsageMetric {
+    size_t file_count{0};
+    uintmax_t total_bytes{0};
+    size_t duplicate_count{0};
+    uintmax_t wasted_bytes{0};
+};
 
 // 128-bit hash used for fast pre-filtering (e.g., MurmurHash3)
 struct Hash128 {
@@ -126,6 +135,10 @@ struct DedupStats {
     double hash_time_ms{0.0};
     double dedup_time_ms{0.0};
     double total_time_ms{0.0};
+
+    // Granular breakdowns for academic reporting and UI visualization
+    std::unordered_map<std::string, UsageMetric> file_type_metrics;
+    std::unordered_map<std::string, UsageMetric> subfolder_metrics;
 };
 
 } // namespace dedupfs

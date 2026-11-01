@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <unordered_map>
+#include <filesystem>
 
 namespace dedupfs {
 namespace core {
@@ -123,6 +124,26 @@ DedupStats DedupPipeline::run() {
     for (const auto& group : duplicate_groups_) {
         total_dup_files += group.duplicates.size();
         total_dup_bytes += group.total_wasted_bytes();
+
+        // Categorize duplicate space savings by extension and subfolder
+        for (const auto& dup : group.duplicates) {
+            std::string ext = std::filesystem::path(dup.path).extension().string();
+            for (char& c : ext) c = static_cast<char>(std::tolower(c));
+            if (ext.empty()) ext = "(no ext)";
+            stats_.file_type_metrics[ext].duplicate_count++;
+            stats_.file_type_metrics[ext].wasted_bytes += group.file_size;
+
+            std::string rel_path;
+            try {
+                rel_path = std::filesystem::relative(dup.path, config_.root_path).string();
+            } catch (...) {
+                rel_path = dup.path;
+            }
+            auto slash_pos = rel_path.find('/');
+            std::string folder = (slash_pos != std::string::npos) ? rel_path.substr(0, slash_pos) : "(root)";
+            stats_.subfolder_metrics[folder].duplicate_count++;
+            stats_.subfolder_metrics[folder].wasted_bytes += group.file_size;
+        }
     }
     stats_.duplicate_files_count = total_dup_files;
     stats_.potential_reclaimed_bytes = total_dup_bytes;
