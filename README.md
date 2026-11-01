@@ -153,6 +153,9 @@ The included [`Makefile`](file:///home/jyotiraditya/CodingProjects/DedupFS/Makef
 # Build both dedupfs CLI and test_runner binaries
 make all
 
+# Launch the decoupled Web Management UI Dashboard (http://127.0.0.1:5000)
+make ui
+
 # Parallel build across all CPU cores
 make -j$(nproc)
 
@@ -278,6 +281,50 @@ Instantly reset the working directory back to its pristine, un-optimized state f
 ```bash
 ./benchmarks/create_test_datasets.py --reset small
 ```
+
+---
+
+## 5.5 Decoupled Web Management UI & Telemetry Dashboard
+
+DedupFS includes a modern, responsive web dashboard built with Python Flask and Tailwind CSS + Chart.js, completely decoupled from the core C++ engine.
+
+### Launching the Web UI:
+```bash
+# Using Makefile
+make ui
+
+# Or using the launcher script
+./run_ui.sh 5000
+
+# Access in your browser:
+# http://127.0.0.1:5000
+```
+
+### Dashboard Features:
+1. **Interactive Path Selector & Presets:** Enter any custom directory path or click presets for standard benchmark tiers (Small ~280MB, Medium ~1.09GB, Large ~3.99GB).
+2. **Dual Execution Options:** Trigger safe dry-run audits (**Scan**) or live atomic POSIX hard-link consolidation (**Optimize**) with live terminal output streaming.
+3. **Space Usage & Savings Visualizations:**
+   - **Donut Chart:** Storage distribution across file extensions (`.pdf`, `.jpg`, `.c`, `.h`, `.csv`).
+   - **Bar Chart:** Physical storage reclaimed per file extension.
+   - **Horizontal Bar Chart:** Space usage and savings across nested subdirectories.
+4. **Algorithmic Telemetry Cards:** Real-time gauges for Bloom filter bit saturation, queries, true rejections ($FN=0$ guarantee), and Hash table load factor $\lambda$ ($\le 0.75$).
+5. **Interactive Duplicate Clusters Explorer:** Searchable table of duplicate equivalence classes detailing canonical originals vs. replicas with inode numbers and link counts.
+
+---
+
+## 5.6 Academic Presentation Deck for the Professor
+
+DedupFS provides a comprehensive, 13-slide academic presentation specifically designed for M.Tech course evaluations:
+
+1. **PowerPoint Presentation File (`.pptx`):**
+   - Location: [`presentation/DedupFS_MTech_Presentation.pptx`](file:///home/jyotiraditya/CodingProjects/DedupFS/presentation/DedupFS_MTech_Presentation.pptx)
+   - Professional 16:9 widescreen format with dark academic palette, metric cards, mathematical formulations, and comparison tables.
+   - Can be generated anytime via `python3 presentation/generate_ppt.py`.
+2. **Interactive HTML5 Web Slide Deck:**
+   - Location: [`presentation/index.html`](file:///home/jyotiraditya/CodingProjects/DedupFS/presentation/index.html)
+   - Accessible via the Web UI at `http://127.0.0.1:5000/presentation`.
+   - Full keyboard navigation (Left/Right arrows, Space, PageUp/PageDown).
+
 
 ---
 
