@@ -1,387 +1,612 @@
 {
-  "timestamp": "2026-11-01 14:49:28",
-  "target_directory": "/home/jyotiraditya/CodingProjects/DedupFS/datasets/test_large_3.5GB/work",
+  "timestamp": "2026-11-01 22:18:22",
+  "target_directory": "/home/jyotiraditya/CodingProjects/DedupFS/datasets/test_medium_1GB/work",
   "execution_mode": "DRY-RUN (Non-Destructive Audit)",
   "min_file_size": 1,
   "bloom_target_fpr": 0.01,
   "summary": {
-    "total_files_scanned": 58629,
-    "total_bytes_scanned": 4286149566,
-    "total_bytes_scanned_formatted": "3.99 GB",
-    "post_dedup_bytes": 3068854407,
-    "post_dedup_bytes_formatted": "2.86 GB",
-    "reclaimed_bytes": 1217295159,
-    "reclaimed_bytes_formatted": "1.13 GB",
-    "deduplication_ratio": 1.40,
-    "space_saved_percent": 28.40,
-    "duplicate_groups_count": 15413,
-    "duplicate_files_count": 24431,
-    "total_runtime_ms": 18595.72,
-    "throughput_mbs": 219.81,
-    "peak_rss_bytes": 46243840
+    "total_files_scanned": 23380,
+    "total_bytes_scanned": 1169375695,
+    "total_bytes_scanned_formatted": "1.09 GB",
+    "post_dedup_bytes": 851330926,
+    "post_dedup_bytes_formatted": "811.89 MB",
+    "reclaimed_bytes": 318044769,
+    "reclaimed_bytes_formatted": "303.31 MB",
+    "deduplication_ratio": 1.37,
+    "space_saved_percent": 27.20,
+    "duplicate_groups_count": 6028,
+    "duplicate_files_count": 9620,
+    "total_runtime_ms": 5804.38,
+    "throughput_mbs": 192.13,
+    "peak_rss_bytes": 33779712
   },
   "filtering": {
-    "tier1_unique_size_discarded": 14132,
-    "tier2_prefix_hashes_computed": 44497,
-    "tier2_prefix_mismatches_pruned": 4546,
-    "tier3_full_hashes_computed": 39951
+    "tier1_unique_size_discarded": 5402,
+    "tier2_prefix_hashes_computed": 17966,
+    "tier2_prefix_mismatches_pruned": 2292,
+    "tier3_full_hashes_computed": 15674
   },
   "bloom_filter": {
     "bits_m": 958506,
     "hashes_k": 7,
-    "fill_ratio": 0.11,
-    "queries": 39951,
-    "true_negatives": 15520,
-    "positives": 24431,
+    "fill_ratio": 0.04,
+    "queries": 15674,
+    "true_negatives": 6054,
+    "positives": 9620,
     "false_positives": 0
   },
   "hash_table": {
-    "elements": 15520,
-    "buckets": 32768,
-    "load_factor": 0.47,
-    "rehashes": 3,
-    "collisions": 3176,
+    "elements": 6054,
+    "buckets": 8192,
+    "load_factor": 0.74,
+    "rehashes": 1,
+    "collisions": 1783,
     "max_chain_length": 5
   },
   "file_types": [
     {
       "extension": ".jpg",
-      "file_count": 12396,
-      "total_bytes": 2019674101,
-      "total_bytes_formatted": "1.88 GB",
-      "duplicate_count": 3159,
-      "wasted_bytes": 516412303,
-      "wasted_bytes_formatted": "492.49 MB"
+      "file_count": 3546,
+      "total_bytes": 576574347,
+      "total_bytes_formatted": "549.86 MB",
+      "duplicate_count": 890,
+      "wasted_bytes": 146968400,
+      "wasted_bytes_formatted": "140.16 MB"
     },
     {
       "extension": ".pdf",
-      "file_count": 6042,
-      "total_bytes": 1634131903,
-      "total_bytes_formatted": "1.52 GB",
-      "duplicate_count": 1564,
-      "wasted_bytes": 431495615,
-      "wasted_bytes_formatted": "411.51 MB"
+      "file_count": 1604,
+      "total_bytes": 444867452,
+      "total_bytes_formatted": "424.26 MB",
+      "duplicate_count": 406,
+      "wasted_bytes": 122211533,
+      "wasted_bytes_formatted": "116.55 MB"
     },
     {
       "extension": ".c",
-      "file_count": 21532,
-      "total_bytes": 493832174,
-      "total_bytes_formatted": "470.96 MB",
-      "duplicate_count": 10026,
-      "wasted_bytes": 208086075,
-      "wasted_bytes_formatted": "198.45 MB"
+      "file_count": 5551,
+      "total_bytes": 85598833,
+      "total_bytes_formatted": "81.63 MB",
+      "duplicate_count": 2292,
+      "wasted_bytes": 25775915,
+      "wasted_bytes_formatted": "24.58 MB"
     },
     {
       "extension": ".h",
-      "file_count": 15864,
-      "total_bytes": 128083674,
-      "total_bytes_formatted": "122.15 MB",
-      "duplicate_count": 8254,
-      "wasted_bytes": 57861890,
-      "wasted_bytes_formatted": "55.18 MB"
+      "file_count": 4435,
+      "total_bytes": 29696937,
+      "total_bytes_formatted": "28.32 MB",
+      "duplicate_count": 1525,
+      "wasted_bytes": 7702692,
+      "wasted_bytes_formatted": "7.35 MB"
     },
     {
       "extension": "(no ext)",
-      "file_count": 2295,
-      "total_bytes": 3891377,
-      "total_bytes_formatted": "3.71 MB",
-      "duplicate_count": 1172,
-      "wasted_bytes": 1794879,
-      "wasted_bytes_formatted": "1.71 MB"
+      "file_count": 4896,
+      "total_bytes": 7812787,
+      "total_bytes_formatted": "7.45 MB",
+      "duplicate_count": 2972,
+      "wasted_bytes": 4481173,
+      "wasted_bytes_formatted": "4.27 MB"
     },
     {
-      "extension": ".s",
-      "file_count": 338,
-      "total_bytes": 2645177,
-      "total_bytes_formatted": "2.52 MB",
-      "duplicate_count": 178,
-      "wasted_bytes": 1218214,
-      "wasted_bytes_formatted": "1.16 MB"
+      "extension": ".tmpl",
+      "file_count": 39,
+      "total_bytes": 6424333,
+      "total_bytes_formatted": "6.13 MB",
+      "duplicate_count": 25,
+      "wasted_bytes": 4152078,
+      "wasted_bytes_formatted": "3.96 MB"
+    },
+    {
+      "extension": ".3",
+      "file_count": 1312,
+      "total_bytes": 4376872,
+      "total_bytes_formatted": "4.17 MB",
+      "duplicate_count": 339,
+      "wasted_bytes": 1182053,
+      "wasted_bytes_formatted": "1.13 MB"
+    },
+    {
+      "extension": ".sln",
+      "file_count": 59,
+      "total_bytes": 1367682,
+      "total_bytes_formatted": "1.30 MB",
+      "duplicate_count": 39,
+      "wasted_bytes": 905717,
+      "wasted_bytes_formatted": "884.49 KB"
     },
     {
       "extension": ".pl",
-      "file_count": 2,
-      "total_bytes": 203766,
-      "total_bytes_formatted": "198.99 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 101883,
-      "wasted_bytes_formatted": "99.50 KB"
+      "file_count": 153,
+      "total_bytes": 1498827,
+      "total_bytes_formatted": "1.43 MB",
+      "duplicate_count": 86,
+      "wasted_bytes": 734285,
+      "wasted_bytes_formatted": "717.08 KB"
     },
     {
-      "extension": ".tbl",
-      "file_count": 7,
-      "total_bytes": 116734,
-      "total_bytes_formatted": "114.00 KB",
-      "duplicate_count": 3,
-      "wasted_bytes": 49033,
-      "wasted_bytes_formatted": "47.88 KB"
+      "extension": ".m4",
+      "file_count": 70,
+      "total_bytes": 1298583,
+      "total_bytes_formatted": "1.24 MB",
+      "duplicate_count": 40,
+      "wasted_bytes": 609674,
+      "wasted_bytes_formatted": "595.38 KB"
     },
     {
-      "extension": ".awk",
-      "file_count": 11,
-      "total_bytes": 61607,
-      "total_bytes_formatted": "60.16 KB",
-      "duplicate_count": 8,
-      "wasted_bytes": 48208,
-      "wasted_bytes_formatted": "47.08 KB"
+      "extension": ".py",
+      "file_count": 97,
+      "total_bytes": 849004,
+      "total_bytes_formatted": "829.11 KB",
+      "duplicate_count": 60,
+      "wasted_bytes": 483162,
+      "wasted_bytes_formatted": "471.84 KB"
     },
     {
-      "extension": ".txt",
-      "file_count": 2,
-      "total_bytes": 91074,
-      "total_bytes_formatted": "88.94 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 45537,
-      "wasted_bytes_formatted": "44.47 KB"
+      "extension": ".md",
+      "file_count": 152,
+      "total_bytes": 911199,
+      "total_bytes_formatted": "889.84 KB",
+      "duplicate_count": 81,
+      "wasted_bytes": 440141,
+      "wasted_bytes_formatted": "429.83 KB"
     },
     {
-      "extension": ".kcsan",
-      "file_count": 4,
-      "total_bytes": 40952,
-      "total_bytes_formatted": "39.99 KB",
-      "duplicate_count": 3,
-      "wasted_bytes": 30714,
-      "wasted_bytes_formatted": "29.99 KB"
+      "extension": ".com",
+      "file_count": 50,
+      "total_bytes": 568915,
+      "total_bytes_formatted": "555.58 KB",
+      "duplicate_count": 31,
+      "wasted_bytes": 343305,
+      "wasted_bytes_formatted": "335.26 KB"
     },
     {
-      "extension": ".locking",
-      "file_count": 5,
-      "total_bytes": 35340,
-      "total_bytes_formatted": "34.51 KB",
-      "duplicate_count": 4,
-      "wasted_bytes": 28272,
-      "wasted_bytes_formatted": "27.61 KB"
+      "extension": ".d",
+      "file_count": 693,
+      "total_bytes": 538303,
+      "total_bytes_formatted": "525.69 KB",
+      "duplicate_count": 429,
+      "wasted_bytes": 312556,
+      "wasted_bytes_formatted": "305.23 KB"
     },
     {
-      "extension": ".ubsan",
-      "file_count": 5,
-      "total_bytes": 33430,
-      "total_bytes_formatted": "32.65 KB",
-      "duplicate_count": 4,
-      "wasted_bytes": 26744,
-      "wasted_bytes_formatted": "26.12 KB"
-    },
-    {
-      "extension": ".sh",
-      "file_count": 12,
-      "total_bytes": 34473,
-      "total_bytes_formatted": "33.67 KB",
-      "duplicate_count": 6,
-      "wasted_bytes": 20542,
-      "wasted_bytes_formatted": "20.06 KB"
-    },
-    {
-      "extension": ".config",
-      "file_count": 26,
-      "total_bytes": 26986,
-      "total_bytes_formatted": "26.35 KB",
-      "duplicate_count": 14,
-      "wasted_bytes": 13973,
-      "wasted_bytes_formatted": "13.65 KB"
-    },
-    {
-      "extension": ".uc",
-      "file_count": 9,
-      "total_bytes": 29691,
-      "total_bytes_formatted": "29.00 KB",
-      "duplicate_count": 4,
-      "wasted_bytes": 12843,
-      "wasted_bytes_formatted": "12.54 KB"
-    },
-    {
-      "extension": ".asn1",
-      "file_count": 25,
-      "total_bytes": 22212,
-      "total_bytes_formatted": "21.69 KB",
-      "duplicate_count": 13,
-      "wasted_bytes": 8421,
-      "wasted_bytes_formatted": "8.22 KB"
-    },
-    {
-      "extension": ".hex",
-      "file_count": 4,
-      "total_bytes": 16512,
-      "total_bytes_formatted": "16.12 KB",
-      "duplicate_count": 2,
-      "wasted_bytes": 8256,
-      "wasted_bytes_formatted": "8.06 KB"
-    },
-    {
-      "extension": ".bc",
-      "file_count": 3,
-      "total_bytes": 9279,
-      "total_bytes_formatted": "9.06 KB",
-      "duplicate_count": 2,
-      "wasted_bytes": 6186,
-      "wasted_bytes_formatted": "6.04 KB"
-    },
-    {
-      "extension": ".kexec",
-      "file_count": 2,
-      "total_bytes": 10550,
-      "total_bytes_formatted": "10.30 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 5275,
-      "wasted_bytes_formatted": "5.15 KB"
-    },
-    {
-      "extension": ".locks",
-      "file_count": 2,
-      "total_bytes": 10086,
-      "total_bytes_formatted": "9.85 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 5043,
-      "wasted_bytes_formatted": "4.92 KB"
-    },
-    {
-      "extension": ".rs",
-      "file_count": 2,
-      "total_bytes": 8024,
-      "total_bytes_formatted": "7.84 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 4012,
-      "wasted_bytes_formatted": "3.92 KB"
-    },
-    {
-      "extension": ".kfence",
-      "file_count": 2,
-      "total_bytes": 7266,
-      "total_bytes_formatted": "7.10 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 3633,
-      "wasted_bytes_formatted": "3.55 KB"
-    },
-    {
-      "extension": ".um",
-      "file_count": 2,
-      "total_bytes": 3160,
-      "total_bytes_formatted": "3.09 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 1580,
-      "wasted_bytes_formatted": "1.54 KB"
+      "extension": ".pm",
+      "file_count": 37,
+      "total_bytes": 585235,
+      "total_bytes_formatted": "571.52 KB",
+      "duplicate_count": 22,
+      "wasted_bytes": 214245,
+      "wasted_bytes_formatted": "209.22 KB"
     },
     {
       "extension": ".in",
-      "file_count": 4,
-      "total_bytes": 2052,
-      "total_bytes_formatted": "2.00 KB",
-      "duplicate_count": 3,
-      "wasted_bytes": 1539,
-      "wasted_bytes_formatted": "1.50 KB"
+      "file_count": 21,
+      "total_bytes": 344295,
+      "total_bytes_formatted": "336.23 KB",
+      "duplicate_count": 10,
+      "wasted_bytes": 170743,
+      "wasted_bytes_formatted": "166.74 KB"
     },
     {
-      "extension": ".assembler",
+      "extension": ".yml",
+      "file_count": 80,
+      "total_bytes": 353498,
+      "total_bytes_formatted": "345.21 KB",
+      "duplicate_count": 40,
+      "wasted_bytes": 159435,
+      "wasted_bytes_formatted": "155.70 KB"
+    },
+    {
+      "extension": ".ac",
       "file_count": 3,
-      "total_bytes": 3781,
-      "total_bytes_formatted": "3.69 KB",
+      "total_bytes": 429443,
+      "total_bytes_formatted": "419.38 KB",
       "duplicate_count": 1,
-      "wasted_bytes": 1261,
-      "wasted_bytes_formatted": "1.23 KB"
+      "wasted_bytes": 143355,
+      "wasted_bytes_formatted": "140.00 KB"
     },
     {
-      "extension": ".ld",
+      "extension": ".inc",
+      "file_count": 32,
+      "total_bytes": 264008,
+      "total_bytes_formatted": "257.82 KB",
+      "duplicate_count": 16,
+      "wasted_bytes": 125501,
+      "wasted_bytes_formatted": "122.56 KB"
+    },
+    {
+      "extension": ".pem",
+      "file_count": 38,
+      "total_bytes": 164344,
+      "total_bytes_formatted": "160.49 KB",
+      "duplicate_count": 26,
+      "wasted_bytes": 112433,
+      "wasted_bytes_formatted": "109.80 KB"
+    },
+    {
+      "extension": ".sh",
+      "file_count": 39,
+      "total_bytes": 154232,
+      "total_bytes_formatted": "150.62 KB",
+      "duplicate_count": 24,
+      "wasted_bytes": 101488,
+      "wasted_bytes_formatted": "99.11 KB"
+    },
+    {
+      "extension": ".cmake",
+      "file_count": 55,
+      "total_bytes": 241477,
+      "total_bytes_formatted": "235.82 KB",
+      "duplicate_count": 27,
+      "wasted_bytes": 100741,
+      "wasted_bytes_formatted": "98.38 KB"
+    },
+    {
+      "extension": ".bat",
+      "file_count": 17,
+      "total_bytes": 165579,
+      "total_bytes_formatted": "161.70 KB",
+      "duplicate_count": 10,
+      "wasted_bytes": 87178,
+      "wasted_bytes_formatted": "85.13 KB"
+    },
+    {
+      "extension": ".am",
+      "file_count": 60,
+      "total_bytes": 204492,
+      "total_bytes_formatted": "199.70 KB",
+      "duplicate_count": 32,
+      "wasted_bytes": 81195,
+      "wasted_bytes_formatted": "79.29 KB"
+    },
+    {
+      "extension": ".txt",
+      "file_count": 58,
+      "total_bytes": 270949,
+      "total_bytes_formatted": "264.60 KB",
+      "duplicate_count": 33,
+      "wasted_bytes": 70009,
+      "wasted_bytes_formatted": "68.37 KB"
+    },
+    {
+      "extension": ".crt",
+      "file_count": 17,
+      "total_bytes": 91166,
+      "total_bytes_formatted": "89.03 KB",
+      "duplicate_count": 11,
+      "wasted_bytes": 58834,
+      "wasted_bytes_formatted": "57.46 KB"
+    },
+    {
+      "extension": ".vc",
+      "file_count": 5,
+      "total_bytes": 76402,
+      "total_bytes_formatted": "74.61 KB",
+      "duplicate_count": 3,
+      "wasted_bytes": 48526,
+      "wasted_bytes_formatted": "47.39 KB"
+    },
+    {
+      "extension": ".1",
+      "file_count": 11,
+      "total_bytes": 72947,
+      "total_bytes_formatted": "71.24 KB",
+      "duplicate_count": 6,
+      "wasted_bytes": 38876,
+      "wasted_bytes_formatted": "37.96 KB"
+    },
+    {
+      "extension": ".os400",
+      "file_count": 3,
+      "total_bytes": 50625,
+      "total_bytes_formatted": "49.44 KB",
+      "duplicate_count": 2,
+      "wasted_bytes": 33750,
+      "wasted_bytes_formatted": "32.96 KB"
+    },
+    {
+      "extension": ".filters",
+      "file_count": 33,
+      "total_bytes": 26895,
+      "total_bytes_formatted": "26.26 KB",
+      "duplicate_count": 32,
+      "wasted_bytes": 26080,
+      "wasted_bytes_formatted": "25.47 KB"
+    },
+    {
+      "extension": ".key",
+      "file_count": 21,
+      "total_bytes": 35792,
+      "total_bytes_formatted": "34.95 KB",
+      "duplicate_count": 14,
+      "wasted_bytes": 23860,
+      "wasted_bytes_formatted": "23.30 KB"
+    },
+    {
+      "extension": ".sdl",
+      "file_count": 4,
+      "total_bytes": 27700,
+      "total_bytes_formatted": "27.05 KB",
+      "duplicate_count": 3,
+      "wasted_bytes": 20775,
+      "wasted_bytes_formatted": "20.29 KB"
+    },
+    {
+      "extension": ".der",
+      "file_count": 35,
+      "total_bytes": 26542,
+      "total_bytes_formatted": "25.92 KB",
+      "duplicate_count": 22,
+      "wasted_bytes": 17060,
+      "wasted_bytes_formatted": "16.66 KB"
+    },
+    {
+      "extension": ".prm",
+      "file_count": 18,
+      "total_bytes": 19644,
+      "total_bytes_formatted": "19.18 KB",
+      "duplicate_count": 11,
+      "wasted_bytes": 12029,
+      "wasted_bytes_formatted": "11.75 KB"
+    },
+    {
+      "extension": ".csr",
+      "file_count": 16,
+      "total_bytes": 15756,
+      "total_bytes_formatted": "15.39 KB",
+      "duplicate_count": 9,
+      "wasted_bytes": 8883,
+      "wasted_bytes_formatted": "8.67 KB"
+    },
+    {
+      "extension": ".opt",
       "file_count": 2,
-      "total_bytes": 2492,
-      "total_bytes_formatted": "2.43 KB",
+      "total_bytes": 17682,
+      "total_bytes_formatted": "17.27 KB",
       "duplicate_count": 1,
-      "wasted_bytes": 1246,
-      "wasted_bytes_formatted": "1.22 KB"
+      "wasted_bytes": 8841,
+      "wasted_bytes_formatted": "8.63 KB"
     },
     {
-      "extension": ".postlink",
+      "extension": ".default",
+      "file_count": 4,
+      "total_bytes": 11188,
+      "total_bytes_formatted": "10.93 KB",
+      "duplicate_count": 3,
+      "wasted_bytes": 8391,
+      "wasted_bytes_formatted": "8.19 KB"
+    },
+    {
+      "extension": ".crl",
+      "file_count": 16,
+      "total_bytes": 12397,
+      "total_bytes_formatted": "12.11 KB",
+      "duplicate_count": 10,
+      "wasted_bytes": 7682,
+      "wasted_bytes_formatted": "7.50 KB"
+    },
+    {
+      "extension": ".cpp",
       "file_count": 2,
-      "total_bytes": 2264,
-      "total_bytes_formatted": "2.21 KB",
+      "total_bytes": 12802,
+      "total_bytes_formatted": "12.50 KB",
       "duplicate_count": 1,
-      "wasted_bytes": 1132,
-      "wasted_bytes_formatted": "1.11 KB"
+      "wasted_bytes": 6401,
+      "wasted_bytes_formatted": "6.25 KB"
     },
     {
-      "extension": ".debug",
-      "file_count": 7,
-      "total_bytes": 230807,
-      "total_bytes_formatted": "225.40 KB",
+      "extension": ".rc",
+      "file_count": 5,
+      "total_bytes": 16139,
+      "total_bytes_formatted": "15.76 KB",
+      "duplicate_count": 2,
+      "wasted_bytes": 6102,
+      "wasted_bytes_formatted": "5.96 KB"
+    },
+    {
+      "extension": ".msg",
+      "file_count": 2,
+      "total_bytes": 11396,
+      "total_bytes_formatted": "11.13 KB",
       "duplicate_count": 1,
-      "wasted_bytes": 758,
-      "wasted_bytes_formatted": "758.00 B"
+      "wasted_bytes": 5698,
+      "wasted_bytes_formatted": "5.56 KB"
     },
     {
-      "extension": ".freezer",
+      "extension": ".cacert",
       "file_count": 2,
-      "total_bytes": 184,
-      "total_bytes_formatted": "184.00 B",
+      "total_bytes": 10374,
+      "total_bytes_formatted": "10.13 KB",
       "duplicate_count": 1,
-      "wasted_bytes": 92,
-      "wasted_bytes_formatted": "92.00 B"
+      "wasted_bytes": 5187,
+      "wasted_bytes_formatted": "5.07 KB"
     },
     {
-      "extension": ".binfmt",
+      "extension": ".cvs",
+      "file_count": 5,
+      "total_bytes": 5905,
+      "total_bytes_formatted": "5.77 KB",
+      "duplicate_count": 4,
+      "wasted_bytes": 4724,
+      "wasted_bytes_formatted": "4.61 KB"
+    },
+    {
+      "extension": ".mk",
+      "file_count": 6,
+      "total_bytes": 31165,
+      "total_bytes_formatted": "30.43 KB",
+      "duplicate_count": 2,
+      "wasted_bytes": 4693,
+      "wasted_bytes_formatted": "4.58 KB"
+    },
+    {
+      "extension": ".el",
+      "file_count": 4,
+      "total_bytes": 5392,
+      "total_bytes_formatted": "5.27 KB",
+      "duplicate_count": 3,
+      "wasted_bytes": 4044,
+      "wasted_bytes_formatted": "3.95 KB"
+    },
+    {
+      "extension": ".example",
+      "file_count": 3,
+      "total_bytes": 5772,
+      "total_bytes_formatted": "5.64 KB",
+      "duplicate_count": 2,
+      "wasted_bytes": 3848,
+      "wasted_bytes_formatted": "3.76 KB"
+    },
+    {
+      "extension": ".cmd",
+      "file_count": 4,
+      "total_bytes": 7530,
+      "total_bytes_formatted": "7.35 KB",
+      "duplicate_count": 2,
+      "wasted_bytes": 3765,
+      "wasted_bytes_formatted": "3.68 KB"
+    },
+    {
+      "extension": ".supp",
       "file_count": 2,
-      "total_bytes": 12974,
-      "total_bytes_formatted": "12.67 KB",
-      "duplicate_count": 0,
-      "wasted_bytes": 0,
-      "wasted_bytes_formatted": "0.00 B"
+      "total_bytes": 6272,
+      "total_bytes_formatted": "6.12 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 3136,
+      "wasted_bytes_formatted": "3.06 KB"
     },
     {
-      "extension": ".kgdb",
-      "file_count": 1,
-      "total_bytes": 5734,
-      "total_bytes_formatted": "5.60 KB",
-      "duplicate_count": 0,
-      "wasted_bytes": 0,
-      "wasted_bytes_formatted": "0.00 B"
-    },
-    {
-      "extension": ".dts",
-      "file_count": 1,
-      "total_bytes": 8989,
-      "total_bytes_formatted": "8.78 KB",
-      "duplicate_count": 0,
-      "wasted_bytes": 0,
-      "wasted_bytes_formatted": "0.00 B"
-    },
-    {
-      "extension": ".kmsan",
-      "file_count": 1,
-      "total_bytes": 2366,
-      "total_bytes_formatted": "2.31 KB",
-      "duplicate_count": 0,
-      "wasted_bytes": 0,
-      "wasted_bytes_formatted": "0.00 B"
-    },
-    {
-      "extension": ".c_shipped",
-      "file_count": 1,
-      "total_bytes": 331280,
-      "total_bytes_formatted": "323.52 KB",
-      "duplicate_count": 0,
-      "wasted_bytes": 0,
-      "wasted_bytes_formatted": "0.00 B"
-    },
-    {
-      "extension": ".cpu",
+      "extension": ".c_first",
       "file_count": 2,
-      "total_bytes": 19425,
-      "total_bytes_formatted": "18.97 KB",
+      "total_bytes": 4984,
+      "total_bytes_formatted": "4.87 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 2492,
+      "wasted_bytes_formatted": "2.43 KB"
+    },
+    {
+      "extension": ".dist",
+      "file_count": 2,
+      "total_bytes": 4726,
+      "total_bytes_formatted": "4.62 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 2363,
+      "wasted_bytes_formatted": "2.31 KB"
+    },
+    {
+      "extension": ".props",
+      "file_count": 2,
+      "total_bytes": 4084,
+      "total_bytes_formatted": "3.99 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 2042,
+      "wasted_bytes_formatted": "1.99 KB"
+    },
+    {
+      "extension": ".soname",
+      "file_count": 2,
+      "total_bytes": 3246,
+      "total_bytes_formatted": "3.17 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1623,
+      "wasted_bytes_formatted": "1.58 KB"
+    },
+    {
+      "extension": ".def",
+      "file_count": 2,
+      "total_bytes": 3182,
+      "total_bytes_formatted": "3.11 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1591,
+      "wasted_bytes_formatted": "1.55 KB"
+    },
+    {
+      "extension": ".conf",
+      "file_count": 2,
+      "total_bytes": 2294,
+      "total_bytes_formatted": "2.24 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1147,
+      "wasted_bytes_formatted": "1.12 KB"
+    },
+    {
+      "extension": ".proto",
+      "file_count": 2,
+      "total_bytes": 2288,
+      "total_bytes_formatted": "2.23 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1144,
+      "wasted_bytes_formatted": "1.12 KB"
+    },
+    {
+      "extension": ".asn1",
+      "file_count": 2,
+      "total_bytes": 1658,
+      "total_bytes_formatted": "1.62 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 829,
+      "wasted_bytes_formatted": "829.00 B"
+    },
+    {
+      "extension": ".yaml",
+      "file_count": 2,
+      "total_bytes": 1344,
+      "total_bytes_formatted": "1.31 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 672,
+      "wasted_bytes_formatted": "672.00 B"
+    },
+    {
+      "extension": ".pubkey-pinned",
+      "file_count": 13,
+      "total_bytes": 585,
+      "total_bytes_formatted": "585.00 B",
+      "duplicate_count": 7,
+      "wasted_bytes": 315,
+      "wasted_bytes_formatted": "315.00 B"
+    },
+    {
+      "extension": ".cnf",
+      "file_count": 2,
+      "total_bytes": 484,
+      "total_bytes_formatted": "484.00 B",
+      "duplicate_count": 1,
+      "wasted_bytes": 242,
+      "wasted_bytes_formatted": "242.00 B"
+    },
+    {
+      "extension": ".patch",
+      "file_count": 2,
+      "total_bytes": 234,
+      "total_bytes_formatted": "234.00 B",
+      "duplicate_count": 1,
+      "wasted_bytes": 117,
+      "wasted_bytes_formatted": "117.00 B"
+    },
+    {
+      "extension": ".dat",
+      "file_count": 6,
+      "total_bytes": 2498560,
+      "total_bytes_formatted": "2.38 MB",
       "duplicate_count": 0,
       "wasted_bytes": 0,
       "wasted_bytes_formatted": "0.00 B"
     },
     {
-      "extension": ".hz",
-      "file_count": 1,
-      "total_bytes": 1709,
-      "total_bytes_formatted": "1.67 KB",
+      "extension": ".words",
+      "file_count": 2,
+      "total_bytes": 13159,
+      "total_bytes_formatted": "12.85 KB",
       "duplicate_count": 0,
       "wasted_bytes": 0,
       "wasted_bytes_formatted": "0.00 B"
     },
     {
-      "extension": ".preempt",
-      "file_count": 1,
-      "total_bytes": 4885,
-      "total_bytes_formatted": "4.77 KB",
+      "extension": ".dhp",
+      "file_count": 12,
+      "total_bytes": 0,
+      "total_bytes_formatted": "0.00 B",
       "duplicate_count": 0,
       "wasted_bytes": 0,
       "wasted_bytes_formatted": "0.00 B"
@@ -396,10 +621,46 @@
       "wasted_bytes_formatted": "0.00 B"
     },
     {
-      "extension": ".dat",
-      "file_count": 6,
-      "total_bytes": 2498560,
-      "total_bytes_formatted": "2.38 MB",
+      "extension": ".hex",
+      "file_count": 1,
+      "total_bytes": 4119,
+      "total_bytes_formatted": "4.02 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".config",
+      "file_count": 2,
+      "total_bytes": 801,
+      "total_bytes_formatted": "801.00 B",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".locks",
+      "file_count": 1,
+      "total_bytes": 5043,
+      "total_bytes_formatted": "4.92 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".c_shipped",
+      "file_count": 2,
+      "total_bytes": 662521,
+      "total_bytes_formatted": "646.99 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".debug",
+      "file_count": 1,
+      "total_bytes": 758,
+      "total_bytes_formatted": "758.00 B",
       "duplicate_count": 0,
       "wasted_bytes": 0,
       "wasted_bytes_formatted": "0.00 B"
@@ -407,76 +668,76 @@
   ],
   "subfolders": [
     {
-      "folder": "deeply_nested_archives",
-      "file_count": 3487,
-      "total_bytes": 258099291,
-      "total_bytes_formatted": "246.14 MB",
-      "duplicate_count": 3487,
-      "wasted_bytes": 258099291,
-      "wasted_bytes_formatted": "246.14 MB"
-    },
-    {
       "folder": "documents",
-      "file_count": 4478,
-      "total_bytes": 1202636288,
-      "total_bytes_formatted": "1.12 GB",
-      "duplicate_count": 902,
-      "wasted_bytes": 249874598,
-      "wasted_bytes_formatted": "238.30 MB"
+      "file_count": 1198,
+      "total_bytes": 322655919,
+      "total_bytes_formatted": "307.71 MB",
+      "duplicate_count": 250,
+      "wasted_bytes": 71584636,
+      "wasted_bytes_formatted": "68.27 MB"
     },
     {
-      "folder": "source_code",
-      "file_count": 30000,
-      "total_bytes": 467133515,
-      "total_bytes_formatted": "445.49 MB",
-      "duplicate_count": 15012,
-      "wasted_bytes": 193318260,
-      "wasted_bytes_formatted": "184.36 MB"
+      "folder": "deeply_nested_archives",
+      "file_count": 1329,
+      "total_bytes": 65001196,
+      "total_bytes_formatted": "61.99 MB",
+      "duplicate_count": 1329,
+      "wasted_bytes": 65001196,
+      "wasted_bytes_formatted": "61.99 MB"
     },
     {
       "folder": "downloads_inbox",
-      "file_count": 3385,
-      "total_bytes": 254740345,
-      "total_bytes_formatted": "242.94 MB",
-      "duplicate_count": 1765,
-      "wasted_bytes": 171604160,
-      "wasted_bytes_formatted": "163.65 MB"
+      "file_count": 1364,
+      "total_bytes": 72069628,
+      "total_bytes_formatted": "68.73 MB",
+      "duplicate_count": 653,
+      "wasted_bytes": 50274205,
+      "wasted_bytes_formatted": "47.95 MB"
     },
     {
       "folder": "media",
-      "file_count": 9237,
-      "total_bytes": 1503261798,
-      "total_bytes_formatted": "1.40 GB",
-      "duplicate_count": 1040,
-      "wasted_bytes": 169749028,
-      "wasted_bytes_formatted": "161.89 MB"
+      "file_count": 2656,
+      "total_bytes": 429605947,
+      "total_bytes_formatted": "409.70 MB",
+      "duplicate_count": 288,
+      "wasted_bytes": 47265682,
+      "wasted_bytes_formatted": "45.08 MB"
+    },
+    {
+      "folder": "source_code",
+      "file_count": 13683,
+      "total_bytes": 111919690,
+      "total_bytes_formatted": "106.73 MB",
+      "duplicate_count": 6239,
+      "wasted_bytes": 34016308,
+      "wasted_bytes_formatted": "32.44 MB"
     },
     {
       "folder": "shared_corporate_nas",
-      "file_count": 2256,
-      "total_bytes": 165361677,
-      "total_bytes_formatted": "157.70 MB",
-      "duplicate_count": 1331,
-      "wasted_bytes": 115872346,
-      "wasted_bytes_formatted": "110.50 MB"
+      "file_count": 869,
+      "total_bytes": 47105598,
+      "total_bytes_formatted": "44.92 MB",
+      "duplicate_count": 485,
+      "wasted_bytes": 32424835,
+      "wasted_bytes_formatted": "30.92 MB"
     },
     {
       "folder": "workspace_clones",
-      "file_count": 2366,
-      "total_bytes": 179306905,
-      "total_bytes_formatted": "171.00 MB",
-      "duplicate_count": 556,
-      "wasted_bytes": 38448789,
-      "wasted_bytes_formatted": "36.67 MB"
+      "file_count": 935,
+      "total_bytes": 48675605,
+      "total_bytes_formatted": "46.42 MB",
+      "duplicate_count": 227,
+      "wasted_bytes": 11201183,
+      "wasted_bytes_formatted": "10.68 MB"
     },
     {
       "folder": "backup_snapshots",
-      "file_count": 3414,
-      "total_bytes": 253111187,
-      "total_bytes_formatted": "241.39 MB",
-      "duplicate_count": 338,
-      "wasted_bytes": 20328687,
-      "wasted_bytes_formatted": "19.39 MB"
+      "file_count": 1340,
+      "total_bytes": 69843552,
+      "total_bytes_formatted": "66.61 MB",
+      "duplicate_count": 149,
+      "wasted_bytes": 6276724,
+      "wasted_bytes_formatted": "5.99 MB"
     },
     {
       "folder": "dedup_edge_cases",

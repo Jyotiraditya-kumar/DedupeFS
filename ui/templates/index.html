@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>DedupFS &bull; High-Performance Storage Deduplication Dashboard</title>
@@ -11,54 +12,152 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background-color: #0b1120; color: #f1f5f9; }
-    .glass-card { background: #131d31; border: 1px solid #1e293b; border-radius: 12px; }
-    .glass-card-accent { background: linear-gradient(135deg, #1e293b, #131d31); border: 1px solid #334155; }
-    .terminal { background: #050811; border: 1px solid #1e293b; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
-    .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
-    .scrollbar-thin::-webkit-scrollbar-track { background: #0b1120; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-    
+    body {
+      background-color: #0b1120;
+      color: #f1f5f9;
+    }
+
+    .glass-card {
+      background: #131d31;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+    }
+
+    .glass-card-accent {
+      background: linear-gradient(135deg, #1e293b, #131d31);
+      border: 1px solid #334155;
+    }
+
+    .terminal {
+      background: #050811;
+      border: 1px solid #1e293b;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+
     /* Interactive Tooltip Engine */
-    .tooltip-trigger { position: relative; display: inline-flex; align-items: center; cursor: help; }
-    .tooltip-trigger:hover .tooltip-box { display: block; opacity: 1; pointer-events: auto; }
-    .tooltip-box { display: none; opacity: 0; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 100; width: 260px; padding: 10px 12px; background: #0f172a; border: 1px solid #38bdf8; border-radius: 8px; box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.7); font-size: 11px; line-height: 1.45; color: #cbd5e1; font-weight: normal; text-align: left; transition: opacity 0.15s ease-in-out; pointer-events: none; }
-    .tooltip-box::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #38bdf8 transparent transparent transparent; }
-    .tooltip-box strong { color: #38bdf8; display: block; margin-bottom: 3px; font-size: 11px; }
-    .tooltip-box .formula { background: #050811; border: 1px solid #1e293b; padding: 3px 6px; border-radius: 4px; font-family: monospace; color: #34d399; margin: 4px 0; display: block; font-size: 10px; }
+    .tooltip-trigger {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: help;
+    }
+
+    .tooltip-trigger:hover .tooltip-box {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .tooltip-box {
+      display: none;
+      opacity: 0;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: 260px;
+      padding: 10px 12px;
+      background: #0f172a;
+      border: 1px solid #38bdf8;
+      border-radius: 8px;
+      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.7);
+      font-size: 11px;
+      line-height: 1.45;
+      color: #cbd5e1;
+      font-weight: normal;
+      text-align: left;
+      transition: opacity 0.15s ease-in-out;
+      pointer-events: none;
+    }
+
+    .tooltip-box::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #38bdf8 transparent transparent transparent;
+    }
+
+    .tooltip-box strong {
+      color: #38bdf8;
+      display: block;
+      margin-bottom: 3px;
+      font-size: 11px;
+    }
+
+    .tooltip-box .formula {
+      background: #050811;
+      border: 1px solid #1e293b;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #34d399;
+      margin: 4px 0;
+      display: block;
+      font-size: 10px;
+    }
   </style>
 </head>
+
 <body class="min-h-screen flex flex-col font-sans antialiased">
 
   <!-- Navbar -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+  <header
+    class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400">
+      <div
+        class="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400">
         <i class="fa-solid fa-layer-group text-lg"></i>
       </div>
       <div>
         <div class="flex items-center space-x-2">
           <span class="text-xl font-bold tracking-tight text-white">DedupFS</span>
-          <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">M.Tech Sem 1</span>
-          <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Phase 1</span>
+          <span
+            class="px-2 py-0.5 text-xs font-semibold rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">M.Tech
+            Sem 1</span>
+          <span
+            class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Phase
+            1</span>
         </div>
         <p class="text-xs text-slate-400">High-Performance Storage Deduplication Engine &bull; ADS Project</p>
       </div>
     </div>
     <div class="flex items-center space-x-3">
-      <a href="/presentation" target="_blank" class="text-xs text-purple-400 hover:text-purple-300 flex items-center space-x-1.5 border border-purple-800/60 bg-purple-950/40 px-3 py-1.5 rounded-lg transition">
+      <a href="/presentation" target="_blank"
+        class="text-xs text-purple-400 hover:text-purple-300 flex items-center space-x-1.5 border border-purple-800/60 bg-purple-950/40 px-3 py-1.5 rounded-lg transition">
         <i class="fa-solid fa-chalkboard-user"></i>
         <span>Presentation Slides</span>
       </a>
-      <a href="/presentation/download" class="text-xs text-amber-400 hover:text-amber-300 flex items-center space-x-1.5 border border-amber-800/60 bg-amber-950/40 px-3 py-1.5 rounded-lg transition">
+      <a href="/presentation/download"
+        class="text-xs text-amber-400 hover:text-amber-300 flex items-center space-x-1.5 border border-amber-800/60 bg-amber-950/40 px-3 py-1.5 rounded-lg transition">
         <i class="fa-solid fa-file-powerpoint"></i>
         <span>Download PPTX</span>
       </a>
-      <a href="/api/report/html" target="_blank" class="text-xs text-sky-400 hover:text-sky-300 flex items-center space-x-1.5 border border-slate-700 bg-slate-800 px-3 py-1.5 rounded-lg transition">
+      <a href="/api/report/html" target="_blank"
+        class="text-xs text-sky-400 hover:text-sky-300 flex items-center space-x-1.5 border border-slate-700 bg-slate-800 px-3 py-1.5 rounded-lg transition">
         <i class="fa-solid fa-file-invoice"></i>
         <span>Academic Report</span>
       </a>
-      <div class="flex items-center space-x-2 text-xs text-slate-400 border border-slate-800 bg-slate-950 px-3 py-1.5 rounded-lg">
+      <div
+        class="flex items-center space-x-2 text-xs text-slate-400 border border-slate-800 bg-slate-950 px-3 py-1.5 rounded-lg">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>Engine Ready</span>
       </div>
@@ -71,21 +170,23 @@
     <!-- Control Panel / Directory Input -->
     <section class="glass-card p-6 shadow-xl relative overflow-hidden">
       <div class="absolute -top-12 -right-12 w-48 h-48 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      
+
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
         <div>
           <h2 class="text-lg font-bold text-white flex items-center space-x-2">
             <i class="fa-solid fa-folder-open text-sky-400"></i>
             <span>Target Storage Directory</span>
           </h2>
-          <p class="text-xs text-slate-400 mt-1">Specify an absolute or relative directory path to inspect or optimize for data redundancy.</p>
+          <p class="text-xs text-slate-400 mt-1">Specify an absolute or relative directory path to inspect or optimize
+            for data redundancy.</p>
         </div>
-        
+
         <!-- Preset Buttons -->
         <div class="flex flex-wrap items-center gap-2">
           <span class="text-xs font-medium text-slate-400 mr-1">Presets:</span>
           {% for key, p in presets.items() %}
-          <button onclick="setPreset('{{ p.path }}')" class="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">
+          <button onclick="setPreset('{{ p.path }}')"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">
             {{ p.label }}
           </button>
           {% endfor %}
@@ -98,24 +199,28 @@
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
             <i class="fa-solid fa-terminal text-sm"></i>
           </div>
-          <input type="text" id="targetPath" value="./datasets/test_small_250MB/work" 
-                 class="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition font-mono">
+          <input type="text" id="targetPath" value="./datasets/test_small_250MB/work"
+            class="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition font-mono">
         </div>
 
-        <button id="btnScan" onclick="triggerScan()" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-sky-600/20 disabled:opacity-50">
+        <button id="btnScan" onclick="triggerScan()"
+          class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-sky-600/20 disabled:opacity-50">
           <i class="fa-solid fa-magnifying-glass"></i>
           <span>Run Safe Audit (Scan)</span>
         </button>
 
-        <button id="btnOptimize" onclick="triggerOptimize()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-600/20 disabled:opacity-50">
+        <button id="btnOptimize" onclick="triggerOptimize()"
+          class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-600/20 disabled:opacity-50">
           <i class="fa-solid fa-link"></i>
           <span>Consolidate Inodes (Optimize)</span>
         </button>
       </div>
 
       <!-- Execution Progress / Loader -->
-      <div id="loader" class="hidden mt-4 pt-4 border-t border-slate-800/80 flex items-center space-x-3 text-sky-400 text-sm">
-        <svg class="animate-spin h-5 w-5 text-sky-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <div id="loader"
+        class="hidden mt-4 pt-4 border-t border-slate-800/80 flex items-center space-x-3 text-sky-400 text-sm">
+        <svg class="animate-spin h-5 w-5 text-sky-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
@@ -137,14 +242,16 @@
 
       <!-- Card 2 -->
       <div class="glass-card p-5 relative overflow-hidden border-l-4 border-l-emerald-500">
-        <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-1">
+        <div
+          class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-1">
           <span>Storage Reclaimed</span>
           <span class="tooltip-trigger text-slate-500 hover:text-emerald-400">
             <i class="fa-solid fa-circle-info text-[10px]"></i>
             <div class="tooltip-box">
               <strong>Storage Reclaimed (Savings)</strong>
               <div class="formula">Savings = &Sigma; (copies × size)</div>
-              Exact physical disk space freed by consolidating duplicate files into POSIX atomic hard links while preserving all paths.
+              Exact physical disk space freed by consolidating duplicate files into POSIX atomic hard links while
+              preserving all paths.
             </div>
           </span>
         </div>
@@ -232,7 +339,8 @@
             <i class="fa-solid fa-filter text-sky-400"></i>
             <span>Probabilistic Bloom Filter Telemetry</span>
           </h3>
-          <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold">
+          <span
+            class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold">
             Zero False Negatives (FN = 0)
           </span>
         </div>
@@ -245,7 +353,8 @@
                 <div class="tooltip-box">
                   <strong>Optimal Bitset Size (m)</strong>
                   <div class="formula">m = - (n · ln p) / (ln 2)²</div>
-                  The total number of bit positions dynamically allocated for the Bloom filter bitset based on target false-positive probability p and item capacity n.
+                  The total number of bit positions dynamically allocated for the Bloom filter bitset based on target
+                  false-positive probability p and item capacity n.
                 </div>
               </span>
             </div>
@@ -261,7 +370,8 @@
                 <div class="tooltip-box">
                   <strong>Optimal Hash Functions (k)</strong>
                   <div class="formula">k = (m / n) · ln(2) ≈ 0.693 · (m/n)</div>
-                  Optimal count of hash probes. Kirsch-Mitzenmacher double-hashing g_i(x) = (h1 + i·h2) mod m computes all k probes in O(1) time without multiple hash passes.
+                  Optimal count of hash probes. Kirsch-Mitzenmacher double-hashing g_i(x) = (h1 + i·h2) mod m computes
+                  all k probes in O(1) time without multiple hash passes.
                 </div>
               </span>
             </div>
@@ -277,7 +387,8 @@
                 <div class="tooltip-box">
                   <strong>Bitset Saturation (Fill Ratio)</strong>
                   <div class="formula">S = (count(1-bits) / m) × 100%</div>
-                  Percentage of bits set to 1 in the bitset. Low saturation preserves maximum entropy. If saturation approaches 50%, false positive probability begins to climb.
+                  Percentage of bits set to 1 in the bitset. Low saturation preserves maximum entropy. If saturation
+                  approaches 50%, false positive probability begins to climb.
                 </div>
               </span>
             </div>
@@ -292,7 +403,8 @@
                 <i class="fa-solid fa-circle-info text-[10px]"></i>
                 <div class="tooltip-box">
                   <strong>Membership Queries</strong>
-                  Total number of candidate SHA-256 fingerprints queried against the Bloom filter to check for prior existence.
+                  Total number of candidate SHA-256 fingerprints queried against the Bloom filter to check for prior
+                  existence.
                 </div>
               </span>
             </div>
@@ -307,7 +419,8 @@
                 <i class="fa-solid fa-circle-info text-[10px]"></i>
                 <div class="tooltip-box">
                   <strong>True Negatives (O(k) Rejections)</strong>
-                  Files proven definitely unique in O(k) bit operations (FN = 0 guaranteed). These bypass costly secondary hash table queries completely!
+                  Files proven definitely unique in O(k) bit operations (FN = 0 guaranteed). These bypass costly
+                  secondary hash table queries completely!
                 </div>
               </span>
             </div>
@@ -323,7 +436,8 @@
                 <div class="tooltip-box">
                   <strong>Empirical False Positive Rate</strong>
                   <div class="formula">P(FP) = (1 - e^(-kn/m))^k</div>
-                  Ratio of false alarms to negative queries. Formally verified to remain strictly bounded under theoretical p ≤ 1.0%.
+                  Ratio of false alarms to negative queries. Formally verified to remain strictly bounded under
+                  theoretical p ≤ 1.0%.
                 </div>
               </span>
             </div>
@@ -340,7 +454,8 @@
             <i class="fa-solid fa-table-cells text-purple-400"></i>
             <span>Primary Chained Inverted Hash Table</span>
           </h3>
-          <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-semibold">
+          <span
+            class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-semibold">
             Load Factor &le; 0.75
           </span>
         </div>
@@ -352,7 +467,8 @@
                 <i class="fa-solid fa-circle-info text-[10px]"></i>
                 <div class="tooltip-box">
                   <strong>Inverted Index Elements (N)</strong>
-                  Total count of distinct 256-bit cryptographic fingerprints stored in the hash table as candidate equivalence classes.
+                  Total count of distinct 256-bit cryptographic fingerprints stored in the hash table as candidate
+                  equivalence classes.
                 </div>
               </span>
             </div>
@@ -367,7 +483,8 @@
                 <i class="fa-solid fa-circle-info text-[10px]"></i>
                 <div class="tooltip-box">
                   <strong>Power-of-Two Buckets</strong>
-                  Current capacity of the bucket array. Power-of-two sizing allows fast bitwise modulo indexing: hash &amp; (buckets - 1).
+                  Current capacity of the bucket array. Power-of-two sizing allows fast bitwise modulo indexing: hash
+                  &amp; (buckets - 1).
                 </div>
               </span>
             </div>
@@ -383,7 +500,8 @@
                 <div class="tooltip-box">
                   <strong>Table Load Factor (&lambda;)</strong>
                   <div class="formula">&lambda; = N / buckets</div>
-                  Average number of items per bucket. When &lambda; &gt; 0.75, DedupFS automatically doubles table size (dynamic rehashing) to maintain O(1) amortized lookup.
+                  Average number of items per bucket. When &lambda; &gt; 0.75, DedupFS automatically doubles table size
+                  (dynamic rehashing) to maintain O(1) amortized lookup.
                 </div>
               </span>
             </div>
@@ -398,7 +516,8 @@
                 <i class="fa-solid fa-circle-info text-[10px]"></i>
                 <div class="tooltip-box">
                   <strong>Rehash Expansion Events</strong>
-                  Number of times the table doubled capacity and re-indexed all entries to preserve short collision chains and O(1) access.
+                  Number of times the table doubled capacity and re-indexed all entries to preserve short collision
+                  chains and O(1) access.
                 </div>
               </span>
             </div>
@@ -413,7 +532,8 @@
                 <i class="fa-solid fa-circle-info text-[10px]"></i>
                 <div class="tooltip-box">
                   <strong>Bucket Collisions</strong>
-                  Occurrences where distinct fingerprints mapped to the same bucket index, resolved via separate chaining linked lists.
+                  Occurrences where distinct fingerprints mapped to the same bucket index, resolved via separate
+                  chaining linked lists.
                 </div>
               </span>
             </div>
@@ -428,7 +548,8 @@
                 <i class="fa-solid fa-circle-info text-[10px]"></i>
                 <div class="tooltip-box">
                   <strong>Max Collision Chain Depth</strong>
-                  The longest singly linked list across all buckets. Low chain depth (&le;4) confirms cryptographic hash uniformity without adversarial clustering.
+                  The longest singly linked list across all buckets. Low chain depth (&le;4) confirms cryptographic hash
+                  uniformity without adversarial clustering.
                 </div>
               </span>
             </div>
@@ -443,19 +564,24 @@
     <section class="glass-card p-6">
       <!-- Tabs Header -->
       <div class="flex items-center space-x-4 border-b border-slate-800 pb-3 mb-4">
-        <button onclick="switchTab('types')" id="tabBtn-types" class="text-sm font-semibold text-sky-400 border-b-2 border-sky-400 pb-1.5 transition">
+        <button onclick="switchTab('types')" id="tabBtn-types"
+          class="text-sm font-semibold text-sky-400 border-b-2 border-sky-400 pb-1.5 transition">
           <i class="fa-solid fa-file-code mr-1"></i> File Types Breakdown
         </button>
-        <button onclick="switchTab('folders')" id="tabBtn-folders" class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition">
+        <button onclick="switchTab('folders')" id="tabBtn-folders"
+          class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition">
           <i class="fa-solid fa-folder-tree mr-1"></i> Subdirectories Breakdown
         </button>
-        <button onclick="switchTab('duplicates')" id="tabBtn-duplicates" class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition">
+        <button onclick="switchTab('duplicates')" id="tabBtn-duplicates"
+          class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition">
           <i class="fa-solid fa-clone mr-1"></i> Duplicate Clusters Explorer
         </button>
-        <button onclick="switchTab('logs')" id="tabBtn-logs" class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition">
+        <button onclick="switchTab('logs')" id="tabBtn-logs"
+          class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition">
           <i class="fa-solid fa-terminal mr-1"></i> Live Terminal Output
         </button>
-        <button onclick="switchTab('glossary')" id="tabBtn-glossary" class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition flex items-center space-x-1.5">
+        <button onclick="switchTab('glossary')" id="tabBtn-glossary"
+          class="text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition flex items-center space-x-1.5">
           <i class="fa-solid fa-graduation-cap text-amber-400"></i>
           <span>ADS Terminology &amp; Concepts</span>
         </button>
@@ -475,7 +601,10 @@
             </tr>
           </thead>
           <tbody id="tableTypesBody" class="divide-y divide-slate-800/60">
-            <tr><td colspan="6" class="text-center py-6 text-slate-500">No data loaded yet. Run a scan to see breakdown.</td></tr>
+            <tr>
+              <td colspan="6" class="text-center py-6 text-slate-500">No data loaded yet. Run a scan to see breakdown.
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -493,7 +622,9 @@
             </tr>
           </thead>
           <tbody id="tableFoldersBody" class="divide-y divide-slate-800/60">
-            <tr><td colspan="5" class="text-center py-6 text-slate-500">No data loaded yet.</td></tr>
+            <tr>
+              <td colspan="5" class="text-center py-6 text-slate-500">No data loaded yet.</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -514,279 +645,389 @@
 
       <!-- Tab 4: Terminal Log View -->
       <div id="tabContent-logs" class="hidden">
-        <div class="terminal p-4 rounded-lg text-xs leading-relaxed max-h-[420px] overflow-y-auto scrollbar-thin text-slate-300" id="terminalOutput">
-[INFO] DedupFS Web UI initialized. Select a directory and click 'Run Safe Audit' or 'Consolidate Inodes'.
+        <div
+          class="terminal p-4 rounded-lg text-xs leading-relaxed max-h-[420px] overflow-y-auto scrollbar-thin text-slate-300"
+          id="terminalOutput">
+          [INFO] DedupFS Web UI initialized. Select a directory and click 'Run Safe Audit' or 'Consolidate Inodes'.
         </div>
       </div>
 
       <!-- Tab 5: Academic Terminology & Concepts -->
       <div id="tabContent-glossary" class="hidden space-y-6">
         <!-- Glossary Controls -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900/60 p-4 rounded-lg border border-slate-800">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900/60 p-4 rounded-lg border border-slate-800">
           <div>
             <h3 class="text-sm font-bold text-white flex items-center space-x-2">
               <i class="fa-solid fa-book-bookmark text-amber-400"></i>
               <span>Advanced Data Structures (ADS) Terminology Guide</span>
             </h3>
-            <p class="text-xs text-slate-400 mt-0.5">Formal mathematical definitions, derivations, and engineering significance for M.Tech evaluation.</p>
+            <p class="text-xs text-slate-400 mt-0.5">Formal mathematical definitions, derivations, and engineering
+              significance for M.Tech evaluation.</p>
           </div>
           <div class="flex items-center space-x-2 w-full sm:w-auto">
             <div class="relative flex-1 sm:w-64">
-              <input type="text" id="glossarySearch" oninput="filterGlossary()" placeholder="Filter terms (e.g. saturation, load factor, murmur)..."
-                     class="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition">
-              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-500 text-xs pointer-events-none"></i>
+              <input type="text" id="glossarySearch" oninput="filterGlossary()"
+                placeholder="Filter terms (e.g. saturation, load factor, murmur)..."
+                class="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition">
+              <i
+                class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-500 text-xs pointer-events-none"></i>
             </div>
-            <button onclick="clearGlossaryFilter()" class="px-2.5 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-400 rounded-lg transition">Clear</button>
+            <button onclick="clearGlossaryFilter()"
+              class="px-2.5 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-400 rounded-lg transition">Clear</button>
           </div>
         </div>
 
         <!-- Filter Badges -->
         <div class="flex flex-wrap gap-2 text-xs">
-          <button onclick="filterGlossaryCategory('all')" class="glossary-cat-btn px-3 py-1 rounded-full border border-sky-500 bg-sky-500/20 text-sky-300 font-semibold transition" data-cat="all">All (14)</button>
-          <button onclick="filterGlossaryCategory('bloom')" class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition" data-cat="bloom">Bloom Filter</button>
-          <button onclick="filterGlossaryCategory('hashtable')" class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition" data-cat="hashtable">Chained Hash Table</button>
-          <button onclick="filterGlossaryCategory('multitier')" class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition" data-cat="multitier">Multi-Tier I/O Pruning</button>
-          <button onclick="filterGlossaryCategory('storage')" class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition" data-cat="storage">POSIX Storage &amp; Inodes</button>
+          <button onclick="filterGlossaryCategory('all')"
+            class="glossary-cat-btn px-3 py-1 rounded-full border border-sky-500 bg-sky-500/20 text-sky-300 font-semibold transition"
+            data-cat="all">All (14)</button>
+          <button onclick="filterGlossaryCategory('bloom')"
+            class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition"
+            data-cat="bloom">Bloom Filter</button>
+          <button onclick="filterGlossaryCategory('hashtable')"
+            class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition"
+            data-cat="hashtable">Chained Hash Table</button>
+          <button onclick="filterGlossaryCategory('multitier')"
+            class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition"
+            data-cat="multitier">Multi-Tier I/O Pruning</button>
+          <button onclick="filterGlossaryCategory('storage')"
+            class="glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition"
+            data-cat="storage">POSIX Storage &amp; Inodes</button>
         </div>
 
         <!-- Cards Grid -->
         <div id="glossaryGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           <!-- 1. Bitset Saturation -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="bloom">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="bloom">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-sky-400">Bitset Saturation (Fill Ratio)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom Filter</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom
+                Filter</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               S = (count(b_i == 1) / m) × 100%
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> The fraction of total bit positions in the Bloom filter bitset that have been toggled to 1 across all inserted elements.
+              <strong>Definition:</strong> The fraction of total bit positions in the Bloom filter bitset that have been
+              toggled to 1 across all inserted elements.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> A Bloom filter's false-positive rate begins to escalate as saturation approaches 50%. DedupFS allocates sufficient bit capacity so that saturation remains under 5% (observed: ~1.46%), guaranteeing maximum discriminatory power and minimal hash table lookups.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> A Bloom filter's false-positive rate begins to
+              escalate as saturation approaches 50%. DedupFS allocates sufficient bit capacity so that saturation
+              remains under 5% (observed: ~1.46%), guaranteeing maximum discriminatory power and minimal hash table
+              lookups.
             </div>
           </div>
 
           <!-- 2. Table Load Factor -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="hashtable">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="hashtable">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-purple-400">Table Load Factor (&lambda;)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">Hash Table</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">Hash
+                Table</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
-              &lambda; = N / buckets  (Enforced: &lambda; &le; 0.75)
+              &lambda; = N / buckets (Enforced: &lambda; &le; 0.75)
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> The ratio of total stored elements (N) to the number of allocated bucket slots in the hash table, representing average bucket density.
+              <strong>Definition:</strong> The ratio of total stored elements (N) to the number of allocated bucket
+              slots in the hash table, representing average bucket density.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-purple-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> When &lambda; exceeds 0.75 in separate chaining, collision chains lengthen, degrading lookup from O(1) toward O(N). DedupFS enforces dynamic capacity doubling at &lambda; &gt; 0.75 to preserve amortized O(1) constant time.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> When &lambda; exceeds 0.75 in separate
+              chaining, collision chains lengthen, degrading lookup from O(1) toward O(N). DedupFS enforces dynamic
+              capacity doubling at &lambda; &gt; 0.75 to preserve amortized O(1) constant time.
             </div>
           </div>
 
           <!-- 3. Kirsch-Mitzenmacher Double-Hashing -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="bloom">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="bloom">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-sky-400">Kirsch-Mitzenmacher Double-Hashing</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom Filter</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom
+                Filter</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
-              g_i(x) = (h1(x) + i · h2(x)) mod m,  i &isin; {0, 1, ..., k-1}
+              g_i(x) = (h1(x) + i · h2(x)) mod m, i &isin; {0, 1, ..., k-1}
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> A mathematical optimization proving that two independent hash values (h1, h2) can simulate k uniform hash functions without increasing the asymptotic false positive rate.
+              <strong>Definition:</strong> A mathematical optimization proving that two independent hash values (h1, h2)
+              can simulate k uniform hash functions without increasing the asymptotic false positive rate.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Instead of calculating 7 separate cryptographic digests per file, DedupFS extracts two 64-bit words directly from the SHA-256 fingerprint, evaluating all k probes via fast O(1) CPU arithmetic!
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Instead of calculating 7 separate
+              cryptographic digests per file, DedupFS extracts two 64-bit words directly from the SHA-256 fingerprint,
+              evaluating all k probes via fast O(1) CPU arithmetic!
             </div>
           </div>
 
           <!-- 4. Zero False Negatives Invariant -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="bloom">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="bloom">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-emerald-400">Zero False Negatives Invariant (FN = 0)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Bloom Invariant</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Bloom
+                Invariant</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
-              &exist; i : bit[g_i(x)] == 0 &rArr; x &notin; S  (100% Certainty)
+              &exist; i : bit[g_i(x)] == 0 &rArr; x &notin; S (100% Certainty)
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> The fundamental mathematical property of Bloom filters: if even a single bit at any of the k probed indices is 0, the element was provably never inserted.
+              <strong>Definition:</strong> The fundamental mathematical property of Bloom filters: if even a single bit
+              at any of the k probed indices is 0, the element was provably never inserted.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-emerald-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> This guarantee is vital for file systems: unique files are NEVER incorrectly labeled as duplicates. True negatives bypass secondary index lookups in O(k) bit tests with 0% error risk.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> This guarantee is vital for file systems:
+              unique files are NEVER incorrectly labeled as duplicates. True negatives bypass secondary index lookups in
+              O(k) bit tests with 0% error risk.
             </div>
           </div>
 
           <!-- 5. Optimal Bloom Sizing -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="bloom">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="bloom">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-sky-400">Optimal Sizing (m and k)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom Sizing</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom
+                Sizing</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
-              m = - (n · ln p) / (ln 2)²,   k = (m / n) · ln 2
+              m = - (n · ln p) / (ln 2)², k = (m / n) · ln 2
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Derivations for the minimum bitset length (m) and optimal number of hash functions (k) that bound the false-positive rate to p for n expected items.
+              <strong>Definition:</strong> Derivations for the minimum bitset length (m) and optimal number of hash
+              functions (k) that bound the false-positive rate to p for n expected items.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Sizing the filter dynamically prevents memory waste. For 100,000 files at p = 1.0%, DedupFS allocates ~958,506 bits (just 117 KB RAM) with k = 7 functions.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Sizing the filter dynamically prevents memory
+              waste. For 100,000 files at p = 1.0%, DedupFS allocates ~958,506 bits (just 117 KB RAM) with k = 7
+              functions.
             </div>
           </div>
 
           <!-- 6. Dynamic Rehashing -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="hashtable">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="hashtable">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-purple-400">Dynamic Power-of-Two Rehashing</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">Hash Table</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">Hash
+                Table</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               if (&lambda; &gt; 0.75) buckets_new = buckets_old &times; 2
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Automatic capacity doubling and redistribution of all key-value entries when table density exceeds the optimal load threshold.
+              <strong>Definition:</strong> Automatic capacity doubling and redistribution of all key-value entries when
+              table density exceeds the optimal load threshold.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-purple-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Power-of-two capacities allow replacing expensive modulo division with fast bitwise AND: bucket = hash &amp; (capacity - 1). Dynamic doubling maintains amortized O(1) complexity across millions of files.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Power-of-two capacities allow replacing
+              expensive modulo division with fast bitwise AND: bucket = hash &amp; (capacity - 1). Dynamic doubling
+              maintains amortized O(1) complexity across millions of files.
             </div>
           </div>
 
           <!-- 7. Collision Chain Depth & Variance -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="hashtable">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="hashtable">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-purple-400">Collision Chain Depth &amp; Variance</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">Hash Table</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">Hash
+                Table</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
-              Max Chain: max(|bucket_i|),  Variance: &sigma;² = &Sigma;(|b_i| - &mu;)² / N
+              Max Chain: max(|bucket_i|), Variance: &sigma;² = &Sigma;(|b_i| - &mu;)² / N
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Max chain depth represents the longest linked list in any bucket. Variance measures the statistical spread of elements across occupied buckets.
+              <strong>Definition:</strong> Max chain depth represents the longest linked list in any bucket. Variance
+              measures the statistical spread of elements across occupied buckets.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-purple-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Low chain variance (observed &sigma;² = 0.26) and shallow max depth (&le;4) statistically verify that cryptographic SHA-256 distributes keys uniformly without adversarial hash clustering.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Low chain variance (observed &sigma;² = 0.26)
+              and shallow max depth (&le;4) statistically verify that cryptographic SHA-256 distributes keys uniformly
+              without adversarial hash clustering.
             </div>
           </div>
 
           <!-- 8. Tier 1 Size Bucketing -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="multitier">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="multitier">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-sky-400">Tier 1: O(1) Size Bucketing</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Multi-Tier I/O</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Multi-Tier
+                I/O</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               if (count(size_bucket[file.st_size]) == 1) discard(file)
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Partitioning files by their metadata byte length obtained via stat(2). Files having unique byte lengths are discarded immediately.
+              <strong>Definition:</strong> Partitioning files by their metadata byte length obtained via stat(2). Files
+              having unique byte lengths are discarded immediately.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Identical files must have identical sizes. Discarding singletons in O(1) prunes ~25% of unique files with ZERO disk read I/O!
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Identical files must have identical sizes.
+              Discarding singletons in O(1) prunes ~25% of unique files with ZERO disk read I/O!
             </div>
           </div>
 
           <!-- 9. Tier 2 Prefix Hashing -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="multitier">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="multitier">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-amber-400">Tier 2: 4KB Murmur3 Prefix Hash</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">Multi-Tier I/O</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">Multi-Tier
+                I/O</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               h_prefix = MurmurHash3_x64_128(file_bytes[0..4095], seed=42)
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Reading only the initial 4,096 bytes of candidate files and computing a fast 128-bit non-cryptographic hash.
+              <strong>Definition:</strong> Reading only the initial 4,096 bytes of candidate files and computing a fast
+              128-bit non-cryptographic hash.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-amber-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Eliminates files that share identical byte sizes but possess differing headers or magic numbers without reading entire multi-megabyte file bodies.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Eliminates files that share identical byte
+              sizes but possess differing headers or magic numbers without reading entire multi-megabyte file bodies.
             </div>
           </div>
 
           <!-- 10. Streaming Byte Verifier -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="storage">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="storage">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-emerald-400">64KB Streaming Byte Verifier</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Data Safety</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Data
+                Safety</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               memcmp(bufA[64KB], bufB[64KB], chunk_size) == 0
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> A binary chunk-by-chunk memory comparator that verifies 100% byte equivalence between candidate duplicates prior to any storage consolidation.
+              <strong>Definition:</strong> A binary chunk-by-chunk memory comparator that verifies 100% byte equivalence
+              between candidate duplicates prior to any storage consolidation.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-emerald-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Even though SHA-256 collision probability is 2⁻²⁵⁶, enterprise storage systems demand zero risk of data corruption. The Byte Verifier guarantees absolute mathematical safety against false deduplication.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Even though SHA-256 collision probability is
+              2⁻²⁵⁶, enterprise storage systems demand zero risk of data corruption. The Byte Verifier guarantees
+              absolute mathematical safety against false deduplication.
             </div>
           </div>
 
           <!-- 11. POSIX Atomic Hard Linking -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="storage">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="storage">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-emerald-400">POSIX Atomic Hard-Link Consolidation</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">POSIX Storage</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">POSIX
+                Storage</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               1. link(orig, temp) &rarr; 2. rename(temp, dup)
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Atomically consolidating duplicate directory entries to point to the canonical file's physical inode (st_ino).
+              <strong>Definition:</strong> Atomically consolidating duplicate directory entries to point to the
+              canonical file's physical inode (st_ino).
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-emerald-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Atomic rename guarantees crash resilience: the duplicate path is NEVER missing or corrupted during power failure. The OS kernel immediately deallocates redundant blocks while incrementing st_nlink.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Atomic rename guarantees crash resilience: the
+              duplicate path is NEVER missing or corrupted during power failure. The OS kernel immediately deallocates
+              redundant blocks while incrementing st_nlink.
             </div>
           </div>
 
           <!-- 12. Deduplication Ratio -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="storage">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="storage">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-sky-400">Deduplication Ratio (DR)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Metric</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Metric</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
-              DR = Logical_Bytes / Physical_Bytes,  Savings% = (1 - 1/DR) × 100%
+              DR = Logical_Bytes / Physical_Bytes, Savings% = (1 - 1/DR) × 100%
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> The primary metric quantifying storage compaction efficiency, expressing how many times larger the logical data is compared to actual physical disk consumption.
+              <strong>Definition:</strong> The primary metric quantifying storage compaction efficiency, expressing how
+              many times larger the logical data is compared to actual physical disk consumption.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> A ratio of DR = 1.37x means physical storage is reduced to 73% of initial volume, achieving 27.2% net physical capacity reclamation.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> A ratio of DR = 1.37x means physical storage
+              is reduced to 73% of initial volume, achieving 27.2% net physical capacity reclamation.
             </div>
           </div>
 
           <!-- 13. Inode Key Detection -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="storage">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="storage">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-200">Inode Cycle &amp; Hard-Link Detection</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">Storage</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">Storage</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               key = ((dev_t &lt;&lt; 32) ^ ino_t) ^ 0x9e3779b97f4a7c15ULL
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Tracking composite 64-bit device-inode keys to detect filesystem cycles and skip already-consolidated hard links (st_nlink &gt; 1).
+              <strong>Definition:</strong> Tracking composite 64-bit device-inode keys to detect filesystem cycles and
+              skip already-consolidated hard links (st_nlink &gt; 1).
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-slate-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Prevents infinite loops caused by symlinks and skips processing files that have already been deduplicated in previous runs.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Prevents infinite loops caused by symlinks and
+              skips processing files that have already been deduplicated in previous runs.
             </div>
           </div>
 
           <!-- 14. Empirical FPR -->
-          <div class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition" data-category="bloom">
+          <div
+            class="glossary-card bg-slate-900/80 border border-slate-800 rounded-lg p-4 space-y-2 hover:border-slate-700 transition"
+            data-category="bloom">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-sky-400">Empirical vs Theoretical FPR</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom Filter</span>
+              <span
+                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">Bloom
+                Filter</span>
             </div>
             <div class="bg-slate-950 p-2 rounded font-mono text-[11px] text-emerald-300 border border-slate-800/80">
               Empirical_FPR = Observed_FP / Negative_Queries &le; Theoretical_p
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Definition:</strong> Ratio of observed false positive lookups (where Bloom filter returned true, but hash table found key absent) to total negative queries.
+              <strong>Definition:</strong> Ratio of observed false positive lookups (where Bloom filter returned true,
+              but hash table found key absent) to total negative queries.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Across all benchmark runs, empirical FPR remained at 0.00%, proving that double-hashing with our chosen sizing achieves design bounds with zero error leakage.
+              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Across all benchmark runs, empirical FPR
+              remained at 0.00%, proving that double-hashing with our chosen sizing achieves design bounds with zero
+              error leakage.
             </div>
           </div>
 
@@ -797,9 +1038,11 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800/80 px-6 py-4 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2 max-w-7xl mx-auto w-full">
+  <footer
+    class="border-t border-slate-800/80 px-6 py-4 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2 max-w-7xl mx-auto w-full">
     <div>
-      <span class="font-semibold text-slate-400">DedupFS Engine</span> &bull; Course: Advanced Data Structures (M.Tech Semester 1)
+      <span class="font-semibold text-slate-400">DedupFS Engine</span> &bull; Course: Advanced Data Structures (M.Tech
+      Semester 1)
     </div>
     <div>
       Authors: <strong>Aryan Ravi Zodape (206126006)</strong> &bull; <strong>Jyotiraditya Kumar (206126014)</strong>
@@ -817,166 +1060,166 @@
     }
 
     function switchTab(tabId) {
-      ['types', 'folders', 'duplicates', 'logs', 'glossary'].forEach(t => {
-        const content = document.getElementById(`tabContent-${t}`);
-        const btn = document.getElementById(`tabBtn-${t}`);
-        if (content) content.classList.add('hidden');
-        if (btn) btn.className = 'text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition';
-      });
-      const activeContent = document.getElementById(`tabContent-${tabId}`);
-      const activeBtn = document.getElementById(`tabBtn-${tabId}`);
-      if (activeContent) activeContent.classList.remove('hidden');
-      if (activeBtn) activeBtn.className = 'text-sm font-semibold text-sky-400 border-b-2 border-sky-400 pb-1.5 transition';
+        ['types', 'folders', 'duplicates', 'logs', 'glossary'].forEach(t => {
+          const content = document.getElementById(`tabContent-${t}`);
+          const btn = document.getElementById(`tabBtn-${t}`);
+          if (content) content.classList.add('hidden');
+          if (btn) btn.className = 'text-sm font-semibold text-slate-400 hover:text-white pb-1.5 transition';
+        });
+        const activeContent = document.getElementById(`tabContent-${tabId}`);
+        const activeBtn = document.getElementById(`tabBtn-${tabId}`);
+        if (activeContent) activeContent.classList.remove('hidden');
+        if (activeBtn) activeBtn.className = 'text-sm font-semibold text-sky-400 border-b-2 border-sky-400 pb-1.5 transition';
 
-      if (tabId === 'duplicates') {
-        loadDuplicates();
+        if (tabId === 'duplicates') {
+          loadDuplicates();
+        }
       }
-    }
 
     let currentGlossaryCategory = 'all';
 
-    function filterGlossary() {
-      const query = (document.getElementById('glossarySearch')?.value || '').toLowerCase().trim();
-      const cards = document.querySelectorAll('.glossary-card');
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        const category = card.getAttribute('data-category');
-        const matchesCat = (currentGlossaryCategory === 'all' || category === currentGlossaryCategory);
-        const matchesQuery = !query || text.includes(query);
+      function filterGlossary() {
+        const query = (document.getElementById('glossarySearch')?.value || '').toLowerCase().trim();
+        const cards = document.querySelectorAll('.glossary-card');
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          const category = card.getAttribute('data-category');
+          const matchesCat = (currentGlossaryCategory === 'all' || category === currentGlossaryCategory);
+          const matchesQuery = !query || text.includes(query);
 
-        if (matchesCat && matchesQuery) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function filterGlossaryCategory(cat) {
-      currentGlossaryCategory = cat;
-      document.querySelectorAll('.glossary-cat-btn').forEach(btn => {
-        if (btn.getAttribute('data-cat') === cat) {
-          btn.className = 'glossary-cat-btn px-3 py-1 rounded-full border border-sky-500 bg-sky-500/20 text-sky-300 font-semibold transition';
-        } else {
-          btn.className = 'glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition';
-        }
-      });
-      filterGlossary();
-    }
-
-    function clearGlossaryFilter() {
-      const input = document.getElementById('glossarySearch');
-      if (input) input.value = '';
-      filterGlossaryCategory('all');
-    }
-
-    async function triggerScan() {
-      const path = document.getElementById('targetPath').value.trim();
-      if (!path) return alert('Please enter a target directory.');
-
-      setLoading(true, `Auditing directory '${path}' without altering disk files...`);
-      try {
-        const res = await fetch('/api/scan', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: path, min_size: 1, fpr: 0.01 })
+          if (matchesCat && matchesQuery) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
         });
-        const data = await res.json();
-        handleOperationResult(data);
-      } catch (err) {
-        alert('Scan error: ' + err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    async function triggerOptimize() {
-      const path = document.getElementById('targetPath').value.trim();
-      if (!path) return alert('Please enter a target directory.');
-
-      if (!confirm(`Are you sure you want to optimize '${path}'?\nVerified duplicate files will be consolidated into atomic POSIX hard links to free disk blocks.`)) {
-        return;
       }
 
-      setLoading(true, `Consolidating duplicate files into atomic hard links in '${path}'...`);
-      try {
-        const res = await fetch('/api/optimize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: path, min_size: 1, fpr: 0.01 })
+      function filterGlossaryCategory(cat) {
+        currentGlossaryCategory = cat;
+        document.querySelectorAll('.glossary-cat-btn').forEach(btn => {
+          if (btn.getAttribute('data-cat') === cat) {
+            btn.className = 'glossary-cat-btn px-3 py-1 rounded-full border border-sky-500 bg-sky-500/20 text-sky-300 font-semibold transition';
+          } else {
+            btn.className = 'glossary-cat-btn px-3 py-1 rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-white transition';
+          }
         });
-        const data = await res.json();
-        handleOperationResult(data);
-      } catch (err) {
-        alert('Optimize error: ' + err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    function setLoading(isLoading, msg = '') {
-      const loader = document.getElementById('loader');
-      const btnScan = document.getElementById('btnScan');
-      const btnOpt = document.getElementById('btnOptimize');
-
-      if (isLoading) {
-        loader.classList.remove('hidden');
-        document.getElementById('loaderMsg').innerText = msg;
-        btnScan.disabled = true;
-        btnOpt.disabled = true;
-      } else {
-        loader.classList.add('hidden');
-        btnScan.disabled = false;
-        btnOpt.disabled = false;
-      }
-    }
-
-    function handleOperationResult(res) {
-      if (!res.success) {
-        alert('Error: ' + (res.error || 'Execution failed'));
-        return;
+        filterGlossary();
       }
 
-      // Update terminal log
-      if (res.output) {
-        document.getElementById('terminalOutput').innerText = res.output;
+      function clearGlossaryFilter() {
+        const input = document.getElementById('glossarySearch');
+        if (input) input.value = '';
+        filterGlossaryCategory('all');
       }
 
-      // Update metrics & charts
-      if (res.metrics && Object.keys(res.metrics).length > 0) {
-        updateDashboard(res.metrics);
-      } else {
-        loadLatestMetrics();
-      }
-    }
+      async function triggerScan() {
+        const path = document.getElementById('targetPath').value.trim();
+        if (!path) return alert('Please enter a target directory.');
 
-    async function loadLatestMetrics() {
-      try {
-        const res = await fetch('/api/metrics');
-        const data = await res.json();
-        if (data.success && data.metrics) {
-          updateDashboard(data.metrics);
+        setLoading(true, `Auditing directory '${path}' without altering disk files...`);
+        try {
+          const res = await fetch('/api/scan', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: path, min_size: 1, fpr: 0.01 })
+          });
+          const data = await res.json();
+          handleOperationResult(data);
+        } catch (err) {
+          alert('Scan error: ' + err);
+        } finally {
+          setLoading(false);
         }
-      } catch (e) {
-        console.error('Error loading latest metrics:', e);
       }
-    }
 
-    async function loadDuplicates() {
-      const container = document.getElementById('duplicateClustersList');
-      container.innerHTML = '<div class="text-center py-6 text-slate-500 text-xs">Loading duplicate clusters...</div>';
+      async function triggerOptimize() {
+        const path = document.getElementById('targetPath').value.trim();
+        if (!path) return alert('Please enter a target directory.');
 
-      try {
-        const res = await fetch('/api/duplicates?limit=30');
-        const data = await res.json();
-        if (!data.success || !data.clusters || data.clusters.length === 0) {
-          container.innerHTML = '<div class="text-center py-6 text-slate-500 text-xs">No duplicate clusters found in latest report.</div>';
+        if (!confirm(`Are you sure you want to optimize '${path}'?\nVerified duplicate files will be consolidated into atomic POSIX hard links to free disk blocks.`)) {
           return;
         }
 
-        let html = '';
-        data.clusters.forEach(c => {
-          html += `
+        setLoading(true, `Consolidating duplicate files into atomic hard links in '${path}'...`);
+        try {
+          const res = await fetch('/api/optimize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: path, min_size: 1, fpr: 0.01 })
+          });
+          const data = await res.json();
+          handleOperationResult(data);
+        } catch (err) {
+          alert('Optimize error: ' + err);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function setLoading(isLoading, msg = '') {
+        const loader = document.getElementById('loader');
+        const btnScan = document.getElementById('btnScan');
+        const btnOpt = document.getElementById('btnOptimize');
+
+        if (isLoading) {
+          loader.classList.remove('hidden');
+          document.getElementById('loaderMsg').innerText = msg;
+          btnScan.disabled = true;
+          btnOpt.disabled = true;
+        } else {
+          loader.classList.add('hidden');
+          btnScan.disabled = false;
+          btnOpt.disabled = false;
+        }
+      }
+
+      function handleOperationResult(res) {
+        if (!res.success) {
+          alert('Error: ' + (res.error || 'Execution failed'));
+          return;
+        }
+
+        // Update terminal log
+        if (res.output) {
+          document.getElementById('terminalOutput').innerText = res.output;
+        }
+
+        // Update metrics & charts
+        if (res.metrics && Object.keys(res.metrics).length > 0) {
+          updateDashboard(res.metrics);
+        } else {
+          loadLatestMetrics();
+        }
+      }
+
+      async function loadLatestMetrics() {
+        try {
+          const res = await fetch('/api/metrics');
+          const data = await res.json();
+          if (data.success && data.metrics) {
+            updateDashboard(data.metrics);
+          }
+        } catch (e) {
+          console.error('Error loading latest metrics:', e);
+        }
+      }
+
+      async function loadDuplicates() {
+        const container = document.getElementById('duplicateClustersList');
+        container.innerHTML = '<div class="text-center py-6 text-slate-500 text-xs">Loading duplicate clusters...</div>';
+
+        try {
+          const res = await fetch('/api/duplicates?limit=30');
+          const data = await res.json();
+          if (!data.success || !data.clusters || data.clusters.length === 0) {
+            container.innerHTML = '<div class="text-center py-6 text-slate-500 text-xs">No duplicate clusters found in latest report.</div>';
+            return;
+          }
+
+          let html = '';
+          data.clusters.forEach(c => {
+            html += `
             <div class="bg-slate-900/80 border border-slate-800 rounded-lg p-3 text-xs space-y-2">
               <div class="flex items-center justify-between border-b border-slate-800 pb-2">
                 <span class="font-bold text-sky-400">Cluster #${c.group_id}</span>
@@ -992,66 +1235,66 @@
                 </div>
                 ${c.duplicates.map((d, i) => `
                   <div class="text-slate-400 truncate pl-3 border-l border-slate-800" title="${d}">
-                    <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold mr-1">DUP #${i+1}</span>
+                    <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold mr-1">DUP #${i + 1}</span>
                     ${d}
                   </div>
                 `).join('')}
               </div>
             </div>
           `;
-        });
-        container.innerHTML = html;
-      } catch (err) {
-        container.innerHTML = `<div class="text-center py-4 text-red-400 text-xs">Failed to load duplicates: ${err}</div>`;
-      }
-    }
-
-    function updateDashboard(m) {
-      if (!m || !m.summary) return;
-
-      const s = m.summary;
-      document.getElementById('metricScanned').innerText = s.total_bytes_scanned_formatted || '0 B';
-      document.getElementById('metricFileCount').innerText = `${s.total_files_scanned.toLocaleString()} files traversed`;
-      document.getElementById('metricReclaimed').innerText = s.reclaimed_bytes_formatted || '0 B';
-      document.getElementById('metricSavingsPct').innerText = `${s.space_saved_percent}% capacity saved`;
-      document.getElementById('metricDedupRatio').innerText = `${s.deduplication_ratio}x`;
-      document.getElementById('metricPostDedup').innerText = `Post: ${s.post_dedup_bytes_formatted || '0 B'} physical`;
-      document.getElementById('metricDupFiles').innerText = s.duplicate_files_count.toLocaleString();
-      document.getElementById('metricDupGroups').innerText = `In ${s.duplicate_groups_count.toLocaleString()} equivalence clusters`;
-      document.getElementById('metricThroughput').innerText = `${s.throughput_mbs} MB/s`;
-      document.getElementById('metricRuntime').innerText = `Duration: ${s.total_runtime_ms} ms`;
-
-      // Bloom Filter
-      if (m.bloom_filter) {
-        const bf = m.bloom_filter;
-        document.getElementById('bfBits').innerText = bf.bits_m.toLocaleString();
-        document.getElementById('bfHashes').innerText = bf.hashes_k;
-        document.getElementById('bfFill').innerText = (bf.fill_ratio * 100).toFixed(2) + '%';
-        document.getElementById('bfQueries').innerText = bf.queries.toLocaleString();
-        document.getElementById('bfNegatives').innerText = bf.true_negatives.toLocaleString();
-        document.getElementById('bfFpr').innerText = (bf.false_positives === 0 ? '0.00%' : ((bf.false_positives / bf.queries) * 100).toFixed(4) + '%');
+          });
+          container.innerHTML = html;
+        } catch (err) {
+          container.innerHTML = `<div class="text-center py-4 text-red-400 text-xs">Failed to load duplicates: ${err}</div>`;
+        }
       }
 
-      // Hash Table
-      if (m.hash_table) {
-        const ht = m.hash_table;
-        document.getElementById('htElements').innerText = ht.elements.toLocaleString();
-        document.getElementById('htBuckets').innerText = ht.buckets.toLocaleString();
-        document.getElementById('htLoad').innerText = ht.load_factor.toFixed(3);
-        document.getElementById('htRehashes').innerText = ht.rehashes;
-        document.getElementById('htCollisions').innerText = ht.collisions.toLocaleString();
-        document.getElementById('htMaxChain').innerText = ht.max_chain_length;
-      }
+      function updateDashboard(m) {
+        if (!m || !m.summary) return;
 
-      // File Types Table
-      if (m.file_types) {
-        const tbody = document.getElementById('tableTypesBody');
-        tbody.innerHTML = '';
-        m.file_types.forEach(t => {
-          const pct = t.total_bytes > 0 ? ((t.wasted_bytes / t.total_bytes) * 100).toFixed(1) : '0.0';
-          const row = document.createElement('tr');
-          row.className = 'hover:bg-slate-800/40 transition';
-          row.innerHTML = `
+        const s = m.summary;
+        document.getElementById('metricScanned').innerText = s.total_bytes_scanned_formatted || '0 B';
+        document.getElementById('metricFileCount').innerText = `${s.total_files_scanned.toLocaleString()} files traversed`;
+        document.getElementById('metricReclaimed').innerText = s.reclaimed_bytes_formatted || '0 B';
+        document.getElementById('metricSavingsPct').innerText = `${s.space_saved_percent}% capacity saved`;
+        document.getElementById('metricDedupRatio').innerText = `${s.deduplication_ratio}x`;
+        document.getElementById('metricPostDedup').innerText = `Post: ${s.post_dedup_bytes_formatted || '0 B'} physical`;
+        document.getElementById('metricDupFiles').innerText = s.duplicate_files_count.toLocaleString();
+        document.getElementById('metricDupGroups').innerText = `In ${s.duplicate_groups_count.toLocaleString()} equivalence clusters`;
+        document.getElementById('metricThroughput').innerText = `${s.throughput_mbs} MB/s`;
+        document.getElementById('metricRuntime').innerText = `Duration: ${s.total_runtime_ms} ms`;
+
+        // Bloom Filter
+        if (m.bloom_filter) {
+          const bf = m.bloom_filter;
+          document.getElementById('bfBits').innerText = bf.bits_m.toLocaleString();
+          document.getElementById('bfHashes').innerText = bf.hashes_k;
+          document.getElementById('bfFill').innerText = (bf.fill_ratio * 100).toFixed(2) + '%';
+          document.getElementById('bfQueries').innerText = bf.queries.toLocaleString();
+          document.getElementById('bfNegatives').innerText = bf.true_negatives.toLocaleString();
+          document.getElementById('bfFpr').innerText = (bf.false_positives === 0 ? '0.00%' : ((bf.false_positives / bf.queries) * 100).toFixed(4) + '%');
+        }
+
+        // Hash Table
+        if (m.hash_table) {
+          const ht = m.hash_table;
+          document.getElementById('htElements').innerText = ht.elements.toLocaleString();
+          document.getElementById('htBuckets').innerText = ht.buckets.toLocaleString();
+          document.getElementById('htLoad').innerText = ht.load_factor.toFixed(3);
+          document.getElementById('htRehashes').innerText = ht.rehashes;
+          document.getElementById('htCollisions').innerText = ht.collisions.toLocaleString();
+          document.getElementById('htMaxChain').innerText = ht.max_chain_length;
+        }
+
+        // File Types Table
+        if (m.file_types) {
+          const tbody = document.getElementById('tableTypesBody');
+          tbody.innerHTML = '';
+          m.file_types.forEach(t => {
+            const pct = t.total_bytes > 0 ? ((t.wasted_bytes / t.total_bytes) * 100).toFixed(1) : '0.0';
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-slate-800/40 transition';
+            row.innerHTML = `
             <td class="py-2.5 px-3 font-semibold text-sky-400">${t.extension}</td>
             <td class="py-2.5 px-3">${t.file_count.toLocaleString()}</td>
             <td class="py-2.5 px-3">${t.total_bytes_formatted}</td>
@@ -1066,123 +1309,124 @@
               </div>
             </td>
           `;
-          tbody.appendChild(row);
-        });
+            tbody.appendChild(row);
+          });
 
-        renderTypeCharts(m.file_types);
-      }
+          renderTypeCharts(m.file_types);
+        }
 
-      // Subfolders Table & Chart
-      if (m.subfolders) {
-        const tbody = document.getElementById('tableFoldersBody');
-        tbody.innerHTML = '';
-        m.subfolders.forEach(f => {
-          const row = document.createElement('tr');
-          row.className = 'hover:bg-slate-800/40 transition';
-          row.innerHTML = `
+        // Subfolders Table & Chart
+        if (m.subfolders) {
+          const tbody = document.getElementById('tableFoldersBody');
+          tbody.innerHTML = '';
+          m.subfolders.forEach(f => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-slate-800/40 transition';
+            row.innerHTML = `
             <td class="py-2.5 px-3 font-semibold text-slate-200">${f.folder}</td>
             <td class="py-2.5 px-3">${f.file_count.toLocaleString()}</td>
             <td class="py-2.5 px-3">${f.total_bytes_formatted}</td>
             <td class="py-2.5 px-3 text-amber-300">${f.duplicate_count.toLocaleString()}</td>
             <td class="py-2.5 px-3 font-bold text-emerald-400">${f.wasted_bytes_formatted}</td>
           `;
-          tbody.appendChild(row);
+            tbody.appendChild(row);
+          });
+
+          renderFolderChart(m.subfolders);
+        }
+      }
+
+      function renderTypeCharts(types) {
+        const topTypes = types.slice(0, 7);
+        const labels = topTypes.map(t => t.extension);
+        const usageData = topTypes.map(t => (t.total_bytes / (1024 * 1024)).toFixed(2));
+        const savingsData = topTypes.map(t => (t.wasted_bytes / (1024 * 1024)).toFixed(2));
+
+        // Chart 1: Donut Space Usage
+        if (chartTypeUsageInstance) chartTypeUsageInstance.destroy();
+        const ctx1 = document.getElementById('chartTypeUsage').getContext('2d');
+        chartTypeUsageInstance = new Chart(ctx1, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: usageData,
+              backgroundColor: ['#38bdf8', '#34d399', '#f59e0b', '#a855f7', '#ec4899', '#64748b', '#06b6d4'],
+              borderColor: '#0f172a',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } },
+              tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw} MB` } }
+            }
+          }
         });
 
-        renderFolderChart(m.subfolders);
-      }
-    }
-
-    function renderTypeCharts(types) {
-      const topTypes = types.slice(0, 7);
-      const labels = topTypes.map(t => t.extension);
-      const usageData = topTypes.map(t => (t.total_bytes / (1024 * 1024)).toFixed(2));
-      const savingsData = topTypes.map(t => (t.wasted_bytes / (1024 * 1024)).toFixed(2));
-
-      // Chart 1: Donut Space Usage
-      if (chartTypeUsageInstance) chartTypeUsageInstance.destroy();
-      const ctx1 = document.getElementById('chartTypeUsage').getContext('2d');
-      chartTypeUsageInstance = new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-          labels: labels,
-          datasets: [{
-            data: usageData,
-            backgroundColor: ['#38bdf8', '#34d399', '#f59e0b', '#a855f7', '#ec4899', '#64748b', '#06b6d4'],
-            borderColor: '#0f172a',
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } },
-            tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw} MB` } }
+        // Chart 2: Bar Space Savings
+        if (chartTypeSavingsInstance) chartTypeSavingsInstance.destroy();
+        const ctx2 = document.getElementById('chartTypeSavings').getContext('2d');
+        chartTypeSavingsInstance = new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Reclaimed (MB)',
+              data: savingsData,
+              backgroundColor: '#10b981',
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
+              y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } }
+            },
+            plugins: { legend: { display: false } }
           }
-        }
-      });
+        });
+      }
 
-      // Chart 2: Bar Space Savings
-      if (chartTypeSavingsInstance) chartTypeSavingsInstance.destroy();
-      const ctx2 = document.getElementById('chartTypeSavings').getContext('2d');
-      chartTypeSavingsInstance = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Reclaimed (MB)',
-            data: savingsData,
-            backgroundColor: '#10b981',
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
-            y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } }
+      function renderFolderChart(folders) {
+        const topFolders = folders.slice(0, 6);
+        const labels = topFolders.map(f => (f.folder.length > 15 ? f.folder.substr(0, 13) + '..' : f.folder));
+        const usageData = topFolders.map(f => (f.total_bytes / (1024 * 1024)).toFixed(2));
+        const savingsData = topFolders.map(f => (f.wasted_bytes / (1024 * 1024)).toFixed(2));
+
+        if (chartFolderSavingsInstance) chartFolderSavingsInstance.destroy();
+        const ctx3 = document.getElementById('chartFolderSavings').getContext('2d');
+        chartFolderSavingsInstance = new Chart(ctx3, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Total Volume (MB)', data: usageData, backgroundColor: '#3b82f6', borderRadius: 4 },
+              { label: 'Reclaimed (MB)', data: savingsData, backgroundColor: '#a855f7', borderRadius: 4 }
+            ]
           },
-          plugins: { legend: { display: false } }
-        }
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } },
+              y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } }
+            },
+            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } }
+          }
+        });
+      }
+
+      // Load initial telemetry on startup
+      window.addEventListener('DOMContentLoaded', () => {
+        loadLatestMetrics();
       });
-    }
-
-    function renderFolderChart(folders) {
-      const topFolders = folders.slice(0, 6);
-      const labels = topFolders.map(f => (f.folder.length > 15 ? f.folder.substr(0, 13) + '..' : f.folder));
-      const usageData = topFolders.map(f => (f.total_bytes / (1024 * 1024)).toFixed(2));
-      const savingsData = topFolders.map(f => (f.wasted_bytes / (1024 * 1024)).toFixed(2));
-
-      if (chartFolderSavingsInstance) chartFolderSavingsInstance.destroy();
-      const ctx3 = document.getElementById('chartFolderSavings').getContext('2d');
-      chartFolderSavingsInstance = new Chart(ctx3, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            { label: 'Total Volume (MB)', data: usageData, backgroundColor: '#3b82f6', borderRadius: 4 },
-            { label: 'Reclaimed (MB)', data: savingsData, backgroundColor: '#a855f7', borderRadius: 4 }
-          ]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } },
-            y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } }
-          },
-          plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } }
-        }
-      });
-    }
-
-    // Load initial telemetry on startup
-    window.addEventListener('DOMContentLoaded', () => {
-      loadLatestMetrics();
-    });
   </script>
 </body>
+
 </html>

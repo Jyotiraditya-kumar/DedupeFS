@@ -42,4 +42,5 @@ scratch_*
 *.swp
 *~
 .~lock*
+backup_*/
 

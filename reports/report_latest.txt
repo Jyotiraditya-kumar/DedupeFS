@@ -4,8 +4,8 @@
                 Course: Advanced Data Structures (M.Tech Semester 1)
         Authors: Aryan Ravi Zodape (206126006) & Jyotiraditya Kumar (206126014)
 ========================================================================================
-Execution Timestamp:     2026-11-01 14:49:28
-Target Directory:        /home/jyotiraditya/CodingProjects/DedupFS/datasets/test_large_3.5GB/work
+Execution Timestamp:     2026-11-01 22:18:22
+Target Directory:        /home/jyotiraditya/CodingProjects/DedupFS/datasets/test_medium_1GB/work
 Operating Execution Mode:DRY-RUN (Non-Destructive Audit)
 Minimum File Size Filter:1.00 B (1 bytes)
 Bloom Filter Target FPR: 1.0000%
@@ -14,14 +14,14 @@ Bloom Filter Target FPR: 1.0000%
 ========================================================================================
 1. EXECUTIVE SUMMARY & STORAGE RECLAMATION METRICS
 ========================================================================================
-Initial Logical Dataset Footprint:          3.99 GB (4286149566 bytes)
-Post-Deduplication Physical Footprint:      2.86 GB (3068854407 bytes)
-Potential Redundant Space Reclaimed:        1.13 GB (1217295159 bytes)
-Deduplication Ratio (Logical / Physical):   1.40x
-Physical Space Savings Percentage:          [#######-------------------] 28.4%
-Total Regular Files Scanned:                58629
-Duplicate Equivalence Classes Identified:   15413
-Redundant Files Consolidated / Audited:     24431
+Initial Logical Dataset Footprint:          1.09 GB (1169375695 bytes)
+Post-Deduplication Physical Footprint:      811.89 MB (851330926 bytes)
+Potential Redundant Space Reclaimed:        303.31 MB (318044769 bytes)
+Deduplication Ratio (Logical / Physical):   1.37x
+Physical Space Savings Percentage:          [#######-------------------] 27.2%
+Total Regular Files Scanned:                23380
+Duplicate Equivalence Classes Identified:   6028
+Redundant Files Consolidated / Audited:     9620
 
   >> Pedagogical Note for Professor:
      DedupFS achieves zero-data-loss deduplication by preserving original directory
@@ -34,46 +34,75 @@ Redundant Files Consolidated / Audited:     24431
 ========================================================================================
 Extension    Total Files    Logical SizeRedundant Files Space Reclaimed     Savings %
 ----------------------------------------------------------------------------------------
-.jpg               12396         1.88 GB          3159       492.49 MB         25.6%
-.pdf                6042         1.52 GB          1564       411.51 MB         26.4%
-.c                 21532       470.96 MB         10026       198.45 MB         42.1%
-.h                 15864       122.15 MB          8254        55.18 MB         45.2%
-(no ext)            2295         3.71 MB          1172         1.71 MB         46.1%
-.s                   338         2.52 MB           178         1.16 MB         46.1%
-.pl                    2       198.99 KB             1        99.50 KB         50.0%
-.tbl                   7       114.00 KB             3        47.88 KB         42.0%
-.awk                  11        60.16 KB             8        47.08 KB         78.3%
-.txt                   2        88.94 KB             1        44.47 KB         50.0%
-.kcsan                 4        39.99 KB             3        29.99 KB         75.0%
-.locking               5        34.51 KB             4        27.61 KB         80.0%
-.ubsan                 5        32.65 KB             4        26.12 KB         80.0%
-.sh                   12        33.67 KB             6        20.06 KB         59.6%
-.config               26        26.35 KB            14        13.65 KB         51.8%
-.uc                    9        29.00 KB             4        12.54 KB         43.3%
-.asn1                 25        21.69 KB            13         8.22 KB         37.9%
-.hex                   4        16.12 KB             2         8.06 KB         50.0%
-.bc                    3         9.06 KB             2         6.04 KB         66.7%
-.kexec                 2        10.30 KB             1         5.15 KB         50.0%
-.locks                 2         9.85 KB             1         4.92 KB         50.0%
-.rs                    2         7.84 KB             1         3.92 KB         50.0%
-.kfence                2         7.10 KB             1         3.55 KB         50.0%
-.um                    2         3.09 KB             1         1.54 KB         50.0%
-.in                    4         2.00 KB             3         1.50 KB         75.0%
-.assembler             3         3.69 KB             1         1.23 KB         33.4%
-.ld                    2         2.43 KB             1         1.22 KB         50.0%
-.postlink              2         2.21 KB             1         1.11 KB         50.0%
-.debug                 7       225.40 KB             1        758.00 B          0.3%
-.freezer               2        184.00 B             1         92.00 B         50.0%
-.binfmt                2        12.67 KB             0          0.00 B          0.0%
-.kgdb                  1         5.60 KB             0          0.00 B          0.0%
-.dts                   1         8.78 KB             0          0.00 B          0.0%
-.kmsan                 1         2.31 KB             0          0.00 B          0.0%
-.c_shipped             1       323.52 KB             0          0.00 B          0.0%
-.cpu                   2        18.97 KB             0          0.00 B          0.0%
-.hz                    1         1.67 KB             0          0.00 B          0.0%
-.preempt               1         4.77 KB             0          0.00 B          0.0%
-.utf8data              1         2.46 KB             0          0.00 B          0.0%
+.jpg                3546       549.86 MB           890       140.16 MB         25.5%
+.pdf                1604       424.26 MB           406       116.55 MB         27.5%
+.c                  5551        81.63 MB          2292        24.58 MB         30.1%
+.h                  4435        28.32 MB          1525         7.35 MB         25.9%
+(no ext)            4896         7.45 MB          2972         4.27 MB         57.4%
+.tmpl                 39         6.13 MB            25         3.96 MB         64.6%
+.3                  1312         4.17 MB           339         1.13 MB         27.0%
+.sln                  59         1.30 MB            39       884.49 KB         66.2%
+.pl                  153         1.43 MB            86       717.08 KB         49.0%
+.m4                   70         1.24 MB            40       595.38 KB         46.9%
+.py                   97       829.11 KB            60       471.84 KB         56.9%
+.md                  152       889.84 KB            81       429.83 KB         48.3%
+.com                  50       555.58 KB            31       335.26 KB         60.3%
+.d                   693       525.69 KB           429       305.23 KB         58.1%
+.pm                   37       571.52 KB            22       209.22 KB         36.6%
+.in                   21       336.23 KB            10       166.74 KB         49.6%
+.yml                  80       345.21 KB            40       155.70 KB         45.1%
+.ac                    3       419.38 KB             1       140.00 KB         33.4%
+.inc                  32       257.82 KB            16       122.56 KB         47.5%
+.pem                  38       160.49 KB            26       109.80 KB         68.4%
+.sh                   39       150.62 KB            24        99.11 KB         65.8%
+.cmake                55       235.82 KB            27        98.38 KB         41.7%
+.bat                  17       161.70 KB            10        85.13 KB         52.7%
+.am                   60       199.70 KB            32        79.29 KB         39.7%
+.txt                  58       264.60 KB            33        68.37 KB         25.8%
+.crt                  17        89.03 KB            11        57.46 KB         64.5%
+.vc                    5        74.61 KB             3        47.39 KB         63.5%
+.1                    11        71.24 KB             6        37.96 KB         53.3%
+.os400                 3        49.44 KB             2        32.96 KB         66.7%
+.filters              33        26.26 KB            32        25.47 KB         97.0%
+.key                  21        34.95 KB            14        23.30 KB         66.7%
+.sdl                   4        27.05 KB             3        20.29 KB         75.0%
+.der                  35        25.92 KB            22        16.66 KB         64.3%
+.prm                  18        19.18 KB            11        11.75 KB         61.2%
+.csr                  16        15.39 KB             9         8.67 KB         56.4%
+.opt                   2        17.27 KB             1         8.63 KB         50.0%
+.default               4        10.93 KB             3         8.19 KB         75.0%
+.crl                  16        12.11 KB            10         7.50 KB         62.0%
+.cpp                   2        12.50 KB             1         6.25 KB         50.0%
+.rc                    5        15.76 KB             2         5.96 KB         37.8%
+.msg                   2        11.13 KB             1         5.56 KB         50.0%
+.cacert                2        10.13 KB             1         5.07 KB         50.0%
+.cvs                   5         5.77 KB             4         4.61 KB         80.0%
+.mk                    6        30.43 KB             2         4.58 KB         15.1%
+.el                    4         5.27 KB             3         3.95 KB         75.0%
+.example               3         5.64 KB             2         3.76 KB         66.7%
+.cmd                   4         7.35 KB             2         3.68 KB         50.0%
+.supp                  2         6.12 KB             1         3.06 KB         50.0%
+.c_first               2         4.87 KB             1         2.43 KB         50.0%
+.dist                  2         4.62 KB             1         2.31 KB         50.0%
+.props                 2         3.99 KB             1         1.99 KB         50.0%
+.soname                2         3.17 KB             1         1.58 KB         50.0%
+.def                   2         3.11 KB             1         1.55 KB         50.0%
+.conf                  2         2.24 KB             1         1.12 KB         50.0%
+.proto                 2         2.23 KB             1         1.12 KB         50.0%
+.asn1                  2         1.62 KB             1        829.00 B         50.0%
+.yaml                  2         1.31 KB             1        672.00 B         50.0%
+.pubkey-pinned          13        585.00 B             7        315.00 B         53.8%
+.cnf                   2        484.00 B             1        242.00 B         50.0%
+.patch                 2        234.00 B             1        117.00 B         50.0%
 .dat                   6         2.38 MB             0          0.00 B          0.0%
+.words                 2        12.85 KB             0          0.00 B          0.0%
+.dhp                  12          0.00 B             0          0.00 B          0.0%
+.utf8data              1         2.46 KB             0          0.00 B          0.0%
+.hex                   1         4.02 KB             0          0.00 B          0.0%
+.config                2        801.00 B             0          0.00 B          0.0%
+.locks                 1         4.92 KB             0          0.00 B          0.0%
+.c_shipped             2       646.99 KB             0          0.00 B          0.0%
+.debug                 1        758.00 B             0          0.00 B          0.0%
 
   >> Pedagogical Note for Professor:
      Large document (PDF) and software source code files exhibit pronounced clustering
@@ -85,14 +114,14 @@ Extension    Total Files    Logical SizeRedundant Files Space Reclaimed     Savi
 ========================================================================================
 Subdirectory                 Total Files    Logical SizeRedundant Files Space Reclaimed
 ----------------------------------------------------------------------------------------
-deeply_nested_archives              3487       246.14 MB          3487       246.14 MB
-documents                           4478         1.12 GB           902       238.30 MB
-source_code                        30000       445.49 MB         15012       184.36 MB
-downloads_inbox                     3385       242.94 MB          1765       163.65 MB
-media                               9237         1.40 GB          1040       161.89 MB
-shared_corporate_nas                2256       157.70 MB          1331       110.50 MB
-workspace_clones                    2366       171.00 MB           556        36.67 MB
-backup_snapshots                    3414       241.39 MB           338        19.39 MB
+documents                           1198       307.71 MB           250        68.27 MB
+deeply_nested_archives              1329        61.99 MB          1329        61.99 MB
+downloads_inbox                     1364        68.73 MB           653        47.95 MB
+media                               2656       409.70 MB           288        45.08 MB
+source_code                        13683       106.73 MB          6239        32.44 MB
+shared_corporate_nas                 869        44.92 MB           485        30.92 MB
+workspace_clones                     935        46.42 MB           227        10.68 MB
+backup_snapshots                    1340        66.61 MB           149         5.99 MB
 dedup_edge_cases                       6         2.38 MB             0          0.00 B
 
   >> Pedagogical Note for Professor:
@@ -102,11 +131,11 @@ dedup_edge_cases                       6         2.38 MB             0          
 ========================================================================================
 4. MULTI-TIER HASHING & DISK I/O PRUNING HIERARCHY
 ========================================================================================
-Tier 1: Unique Size Files Discarded in O(1):  14132 (24.1% of all files)
-Tier 2: 4KB MurmurHash3 Prefix Hashes Computed:44497
-Tier 2: Prefix Mismatches Pruned (<4KB Read): 4546
-Tier 3: Full Cryptographic SHA-256 Evaluated: 39951
-Estimated Physical Disk Read I/O Avoided:     1.25 GB
+Tier 1: Unique Size Files Discarded in O(1):  5402 (23.1% of all files)
+Tier 2: 4KB MurmurHash3 Prefix Hashes Computed:17966
+Tier 2: Prefix Mismatches Pruned (<4KB Read): 2292
+Tier 3: Full Cryptographic SHA-256 Evaluated: 15674
+Estimated Physical Disk Read I/O Avoided:     358.04 MB
 
   >> Pedagogical Note for Professor:
      Disk I/O is the primary bottleneck in large storage systems. By filtering files
@@ -118,12 +147,12 @@ Estimated Physical Disk Read I/O Avoided:     1.25 GB
 ========================================================================================
 Dynamically Allocated Bitset Size (m):        958506 bits (117.01 KB)
 Optimal Hash Functions Count (k):             7
-Bitset Saturation Fill Ratio:                 10.72%
-Total Set Membership Queries:                 39951
-True Negative Rejections (O(k) bit tests):    15520
-Reported Positives (Secondary Table Queries): 24431
+Bitset Saturation Fill Ratio:                 4.33%
+Total Set Membership Queries:                 15674
+True Negative Rejections (O(k) bit tests):    6054
+Reported Positives (Secondary Table Queries): 9620
 Observed False Positives:                     0
-Theoretical Target False Positive Rate (p):   1.62e-07
+Theoretical Target False Positive Rate (p):   2.83e-10
 Empirical False Positive Rate:                0.00e+00
 
   >> Pedagogical Note for Professor:
@@ -136,14 +165,14 @@ Empirical False Positive Rate:                0.00e+00
 ========================================================================================
 6. PRIMARY INVERTED HASH TABLE DIAGNOSTICS & TELEMETRY
 ========================================================================================
-Distinct Cryptographic Fingerprints Stored:   15520
-Allocated Buckets (Power-of-Two Capacity):    32768
-Current Table Load Factor (lambda):           0.474 (Threshold: 0.75)
-Dynamic Rehashing Expansion Events:           3
-Chained Bucket Collisions Resolved:           3176
+Distinct Cryptographic Fingerprints Stored:   6054
+Allocated Buckets (Power-of-Two Capacity):    8192
+Current Table Load Factor (lambda):           0.739 (Threshold: 0.75)
+Dynamic Rehashing Expansion Events:           1
+Chained Bucket Collisions Resolved:           1783
 Maximum Collision Chain Depth:                5
-Average Non-Empty Chain Length:               1.26
-Collision Chain Length Variance:              0.2744
+Average Non-Empty Chain Length:               1.42
+Collision Chain Length Variance:              0.4389
 
   >> Pedagogical Note for Professor:
      DedupFS implements a custom chained hash table mapping SHA-256 -> vector<FileInfo>.
@@ -153,8 +182,8 @@ Collision Chain Length Variance:              0.2744
 ========================================================================================
 7. STREAMING BYTE VERIFICATION & ATOMIC CONSOLIDATION
 ========================================================================================
-Chunk-by-Chunk Byte Verifications Performed:  24431
-Exact 100% Byte-by-Byte Confirmed Matches:    24431
+Chunk-by-Chunk Byte Verifications Performed:  9620
+Exact 100% Byte-by-Byte Confirmed Matches:    9620
 Byte Verifications Rejected (Hash Collisions):0
 
   >> Pedagogical Note for Professor:
@@ -166,15 +195,15 @@ Byte Verifications Rejected (Hash Collisions):0
 ========================================================================================
 8. EXECUTION LATENCY & HARDWARE PROFILING
 ========================================================================================
-Directory Scan Duration:                      1.65 s
-Multi-Tier Hashing & Bloom Indexing Duration: 16.47 s
-Storage Optimization & Consolidation Duration:51.26 ms
-Total End-to-End Runtime:                     18.60 s
-Overall Engine Processing Throughput:         219.81 MB/s
-Peak Resident Memory Footprint (RSS):         43.98 MB
+Directory Scan Duration:                      412.91 ms
+Multi-Tier Hashing & Bloom Indexing Duration: 5.21 s
+Storage Optimization & Consolidation Duration:22.13 ms
+Total End-to-End Runtime:                     5.80 s
+Overall Engine Processing Throughput:         192.13 MB/s
+Peak Resident Memory Footprint (RSS):         32.21 MB
 
-Associated File-Level Duplicate Audit: reports/duplicates_20261101_144928.txt
-Associated Standalone HTML Report:     reports/report_20261101_144928.html
+Associated File-Level Duplicate Audit: reports/duplicates_20261101_221822.txt
+Associated Standalone HTML Report:     reports/report_20261101_221822.html
 ========================================================================================
                              END OF EXECUTION REPORT
 ========================================================================================
