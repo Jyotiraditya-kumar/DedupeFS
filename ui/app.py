@@ -13,6 +13,7 @@ from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_file
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 BINARY_PATH = PROJECT_ROOT / "bin" / "dedupfs"
 REPORTS_DIR = PROJECT_ROOT / "reports"
