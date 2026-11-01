@@ -85,7 +85,7 @@ void DedupPipeline::process_size_bucket(uintmax_t /*size*/, std::vector<FileInfo
 
 DedupStats DedupPipeline::run() {
     utils::Timer total_timer;
-    utils::Logger::header("DEDUPFS PHASE 1 ENGINE INITIALIZATION");
+    utils::Logger::header("DEDUPFS PIPELINE INITIALIZATION");
     utils::Logger::info("Target Directory: " + config_.root_path);
     utils::Logger::info("Execution Mode:   " + std::string(config_.mode == DedupMode::DRY_RUN ? "DRY-RUN (Audit only)" : "OPTIMIZE (Hard-link consolidation)"));
     utils::Logger::info("Bloom Target FPR: " + std::to_string(config_.bloom_target_fpr * 100.0) + "%");

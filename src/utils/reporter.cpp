@@ -459,7 +459,7 @@ void Reporter::generate_html_report(
         << "<div class=\"container\">\n"
         << "  <div class=\"header\">\n"
         << "    <h1>DedupFS: Storage Evaluation & Telemetry Report</h1>\n"
-        << "    <div class=\"subtitle\">M.Tech Computer Science &bull; Advanced Data Structures (M.Tech Semester 1) &bull; Phase 1 Review 2</div>\n"
+        << "    <div class=\"subtitle\">M.Tech Computer Science &bull; Advanced Data Structures (CS503) &bull; Project Evaluation Report</div>\n"
         << "    <div class=\"meta-grid\">\n"
         << "      <div class=\"meta-item\"><span class=\"meta-label\">Authors</span><span class=\"meta-val\">Aryan Ravi Zodape (206126006) &amp; Jyotiraditya Kumar (206126014)</span></div>\n"
         << "      <div class=\"meta-item\"><span class=\"meta-label\">Execution Time</span><span class=\"meta-val\">" << time_str << "</span></div>\n"

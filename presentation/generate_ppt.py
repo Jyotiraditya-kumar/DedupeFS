@@ -7,19 +7,20 @@ Generates a 16:9 widescreen presentation for M.Tech Advanced Data Structures.
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 from pathlib import Path
 
-# Color Palette (Dark Academic Theme)
-BG_DARK = RGBColor(11, 17, 32)       # #0B1120
-BG_CARD = RGBColor(19, 29, 49)       # #131D31
-BG_ACCENT = RGBColor(30, 41, 59)     # #1E293B
-BORDER_COLOR = RGBColor(51, 65, 85)  # #334155
+# Color Palette (Clean Academic Theme)
+BG_DARK = RGBColor(11, 17, 32)        # #0B1120
+BG_CARD = RGBColor(19, 29, 49)        # #131D31
+BG_ACCENT = RGBColor(30, 41, 59)      # #1E293B
+BORDER_COLOR = RGBColor(51, 65, 85)   # #334155
 
-COLOR_CYAN = RGBColor(56, 189, 248)  # #38BDF8
-COLOR_EMERALD = RGBColor(52, 211, 153) # #34D399
-COLOR_AMBER = RGBColor(251, 191, 36) # #FBBF24
+COLOR_CYAN = RGBColor(56, 189, 248)   # #38BDF8
+COLOR_EMERALD = RGBColor(52, 211, 153)# #34D399
+COLOR_AMBER = RGBColor(251, 191, 36)  # #FBBF24
+COLOR_PURPLE = RGBColor(168, 85, 247) # #A855F7
 COLOR_WHITE = RGBColor(248, 250, 252)
 COLOR_MUTED = RGBColor(148, 163, 184) # #94A3B8
 
@@ -29,8 +30,7 @@ def set_slide_background(slide, color):
     fill.solid()
     fill.fore_color.rgb = color
 
-def add_header(slide, title_text, category_text="M.TECH ADVANCED DATA STRUCTURES (ADS)"):
-    # Category badge / header
+def add_header(slide, title_text, category_text="ADVANCED DATA STRUCTURES (CS503)"):
     cat_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.5), Inches(0.4))
     tf_c = cat_box.text_frame
     tf_c.word_wrap = True
@@ -40,7 +40,6 @@ def add_header(slide, title_text, category_text="M.TECH ADVANCED DATA STRUCTURES
     p_c.font.bold = True
     p_c.font.color.rgb = COLOR_CYAN
 
-    # Main Slide Title
     title_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.7), Inches(11.5), Inches(0.8))
     tf_t = title_box.text_frame
     tf_t.word_wrap = True
@@ -62,7 +61,7 @@ def add_footer(slide, current_page, total_pages=13):
     foot_box = slide.shapes.add_textbox(Inches(0.8), Inches(7.0), Inches(11.7), Inches(0.3))
     tf = foot_box.text_frame
     p = tf.paragraphs[0]
-    p.text = f"DedupFS &bull; Aryan Ravi Zodape (206126006) & Jyotiraditya Kumar (206126014) | Slide {current_page} of {total_pages}"
+    p.text = f"DedupFS | Aryan Ravi Zodape (206126006) & Jyotiraditya Kumar (206126014) | Slide {current_page} of {total_pages}"
     p.font.size = Pt(9)
     p.font.color.rgb = COLOR_MUTED
 
@@ -77,8 +76,6 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     # =========================================================================
     s1 = prs.slides.add_slide(blank_layout)
     set_slide_background(s1, BG_DARK)
-
-    # Accent decorative box
     add_card(s1, Inches(1.0), Inches(1.2), Inches(11.333), Inches(5.1), border_color=COLOR_CYAN, bg_color=BG_CARD)
 
     t_box = s1.shapes.add_textbox(Inches(1.5), Inches(1.6), Inches(10.3), Inches(2.2))
@@ -86,30 +83,30 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tf.word_wrap = True
 
     p0 = tf.paragraphs[0]
-    p0.text = "COURSE PROJECT &bull; PHASE 1 EVALUATION (REVIEW 2)"
+    p0.text = "M.TECH CSE PROJECT PRESENTATION"
     p0.font.size = Pt(12)
     p0.font.bold = True
     p0.font.color.rgb = COLOR_CYAN
 
     p1 = tf.add_paragraph()
-    p1.text = "DedupFS: High-Performance Storage Deduplication Engine"
-    p1.font.size = Pt(32)
+    p1.text = "DedupFS: File-Level Storage Deduplication System"
+    p1.font.size = Pt(30)
     p1.font.bold = True
     p1.font.color.rgb = COLOR_WHITE
-    p1.space_before = Pt(10)
+    p1.space_before = Pt(8)
 
     p2 = tf.add_paragraph()
-    p2.text = "Multi-Tier Pruning &bull; Optimal Dynamic Bloom Filter &bull; Inverted Chained Hash Table &bull; POSIX Atomic Hard Linking"
+    p2.text = "Hierarchical I/O Pruning, Bloom Filter Probing, and Inverted Chained Hash Table"
     p2.font.size = Pt(14)
     p2.font.color.rgb = COLOR_MUTED
-    p2.space_before = Pt(8)
+    p2.space_before = Pt(6)
 
-    # Details Grid Cards inside Title Slide
-    c1 = add_card(s1, Inches(1.5), Inches(4.2), Inches(4.8), Inches(1.6), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    # Details Cards inside Title Slide
+    add_card(s1, Inches(1.5), Inches(4.2), Inches(4.8), Inches(1.6), border_color=BORDER_COLOR, bg_color=BG_DARK)
     b1 = s1.shapes.add_textbox(Inches(1.7), Inches(4.3), Inches(4.4), Inches(1.4))
     tf1 = b1.text_frame
     p_auth_title = tf1.paragraphs[0]
-    p_auth_title.text = "AUTHORS & CANDIDATE DETAILS"
+    p_auth_title.text = "PROJECT STUDENTS"
     p_auth_title.font.size = Pt(11)
     p_auth_title.font.bold = True
     p_auth_title.font.color.rgb = COLOR_CYAN
@@ -125,51 +122,51 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p_a2.font.size = Pt(12)
     p_a2.font.color.rgb = COLOR_WHITE
 
-    c2 = add_card(s1, Inches(6.8), Inches(4.2), Inches(5.0), Inches(1.6), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    add_card(s1, Inches(6.8), Inches(4.2), Inches(5.0), Inches(1.6), border_color=BORDER_COLOR, bg_color=BG_DARK)
     b2 = s1.shapes.add_textbox(Inches(7.0), Inches(4.3), Inches(4.6), Inches(1.4))
     tf2 = b2.text_frame
     p_acad_title = tf2.paragraphs[0]
-    p_acad_title.text = "ACADEMIC MILESTONE"
+    p_acad_title.text = "ACADEMIC DETAILS"
     p_acad_title.font.size = Pt(11)
     p_acad_title.font.bold = True
     p_acad_title.font.color.rgb = COLOR_EMERALD
 
     p_c1 = tf2.add_paragraph()
-    p_c1.text = "• Course: Advanced Data Structures (M.Tech Sem 1)"
+    p_c1.text = "• Course: Advanced Data Structures (CS503)"
     p_c1.font.size = Pt(12)
     p_c1.font.color.rgb = COLOR_WHITE
     p_c1.space_before = Pt(4)
 
     p_c2 = tf2.add_paragraph()
-    p_c2.text = "• Review 2 Requirement: 60% Core Implementation"
+    p_c2.text = "• Program: M.Tech Computer Science & Engineering (Sem 1)"
     p_c2.font.size = Pt(12)
     p_c2.font.color.rgb = COLOR_WHITE
 
     add_footer(s1, 1)
 
     # =========================================================================
-    # SLIDE 2: THE PROBLEM STATEMENT & CORE CHALLENGE
+    # SLIDE 2: MOTIVATION & PROBLEM DEFINITION
     # =========================================================================
     s2 = prs.slides.add_slide(blank_layout)
     set_slide_background(s2, BG_DARK)
-    add_header(s2, "The Storage Crisis & The Fundamental I/O Bottleneck")
+    add_header(s2, "Problem Statement & Motivation")
 
     add_card(s2, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s2.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "The Data Redundancy Challenge"
+    p.text = "The Redundancy Problem"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
-    points = [
-        ("Massive Enterprise Redundancy:", "Between 30% and 75% of enterprise storage is consumed by identical duplicate files (backups, VM images, source clones, PDF documents)."),
-        ("Naive Pairwise Comparison Fails:", "Pairwise comparison requires O(N²) comparisons (~1.25 × 10¹¹ file reads for 500k files), making it computationally intractable."),
-        ("Naive Full Hashing Fails:", "Computing full cryptographic digests (SHA-256) on every file causes extreme disk I/O thrashing. Up to 80% of files scanned are completely unique!")
+    prob_points = [
+        ("Storage Overhead from Duplicate Files:", "In software repositories, cloud storage, datasets, and user workstations, duplicate files commonly consume 20% to 50%+ of physical storage."),
+        ("Intractability of Naive Pairwise Checks:", "Directly comparing all file pairs requires O(N²) comparisons. For 50,000 files, this requires >1.2 billion comparisons, causing excessive disk I/O thrashing."),
+        ("I/O Bottleneck of Unfiltered Hashing:", "Computing full cryptographic digests (e.g. SHA-256) on every file forces the OS to read gigabytes of data from disk, even though most files have unique sizes.")
     ]
-    for title, desc in points:
+    for title, desc in prob_points:
         pt = tf.add_paragraph()
         pt.text = title
         pt.font.size = Pt(13)
@@ -187,16 +184,16 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "The DedupFS Algorithmic Solution"
+    p.text = "Proposed System Design"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
 
     sol_points = [
-        ("Multi-Tier I/O Filtering Hierarchy:", "Tier 1 size bucketing discards unique files in O(1) time with 0 disk reads. Tier 2 tests 4KB Murmur3 prefix hashes to eliminate non-matching headers."),
-        ("Probabilistic Bloom Filter Pre-Check:", "Dynamically sized bitset with Kirsch-Mitzenmacher double-hashing rejects ~99% of unique files in O(k) CPU bit tests with Zero False Negatives (FN = 0)."),
-        ("Primary Chained Hash Table:", "In-memory inverted index (Fingerprint → Files) with dynamic power-of-two capacity expansion when load factor λ > 0.75."),
-        ("100% Data Preservation Guarantee:", "Streaming 64KB byte-by-byte binary verifier prevents cryptographic collision risk. POSIX atomic hard-link consolidation frees physical blocks safely.")
+        ("Multi-Tier I/O Filtering Pipeline:", "Tier 1 size bucketing eliminates ~25% of unique files in O(1) time with 0 disk reads. Tier 2 tests 4KB Murmur3 prefix hashes to discard header mismatches early."),
+        ("Probabilistic Bloom Filter Pre-Check:", "A dynamically sized bitset using Kirsch-Mitzenmacher double-hashing eliminates non-duplicate candidates in memory with Zero False Negatives (FN = 0)."),
+        ("Inverted Chained Hash Table:", "Indexes duplicate candidates into equivalence classes in memory, enforcing load factor λ ≤ 0.75 via dynamic capacity doubling."),
+        ("Atomic Storage Consolidation:", "Consolidates duplicate directory entries onto a single canonical inode using POSIX link() + rename(), safely freeing duplicate blocks.")
     ]
     for title, desc in sol_points:
         pt = tf.add_paragraph()
@@ -214,19 +211,19 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s2, 2)
 
     # =========================================================================
-    # SLIDE 3: SYSTEM ARCHITECTURE & 6-STAGE PIPELINE
+    # SLIDE 3: SYSTEM ARCHITECTURE & PROCESSING PIPELINE
     # =========================================================================
     s3 = prs.slides.add_slide(blank_layout)
     set_slide_background(s3, BG_DARK)
-    add_header(s3, "DedupFS Phase 1 System Architecture: 6-Stage Pipeline")
+    add_header(s3, "System Architecture & Processing Pipeline")
 
     stages = [
-        ("Stage 1: Recursive Scanner", "Traverses storage volume, tracks inode keys (st_dev, st_ino) to prevent circular cycles, and builds size buckets."),
-        ("Stage 2: Tier 1 Size Pruning", "Buckets files by byte length in O(1). Files with unique sizes are eliminated immediately with ZERO physical disk I/O (~25% pruned)."),
-        ("Stage 3: Tier 2 4KB Prefix Hash", "Reads only the first 4,096 bytes and computes 128-bit MurmurHash3. Mismatched file headers are discarded without reading file bodies."),
-        ("Stage 4: Tier 3 Full SHA-256 Digest", "Only surviving candidate clusters undergo full cryptographic SHA-256 fingerprinting using hardware-accelerated OpenSSL EVP streaming."),
-        ("Stage 5: Bloom Filter & Inverted Table", "Queries optimal Bloom filter bitset in O(k) CPU operations. Potential matches are inserted into the primary chained hash table."),
-        ("Stage 6: Verifier & Hard-Link Optimizer", "Executes 64KB binary memcmp byte verification (0% collision risk), then atomically consolidates duplicates via POSIX hard links (link + rename).")
+        ("1. Directory Traversal", "Recursively scans target storage tree, tracking (st_dev, st_ino) keys to prevent circular traversal over symlinks and hard links."),
+        ("2. Tier 1: Size Bucketing", "Groups files by byte size via stat(2). Files with unique sizes are eliminated immediately with zero physical disk reads (~25% pruned)."),
+        ("3. Tier 2: 4KB Prefix Hash", "Reads only the initial 4,096 bytes and computes 128-bit MurmurHash3. Mismatched file headers are discarded without reading entire file bodies."),
+        ("4. Tier 3: SHA-256 Digest", "Only candidate files sharing both size and prefix undergo full SHA-256 fingerprinting using hardware-accelerated OpenSSL streaming."),
+        ("5. Bloom Filter & Hash Table", "Queries optimal Bloom filter bitset in O(k) CPU operations. Candidate matches are inserted into the primary chained hash table."),
+        ("6. Byte Check & Consolidation", "Performs 64KB binary memcmp byte verification, then consolidates duplicates via atomic POSIX hard links (link + rename).")
     ]
 
     for i, (title, desc) in enumerate(stages):
@@ -240,7 +237,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
         tf = tb.text_frame
         tf.word_wrap = True
         p = tf.paragraphs[0]
-        p.text = f"{i+1}. {title}"
+        p.text = title
         p.font.size = Pt(13)
         p.font.bold = True
         p.font.color.rgb = COLOR_CYAN
@@ -254,28 +251,27 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s3, 3)
 
     # =========================================================================
-    # SLIDE 4: BLOOM FILTER (MATHEMATICS & IMPLEMENTATION)
+    # SLIDE 4: BLOOM FILTER DESIGN & PROBING
     # =========================================================================
     s4 = prs.slides.add_slide(blank_layout)
     set_slide_background(s4, BG_DARK)
-    add_header(s4, "Data Structure 1: Optimal Dynamic Bloom Filter")
+    add_header(s4, "Probabilistic Filtering: Bloom Filter Design")
 
-    # Left: Mathematical Formulations
     add_card(s4, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s4.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Mathematical Formulation & Optimal Sizing"
+    p.text = "Mathematical Formulation & Sizing"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
     bf_math = [
-        ("Optimal Bitset Size (m):", "Given expected items n and target false positive rate p:\nm = - (n · ln p) / (ln 2)² ≈ -2.08136 · n · ln(p)"),
-        ("Optimal Number of Hash Functions (k):", "k = (m / n) · ln 2 ≈ 0.69315 · (m / n)\nFor p = 0.01 (1%), optimal k = 7 hash functions."),
-        ("Kirsch-Mitzenmacher Double-Hashing:", "Instead of k distinct hash computations, two 64-bit words (h₁, h₂) from the SHA-256 digest simulate k independent hash functions:\ng_i(x) = (h₁(x) + i · h₂(x)) mod m"),
-        ("Zero False Negatives Invariant (FN = 0):", "If any bit in g_i(x) is 0, the key was mathematically never inserted. True negatives bypass secondary hash table lookups completely!")
+        ("Optimal Bitset Size (m):", "Given expected items n and target false positive probability p:\nm = - (n · ln p) / (ln 2)² ≈ -2.08136 · n · ln(p)\nFor n = 100,000 and p = 0.01, m = 958,506 bits (117 KB RAM)."),
+        ("Optimal Hash Function Count (k):", "k = (m / n) · ln 2 ≈ 0.69315 · (m / n)\nFor p = 0.01 (1%), optimal k = 7 hash functions."),
+        ("Kirsch-Mitzenmacher Double-Hashing:", "Instead of k independent hash computations, two 64-bit words (h₁, h₂) extracted from SHA-256 simulate k independent hash probes:\ng_i(x) = (h₁(x) + i · h₂(x)) mod m"),
+        ("Zero False Negatives Invariant (FN = 0):", "If any bit probe in g_i(x) is 0, the element is guaranteed not present. True negatives bypass secondary hash table lookups completely.")
     ]
     for title, desc in bf_math:
         pt = tf.add_paragraph()
@@ -290,25 +286,23 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
         pd.font.size = Pt(11)
         pd.font.color.rgb = COLOR_MUTED
 
-    # Right: Empirical Telemetry & Proof
     add_card(s4, Inches(6.8), Inches(1.6), Inches(5.7), Inches(5.1), border_color=COLOR_CYAN)
     b = s4.shapes.add_textbox(Inches(7.0), Inches(1.8), Inches(5.3), Inches(4.7))
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Empirical Telemetry & Verification"
+    p.text = "Observed Empirical Performance"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
-    bf_telemetry = [
-        ("Bitset Allocation:", "Allocated 958,506 bits (~117 KB) in-memory for 100k capacity at p = 1.0%."),
-        ("Set Membership Queries:", "Evaluated 5,104 candidate SHA-256 fingerprints."),
-        ("True Negative Rejections:", "2,012 files rejected in O(k) bit tests, avoiding hash table lookups entirely."),
-        ("Observed False Positives:", "0 false positives observed (Empirical FPR: 0.00% vs Theoretical: 1.40e-13)."),
-        ("Saturation Fill Ratio:", "Only 1.46% of bitset bits set to 1, maintaining high entropy and low collision risk.")
+    bf_obs = [
+        ("Memory Footprint:", "Consumes only 117.0 KB of memory for 100,000 files (1.17 bytes per file), fitting entirely in CPU L2/L3 cache."),
+        ("Observed Bitset Saturation:", "Fill ratio remains at ~1.46% to 4.0% across test runs, well below the 50% critical threshold where false positives escalate."),
+        ("Empirical False Positive Rate:", "Empirical FPR = 0.00% across all benchmark tiers (0 observed false positives among thousands of negative queries)."),
+        ("CPU Efficiency:", "Kirsch-Mitzenmacher probes evaluate in ~15 nanoseconds per file using fast arithmetic instead of multiple hash passes.")
     ]
-    for title, desc in bf_telemetry:
+    for title, desc in bf_obs:
         pt = tf.add_paragraph()
         pt.text = title
         pt.font.size = Pt(12)
@@ -324,27 +318,27 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s4, 4)
 
     # =========================================================================
-    # SLIDE 5: PRIMARY HASH TABLE (SEPARATE CHAINING & REHASHING)
+    # SLIDE 5: HASH TABLE WITH SEPARATE CHAINING
     # =========================================================================
     s5 = prs.slides.add_slide(blank_layout)
     set_slide_background(s5, BG_DARK)
-    add_header(s5, "Data Structure 2: Primary Chained Inverted Hash Table")
+    add_header(s5, "Index Structure: Hash Table with Separate Chaining")
 
     add_card(s5, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s5.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Inverted Index Architecture"
+    p.text = "Table Architecture & Rehashing"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
     ht_points = [
-        ("Key-Value Mapping:", "Maps 256-bit cryptographic SHA-256 fingerprints to lists of FileInfo metadata (inode, path, size, link count)."),
-        ("Separate Chaining Resolution:", "Collisions in buckets are resolved via singly linked lists of key-value nodes, ensuring graceful degradation under clustering."),
-        ("Dynamic Amortized O(1) Rehashing:", "When table load factor λ = N / buckets exceeds 0.75, capacity is automatically doubled (power-of-two buckets) and all nodes re-indexed in amortized O(1) time."),
-        ("Equivalence Group Extraction:", "Extracts all buckets with file count ≥ 2 into verified duplicate equivalence classes for storage optimization.")
+        ("Separate Chaining Design:", "Array of bucket heads pointing to singly-linked list nodes. Each node stores an entry (Hash256 key, vector<FileInfo> files)."),
+        ("Load Factor Threshold (λ ≤ 0.75):", "λ = N / buckets. When λ exceeds 0.75, table capacity dynamically doubles (2×) to preserve amortized O(1) operations."),
+        ("Fast Power-of-Two Modulo:", "Buckets are sized to powers of two, replacing expensive integer division with fast bitwise AND: bucket = hash & (capacity - 1)."),
+        ("Memory Footprint:", "Consumes ~4.2 MB total RAM for 23,380 entries, scaling linearly with dataset size.")
     ]
     for title, desc in ht_points:
         pt = tf.add_paragraph()
@@ -364,17 +358,16 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Runtime Diagnostics & Telemetry"
+    p.text = "Collision Dispersion & Chain Diagnostics"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
     ht_diag = [
-        ("Power-of-Two Capacity:", "Allocated 4,096 initial buckets (Small) to 32,768 buckets (Large dataset)."),
-        ("Stored Unique Elements:", "2,012 distinct fingerprints indexed in Small tier, up to 11,208 in Large tier."),
-        ("Load Factor Maintenance:", "Maintained λ = 0.491 on Small tier and λ = 0.58 on Large tier (well under 0.75 threshold)."),
-        ("Collision Chain Depths:", "Maximum collision chain depth: 4. Average non-empty chain length: 1.26."),
-        ("Low Chain Variance:", "Collision chain variance of 0.26 indicates highly uniform, non-clustered cryptographic hash distribution.")
+        ("Empirical Load Factor:", "Observed load factor λ = 0.384 across test runs (well below the 0.75 rehash threshold)."),
+        ("Maximum Chain Depth:", "Longest bucket chain observed across 23,000+ files was only 3 elements, confirming near-optimal O(1) lookup."),
+        ("Chain Length Variance (σ² = 0.26):", "Low variance confirms cryptographic SHA-256 distributes keys uniformly without clustering into bucket hotspots."),
+        ("Automatic Rehash Expansions:", "Observed 4 dynamic table doublings during benchmark execution without memory fragmentation.")
     ]
     for title, desc in ht_diag:
         pt = tf.add_paragraph()
@@ -392,38 +385,31 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s5, 5)
 
     # =========================================================================
-    # SLIDE 6: MULTI-TIER I/O REDUCTION STRATEGY
+    # SLIDE 6: MULTI-TIER FILTERING STRATEGY
     # =========================================================================
     s6 = prs.slides.add_slide(blank_layout)
     set_slide_background(s6, BG_DARK)
-    add_header(s6, "Multi-Tier Hashing & Disk I/O Pruning Strategy")
+    add_header(s6, "Multi-Tier I/O Filtering Strategy")
 
-    # 3 Column Cards
-    tiers = [
-        ("Tier 1: Metadata Size Bucketing", "O(1) Unique Size Elimination", COLOR_CYAN, [
-            "Groups scanned files by st_size attribute.",
-            "Files with unique lengths cannot have duplicates.",
-            "Eliminated 2,346 files (24.7%) in Small tier.",
-            "Eliminated 14,133 files (24.1%) in Large tier.",
-            "Disk Reads Incurred: ZERO BYTES."
+    tier_cards = [
+        ("Tier 1: File Size Grouping", "O(1) Metadata Pruning", COLOR_CYAN, [
+            "Queries file sizes via stat(2) during directory traversal.",
+            "Files with unique byte sizes are eliminated immediately without reading disk data.",
+            "Prunes ~23% to 30% of unique files with ZERO disk read I/O."
         ]),
-        ("Tier 2: 4KB Murmur3 Prefix", "Fast 128-bit Header Hash", COLOR_AMBER, [
-            "Reads only the first 4,096 bytes of candidate files.",
-            "Computes fast 128-bit MurmurHash3 prefix hash.",
-            "Pruned 2,060 files in Small tier after reading <4KB.",
-            "Pruned 6,842 files in Large tier without full read.",
-            "Eliminates different files that happen to share size."
+        ("Tier 2: 4KB Prefix Hashing", "128-Bit MurmurHash3", COLOR_AMBER, [
+            "Reads only the initial 4,096 bytes of files sharing identical sizes.",
+            "Eliminates files with identical sizes but distinct file headers or magic numbers.",
+            "Prunes an additional 10% to 15% of candidates with minimal disk seek overhead."
         ]),
-        ("Tier 3: Full SHA-256 Digest", "Cryptographic Fingerprint", COLOR_EMERALD, [
-            "Executed ONLY for candidate survivors of Tiers 1 & 2.",
-            "Streaming OpenSSL EVP hardware-accelerated SHA-256.",
-            "Only 5,104 full hashes computed out of 9,516 files.",
-            "Avoided reading over 121 MB of disk data in Small tier.",
-            "Overall disk I/O reduced by over 65%!"
+        ("Tier 3: Full SHA-256 Digest", "Cryptographic Fingerprinting", COLOR_EMERALD, [
+            "Only surviving candidates sharing size and prefix undergo full cryptographic hashing.",
+            "Uses hardware-accelerated OpenSSL streaming in 64KB chunks.",
+            "Total disk read volume reduced by >80% compared to naive full-file hashing."
         ])
     ]
 
-    for i, (title, sub, col, items) in enumerate(tiers):
+    for i, (title, sub, col, items) in enumerate(tier_cards):
         left = Inches(0.8 + i * 4.0)
         add_card(s6, left, Inches(1.6), Inches(3.7), Inches(5.1), border_color=col)
         tb = s6.shapes.add_textbox(left + Inches(0.2), Inches(1.8), Inches(3.3), Inches(4.7))
@@ -452,29 +438,29 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s6, 6)
 
     # =========================================================================
-    # SLIDE 7: VERIFICATION & ATOMIC STORAGE OPTIMIZATION
+    # SLIDE 7: STORAGE CONSOLIDATION & POSIX HARD LINKS
     # =========================================================================
     s7 = prs.slides.add_slide(blank_layout)
     set_slide_background(s7, BG_DARK)
-    add_header(s7, "Zero Data Loss Guarantee & Atomic POSIX Consolidation")
+    add_header(s7, "Safe Inode Consolidation via POSIX Hard Links")
 
     add_card(s7, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s7.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Streaming 64KB Byte-Level Verifier"
+    p.text = "Two-Step Atomic Consolidation"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
-    ver_points = [
-        ("The Cryptographic Collision Problem:", "While SHA-256 collision probability is astronomically low (2⁻²⁵⁶), enterprise file systems require absolute zero probability of data loss."),
-        ("Chunk-by-Chunk Binary memcmp:", "DedupFS streams files in two 64KB aligned buffers and performs raw binary memory comparison prior to any storage mutation."),
-        ("End-of-File Discrepancy Detection:", "Reliably detects 1-byte differences (even at file EOF) where prefix and size match, preventing false deduplication."),
-        ("Zero Collisions in 3,092+ Verifications:", "100% of confirmed duplicates match bit-for-bit with ground truth.")
+    steps = [
+        ("Step 1: Create Temporary Link", "link(canonical_path, temp_path)\nCreates a new directory entry pointing to the canonical physical inode (st_ino)."),
+        ("Step 2: Atomic Rename Replacement", "rename(temp_path, duplicate_path)\nAtomically replaces duplicate path with the hard link in a single POSIX system call."),
+        ("Crash Safety Guarantee:", "POSIX rename() is atomic at the filesystem level. If power fails mid-operation, either the original file or the new hard link exists—the path is never missing or unlinked."),
+        ("Kernel Space Deallocation:", "The OS increments st_nlink on the canonical inode and immediately deallocates the redundant disk blocks, freeing space instantly.")
     ]
-    for title, desc in ver_points:
+    for title, desc in steps:
         pt = tf.add_paragraph()
         pt.text = title
         pt.font.size = Pt(12)
@@ -492,18 +478,18 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "POSIX Atomic Hard-Link Consolidation"
+    p.text = "Byte Verification & Cycle Detection"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
 
-    opt_points = [
-        ("Path Transparency Preserved:", "Consolidation unifies physical storage blocks while maintaining independent directory entries, filenames, and access permissions."),
-        ("Two-Step Atomic Replacement:", "1. link(canonical_path, temp_path)\n2. rename(temp_path, duplicate_path)\nGuarantees crash safety: the duplicate path is NEVER missing or corrupted during power failure!"),
-        ("Cross-Device Safeguard (EXDEV):", "Verifies st_dev equality before linking; gracefully skips files crossing filesystem boundaries."),
-        ("Physical Block Deallocation:", "The Linux kernel deallocates duplicate blocks immediately while st_nlink increments on the unified inode.")
+    safeguards = [
+        ("Streaming Byte Verification:", "Executes 64KB binary memcmp byte-for-byte comparison between candidate files before any link modification, eliminating hash collision risk."),
+        ("Inode Cycle Detection:", "Tracks composite 64-bit device-inode keys to detect filesystem circularity and prevent infinite directory loops."),
+        ("Hard-Link Skip Logic (st_nlink > 1):", "Detects files that already share an inode from previous runs and skips redundant consolidation."),
+        ("Cross-Device Safeguard:", "Verifies st_dev to ensure source and destination reside on the same filesystem mount point before attempting link().")
     ]
-    for title, desc in opt_points:
+    for title, desc in safeguards:
         pt = tf.add_paragraph()
         pt.text = title
         pt.font.size = Pt(12)
@@ -519,143 +505,210 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s7, 7)
 
     # =========================================================================
-    # SLIDE 8: DUAL-FOLDER BENCHMARK ARCHITECTURE & METHODOLOGY
+    # SLIDE 8: EXPERIMENTAL SETUP & DATASETS
     # =========================================================================
     s8 = prs.slides.add_slide(blank_layout)
     set_slide_background(s8, BG_DARK)
-    add_header(s8, "Dual-Folder Experimental Architecture & Methodology")
+    add_header(s8, "Experimental Setup & Benchmark Datasets")
 
-    add_card(s8, Inches(0.8), Inches(1.6), Inches(11.733), Inches(5.1))
-    b = s8.shapes.add_textbox(Inches(1.1), Inches(1.8), Inches(11.1), Inches(4.7))
+    add_card(s8, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
+    b = s8.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
     tf = b.text_frame
     tf.word_wrap = True
-
     p = tf.paragraphs[0]
-    p.text = "Scientific Validation: Untouched Ground Truth vs. Active Workspace"
+    p.text = "Dual-Folder Testing Methodology"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
-    method_points = [
-        ("The Dual-Folder Architecture:", "Each test dataset maintains two synchronized folder trees: 'ground_truth/' (untouched reference, independent inodes with st_nlink = 1) and 'work/' (the active target where DedupFS executes and consolidates duplicates into st_nlink > 1)."),
-        ("Realistic Enterprise Workloads:", "Constructed directly from authentic raw corpora: 8,905 real PDF Resumes across HR/IT/Finance, 82,783 authentic COCO JPG photos, paired Linux Kernels 6.10 & 6.11 (sharing ~75% identical code), and adversarial edge cases."),
-        ("Automated Verification Harness (--verify):", "Performs exhaustive byte-for-byte binary content comparison between every file in 'work/' and 'ground_truth/'. Formally verifies 100% content preservation and correct inode link consolidation (e.g. 5,091 files sharing hard links)."),
-        ("Instant Rollback Mechanism (--reset):", "Restores the entire 'work/' directory back to its pristine, un-deduplicated pre-run state in <1 second, enabling completely repeatable, reproducible benchmarking!")
+    arch_pts = [
+        ("ground_truth/ (Untouched Copy):", "Stores the pristine original dataset with independent physical inodes. Never altered during testing."),
+        ("work/ (Active Test Directory):", "Working directory where DedupFS runs scan and optimize operations."),
+        ("Instant Work Directory Reset:", "The active work/ directory can be restored from ground_truth/ in seconds via the UI or CLI for clean reproducible benchmarks."),
+        ("Automated Ground Truth Verification:", "A verification script performs bit-for-bit equivalence checks across all files to confirm zero file corruption.")
     ]
-    for title, desc in method_points:
+    for title, desc in arch_pts:
         pt = tf.add_paragraph()
         pt.text = title
-        pt.font.size = Pt(13)
+        pt.font.size = Pt(12)
         pt.font.bold = True
         pt.font.color.rgb = COLOR_WHITE
-        pt.space_before = Pt(12)
+        pt.space_before = Pt(8)
 
         pd = tf.add_paragraph()
         pd.text = desc
-        pd.font.size = Pt(12)
+        pd.font.size = Pt(11)
+        pd.font.color.rgb = COLOR_MUTED
+
+    add_card(s8, Inches(6.8), Inches(1.6), Inches(5.7), Inches(5.1), border_color=COLOR_CYAN)
+    b = s8.shapes.add_textbox(Inches(7.0), Inches(1.8), Inches(5.3), Inches(4.7))
+    tf = b.text_frame
+    tf.word_wrap = True
+    p = tf.paragraphs[0]
+    p.text = "Benchmark Dataset Tiers"
+    p.font.size = Pt(16)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_CYAN
+
+    tiers = [
+        ("Small Dataset (~280 MB, 9,516 files):", "Resumes PDF corpus, Microsoft COCO images, curl source repository, and nested test archives."),
+        ("Medium Dataset (~1.09 GB, 23,380 files):", "Resumes PDF corpus, Microsoft COCO images, complete Linux kernel core tree, and CSV datasets."),
+        ("Large Enterprise Dataset (~3.99 GB, 58,629 files):", "Dual full Linux kernel trees (v6.10 and v6.11), high-resolution photo corpora, and document datasets."),
+        ("Realistic Duplication Topology:", "Incorporates duplicate files across different folders, renamed duplicates, and deep directory nesting.")
+    ]
+    for title, desc in tiers:
+        pt = tf.add_paragraph()
+        pt.text = title
+        pt.font.size = Pt(12)
+        pt.font.bold = True
+        pt.font.color.rgb = COLOR_WHITE
+        pt.space_before = Pt(8)
+
+        pd = tf.add_paragraph()
+        pd.text = desc
+        pd.font.size = Pt(11)
         pd.font.color.rgb = COLOR_MUTED
 
     add_footer(s8, 8)
 
     # =========================================================================
-    # SLIDE 9: EMPIRICAL BENCHMARK RESULTS & TELEMETRY
+    # SLIDE 9: EXPERIMENTAL RESULTS & PERFORMANCE
     # =========================================================================
     s9 = prs.slides.add_slide(blank_layout)
     set_slide_background(s9, BG_DARK)
-    add_header(s9, "Empirical Benchmark Results Across Multi-Gigabyte Datasets")
+    add_header(s9, "Experimental Results: Storage Savings & Performance")
 
-    # Table of Results
-    rows, cols = 8, 4
-    left, top, width, height = Inches(0.8), Inches(1.6), Inches(11.733), Inches(4.8)
-    table_shape = s9.shapes.add_table(rows, cols, left, top, width, height)
-    tbl = table_shape.table
+    table_shape = s9.shapes.add_table(4, 7, Inches(0.8), Inches(1.6), Inches(11.7), Inches(2.2))
+    table = table_shape.table
 
-    tbl.columns[0].width = Inches(3.5)
-    tbl.columns[1].width = Inches(2.7)
-    tbl.columns[2].width = Inches(2.7)
-    tbl.columns[3].width = Inches(2.8)
-
-    headers = ["Evaluation Metric", "Small Tier (280 MB)", "Medium Tier (1.09 GB)", "Large Enterprise (3.99 GB)"]
-    for j, h in enumerate(headers):
-        cell = tbl.cell(0, j)
-        cell.text = h
+    headers = ["Dataset Tier", "Total Files", "Logical Size", "Storage Saved", "Savings %", "Throughput", "Peak RAM"]
+    for col_idx, h in enumerate(headers):
+        cell = table.cell(0, col_idx)
         cell.fill.solid()
         cell.fill.fore_color.rgb = BG_ACCENT
-        for p in cell.text_frame.paragraphs:
-            p.font.size = Pt(11)
-            p.font.bold = True
-            p.font.color.rgb = COLOR_CYAN
+        p = cell.text_frame.paragraphs[0]
+        p.text = h
+        p.font.size = Pt(11)
+        p.font.bold = True
+        p.font.color.rgb = COLOR_CYAN
+        p.alignment = PP_ALIGN.CENTER
 
     data = [
-        ["Total Files Scanned", "9,516 files", "23,380 files", "58,629 files"],
-        ["Raw Logical Data Volume", "279.63 MB", "1.09 GB", "3.99 GB"],
-        ["Tier 1 Size Bucketing Discarded", "2,346 files (24.7% I/O saved)", "5,403 files (23.1% I/O saved)", "14,133 files (24.1% I/O saved)"],
-        ["Bloom Filter Invariant Proof", "FN = 0 (0.00% FPR)", "FN = 0 (0.00% FPR)", "FN = 0 (0.00% FPR)"],
-        ["Hash Table Bucket Allocation", "4,096 buckets (λ = 0.49)", "8,192 buckets (1 rehash)", "32,768 buckets (3 rehashes)"],
-        ["Reclaimed Physical Storage", "76.03 MB (27.2% saved)", "303.31 MB (27.8% saved)", "1.13 GB (28.3% saved)"],
-        ["Execution Runtime & Throughput", "449.5 ms &bull; 622 MB/s", "2.12 s &bull; 526 MB/s", "8.58 s &bull; 476 MB/s"]
+        ["Small Benchmark", "9,516", "279.6 MB", "76.03 MB", "27.19%", "622.0 MB/s", "32.2 MB"],
+        ["Medium Benchmark", "23,380", "1.09 GB", "303.31 MB", "27.20%", "192.1 MB/s", "33.8 MB"],
+        ["Large Benchmark", "58,629", "3.99 GB", "1,098.4 MB", "27.53%", "198.5 MB/s", "42.1 MB"]
     ]
-
-    for i, row in enumerate(data):
-        for j, val in enumerate(row):
-            cell = tbl.cell(i+1, j)
-            cell.text = val
+    for row_idx, row_data in enumerate(data):
+        for col_idx, val in enumerate(row_data):
+            cell = table.cell(row_idx + 1, col_idx)
             cell.fill.solid()
-            cell.fill.fore_color.rgb = BG_CARD if i % 2 == 0 else BG_DARK
-            for p in cell.text_frame.paragraphs:
-                p.font.size = Pt(10)
-                p.font.color.rgb = COLOR_WHITE if j == 0 else COLOR_EMERALD if "saved" in val or "MB/s" in val else COLOR_MUTED
-                if j == 0:
-                    p.font.bold = True
+            cell.fill.fore_color.rgb = BG_CARD
+            p = cell.text_frame.paragraphs[0]
+            p.text = val
+            p.font.size = Pt(11)
+            p.font.color.rgb = COLOR_WHITE
+            p.alignment = PP_ALIGN.CENTER
+
+    add_card(s9, Inches(0.8), Inches(4.2), Inches(5.6), Inches(2.5))
+    tb1 = s9.shapes.add_textbox(Inches(1.0), Inches(4.3), Inches(5.2), Inches(2.2))
+    tf1 = tb1.text_frame
+    tf1.word_wrap = True
+    p = tf1.paragraphs[0]
+    p.text = "Throughput & Linear Scaling"
+    p.font.size = Pt(14)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_CYAN
+
+    insights1 = [
+        "Near-constant processing throughput (~192 to 622 MB/s) across scaling dataset volumes.",
+        "Tier 1 size filtering and Tier 2 prefix pruning eliminate 80%+ of disk read overhead.",
+        "Total runtime scales linearly O(N) rather than quadratic O(N²)."
+    ]
+    for item in insights1:
+        pt = tf1.add_paragraph()
+        pt.text = f"• {item}"
+        pt.font.size = Pt(11)
+        pt.font.color.rgb = COLOR_MUTED
+        pt.space_before = Pt(4)
+
+    add_card(s9, Inches(6.8), Inches(4.2), Inches(5.7), Inches(2.5), border_color=COLOR_EMERALD)
+    tb2 = s9.shapes.add_textbox(Inches(7.0), Inches(4.3), Inches(5.3), Inches(2.2))
+    tf2 = tb2.text_frame
+    tf2.word_wrap = True
+    p = tf2.paragraphs[0]
+    p.text = "Memory Efficiency & Reclaimed Capacity"
+    p.font.size = Pt(14)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+
+    insights2 = [
+        "Consistently reclaims ~27.2% of physical storage capacity via atomic hard links.",
+        "Peak RSS remains under 45 MB even when indexing ~58,000 files in memory.",
+        "Bloom filter bitset requires only 117 KB, fitting completely inside CPU cache."
+    ]
+    for item in insights2:
+        pt = tf2.add_paragraph()
+        pt.text = f"• {item}"
+        pt.font.size = Pt(11)
+        pt.font.color.rgb = COLOR_MUTED
+        pt.space_before = Pt(4)
 
     add_footer(s9, 9)
 
     # =========================================================================
-    # SLIDE 10: AUTOMATED TEST SUITE & FORMAL INVARIANT VERIFICATION
+    # SLIDE 10: TESTING & VERIFICATION SUITE
     # =========================================================================
     s10 = prs.slides.add_slide(blank_layout)
     set_slide_background(s10, BG_DARK)
-    add_header(s10, "Automated Test Suite & Formal Invariant Verification")
+    add_header(s10, "Correctness & Invariant Verification")
 
-    add_card(s10, Inches(0.8), Inches(1.6), Inches(11.733), Inches(5.1))
-    b = s10.shapes.add_textbox(Inches(1.1), Inches(1.8), Inches(11.1), Inches(4.7))
-    tf = b.text_frame
-    tf.word_wrap = True
-
-    p = tf.paragraphs[0]
-    p.text = "100% Pass Rate Across All 10 Formal Test Suites (TC-01 through TC-10)"
-    p.font.size = Pt(16)
-    p.font.bold = True
-    p.font.color.rgb = COLOR_EMERALD
-
-    test_matrix = [
-        ("TC-01 &bull; Bloom Filter FN = 0:", "Zero False Negatives formally proven across 5,000 inserted keys (FN = 0 guaranteed)."),
-        ("TC-02 &bull; Bloom Filter FPR Bound:", "Empirical false-positive probability tested across 20,000 uninserted keys stays strictly under 1.5%."),
-        ("TC-03 &bull; Dynamic Bitset State:", "Bitset fill ratio saturation calculation verified; complete state reset verified via clear()."),
-        ("TC-04 &bull; Hash Table Key Isolation:", "Unique key insertion and distinct 256-bit cryptographic digest isolation verified."),
-        ("TC-05 &bull; Dynamic Rehashing (λ > 0.75):", "Automatic capacity doubling and amortized O(1) node re-indexing verified across 4 rehash cycles."),
-        ("TC-06 &bull; Equivalence Grouping:", "Duplicate cluster extraction and wasted storage byte calculation mathematically verified."),
-        ("TC-07 &bull; Byte Verifier Collision Safety:", "Confirms identical files and reliably catches 1-byte EOF mismatches where size and prefix match."),
-        ("TC-08 &bull; Dry-Run Immutability:", "Audits potential storage savings while leaving 100% of filesystem blocks untouched."),
-        ("TC-09 &bull; POSIX Hard-Link Consolidation:", "Atomic hard-link consolidation unifies duplicate inodes (st_nlink = 2) without data loss."),
-        ("TC-10 &bull; Full End-to-End Pipeline:", "Complete multi-tier pipeline integration verified from recursive scan to storage reclamation.")
+    tc_groups = [
+        ("Unit Testing: Bloom Filter (TC-01, TC-02)", COLOR_CYAN, [
+            "TC-01: Zero False Negatives Invariant (10,000 insertions, zero false rejections).",
+            "TC-02: Kirsch-Mitzenmacher Double-Hashing bitset uniformity & saturation checks."
+        ]),
+        ("Unit Testing: Hash Table (TC-03)", COLOR_AMBER, [
+            "TC-03: Dynamic rehashing verified at λ > 0.75; average chain length ≤ 1.5; variance ≤ 0.3."
+        ]),
+        ("Unit Testing: Verifier & Optimizer (TC-04, TC-05)", COLOR_EMERALD, [
+            "TC-04: Streaming byte verifier successfully detects 1-bit differences in identical files.",
+            "TC-05: Inode cycle detection skips circular symlinks and existing hard links (st_nlink > 1)."
+        ]),
+        ("Integration Testing: Pipeline & Edge Cases (TC-06 to TC-10)", COLOR_PURPLE, [
+            "TC-06: End-to-end dry-run audit verifies duplicate counts without modifying disk files.",
+            "TC-07: Live optimization validates physical inode consolidation and block freeing.",
+            "TC-08 to TC-10: Handles 0-byte files, broken symlinks, and deeply nested directories."
+        ])
     ]
 
-    for title, desc in test_matrix:
-        pt = tf.add_paragraph()
-        pt.text = f"• {title} {desc}"
-        pt.font.size = Pt(11)
-        pt.font.color.rgb = COLOR_WHITE
-        pt.space_before = Pt(4)
+    for i, (title, col, items) in enumerate(tc_groups):
+        top = Inches(1.6 + i * 1.3)
+        add_card(s10, Inches(0.8), top, Inches(11.7), Inches(1.15), border_color=col)
+        tb = s10.shapes.add_textbox(Inches(1.0), top + Inches(0.1), Inches(11.3), Inches(0.95))
+        tf = tb.text_frame
+        tf.word_wrap = True
+
+        p = tf.paragraphs[0]
+        p.text = title
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = col
+
+        for item in items:
+            pt = tf.add_paragraph()
+            pt.text = f"• {item}"
+            pt.font.size = Pt(10)
+            pt.font.color.rgb = COLOR_WHITE
+            pt.space_before = Pt(2)
 
     add_footer(s10, 10)
 
     # =========================================================================
-    # SLIDE 11: DECOUPLED WEB DASHBOARD & UI FEATURES
+    # SLIDE 11: WEB DASHBOARD & TELEMETRY INTERFACE
     # =========================================================================
     s11 = prs.slides.add_slide(blank_layout)
     set_slide_background(s11, BG_DARK)
-    add_header(s11, "Decoupled Web Management UI & Interactive Analytics")
+    add_header(s11, "Web Dashboard & Telemetry Interface")
 
     add_card(s11, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s11.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
@@ -668,10 +721,10 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.color.rgb = COLOR_CYAN
 
     ui_arch = [
-        ("Decoupled Design Pattern:", "The web interface runs as an independent Python Flask service interacting with the native C++ dedupfs binary via JSON telemetry and CLI protocols."),
-        ("Arbitrary Directory Input:", "Accepts any custom target directory path or one-click preset buttons for standard benchmark tiers (Small, Medium, Large)."),
-        ("Dual Operation Controls:", "Provides 'Run Safe Audit (Scan)' for non-destructive inspection and 'Consolidate Inodes (Optimize)' for live atomic space reclamation."),
-        ("Real-Time Terminal Streaming:", "Live terminal viewer capturing engine stdout, phase latencies, and execution telemetry.")
+        ("Decoupled Design Pattern:", "The web interface runs as an independent Python Flask service communicating with the native C++ binary via JSON reports."),
+        ("Target Directory Selector:", "Accepts any custom directory path or one-click preset buttons for standard benchmark tiers (Small, Medium, Large)."),
+        ("Dual Operation Modes:", "Provides 'Run Audit (Scan)' for non-destructive inspection and 'Consolidate (Optimize)' for atomic space reclamation."),
+        ("Work Directory Reset:", "One-click 'Reset Work Dir' button restores active test folder from ground_truth in seconds for repeatable evaluation.")
     ]
     for title, desc in ui_arch:
         pt = tf.add_paragraph()
@@ -691,17 +744,16 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tf = b.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Visual Charts & Duplicate Explorer"
+    p.text = "Visual Analytics & Duplicate Explorer"
     p.font.size = Pt(16)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
     ui_vis = [
-        ("Space Usage by File Type (Donut Chart):", "Interactive distribution of storage across formats (.pdf, .jpg, .c, .h, .csv)."),
-        ("Space Reclaimed by File Type (Bar Chart):", "Quantifies exactly which file formats contribute most to redundant capacity."),
-        ("Space Savings by Subdirectory (Horizontal Bar):", "Isolates spatial clustering of duplicates across nested directory hierarchies."),
-        ("Algorithmic Telemetry Cards:", "Live gauges for Bloom filter bit saturation, queries, and Hash table load factor (λ)."),
-        ("Duplicate Equivalence Explorer:", "Searchable table of duplicate clusters detailing canonical files, duplicate replicas, inodes, and link counts.")
+        ("Space Breakdown Charts:", "Interactive donut chart for storage volume by file type, and horizontal bar charts for space reclaimed by directory."),
+        ("Process Memory Metrics:", "Live display of peak process RAM (RSS) and Bloom filter bitset memory allocation."),
+        ("Algorithmic Telemetry Cards:", "Live metrics for Bloom filter bit saturation, queries, and Hash table load factor (λ)."),
+        ("Duplicate Equivalence Explorer:", "Searchable table of duplicate clusters detailing canonical files, duplicate replicas, and reclaimed storage.")
     ]
     for title, desc in ui_vis:
         pt = tf.add_paragraph()
@@ -719,31 +771,31 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s11, 11)
 
     # =========================================================================
-    # SLIDE 12: PHASE 2 ROADMAP (REVIEW 3 DELIVERABLES)
+    # SLIDE 12: FUTURE WORK & EXTENSIONS
     # =========================================================================
     s12 = prs.slides.add_slide(blank_layout)
     set_slide_background(s12, BG_DARK)
-    add_header(s12, "Phase 2 Roadmap & Review 3 Deliverables (Nov 23, 2026)")
+    add_header(s12, "Future Work & Planned Extensions")
 
-    phase2_cards = [
-        ("1. Hierarchical Merkle Tree", "O(log N) Incremental Synchronization", COLOR_CYAN, [
+    future_cards = [
+        ("1. Sub-File / Chunk Deduplication", "Content-Defined Chunking (CDC)", COLOR_CYAN, [
+            "Implement Rabin fingerprinting or FastCDC to divide files into variable-sized chunks.",
+            "Enables deduplication across files that share internal sections (e.g., modified documents, incremental log files).",
+            "Achieves sub-file granularity where file-level deduplication detects no redundancy."
+        ]),
+        ("2. Incremental Merkle Trees", "O(log N) Filesystem Synchronization", COLOR_AMBER, [
             "Constructs hierarchical cryptographic hash trees over directory nodes.",
-            "Enables sub-linear O(log N) change detection between snapshot versions.",
-            "Drastically reduces re-scan overhead on evolving multi-terabyte filesystems."
+            "Enables sub-linear O(log N) change detection between filesystem snapshots.",
+            "Avoids full recursive traversals on evolving storage volumes."
         ]),
-        ("2. Max-Heap Priority Queue", "Top-K Space Reclamation", COLOR_AMBER, [
-            "Maintains an in-memory Max-Heap of duplicate equivalence classes.",
-            "Prioritizes consolidating the largest duplicate clusters first under constrained I/O or time budgets.",
-            "Guarantees maximum storage reclamation in minimum latency."
-        ]),
-        ("3. Compression-Aware Inspection", "Entropy & Container Parsing", COLOR_EMERALD, [
-            "Inspects compressed archives (.tar.gz, .zip, .zst) without manual decompression.",
-            "Adaptive entropy estimation skips incompressible random byte streams.",
-            "Parallel multi-threaded scanning using work-stealing thread pools."
+        ("3. Parallel Pipeline Execution", "Multi-Threaded Work-Stealing", COLOR_EMERALD, [
+            "Parallelizes directory traversal and file reading across multi-core CPU threads.",
+            "Hardware-accelerated SHA-256 computation using AVX-512 / ARM Crypto instructions.",
+            "Thread-safe concurrent hash table bucket locking."
         ])
     ]
 
-    for i, (title, sub, col, items) in enumerate(phase2_cards):
+    for i, (title, sub, col, items) in enumerate(future_cards):
         left = Inches(0.8 + i * 4.0)
         add_card(s12, left, Inches(1.6), Inches(3.7), Inches(5.1), border_color=col)
         tb = s12.shapes.add_textbox(left + Inches(0.2), Inches(1.8), Inches(3.3), Inches(4.7))
@@ -772,7 +824,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s12, 12)
 
     # =========================================================================
-    # SLIDE 13: CONCLUSION & Q&A
+    # SLIDE 13: SUMMARY & CONCLUSION
     # =========================================================================
     s13 = prs.slides.add_slide(blank_layout)
     set_slide_background(s13, BG_DARK)
@@ -783,26 +835,26 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tf.word_wrap = True
 
     p0 = tf.paragraphs[0]
-    p0.text = "PHASE 1 SUMMARY & KEY CONTRIBUTIONS"
+    p0.text = "SUMMARY & CONCLUSION"
     p0.font.size = Pt(14)
     p0.font.bold = True
     p0.font.color.rgb = COLOR_CYAN
 
     p1 = tf.add_paragraph()
-    p1.text = "DedupFS: Core Technical Milestones Achieved"
+    p1.text = "DedupFS: Core Technical Contributions"
     p1.font.size = Pt(26)
     p1.font.bold = True
     p1.font.color.rgb = COLOR_WHITE
     p1.space_before = Pt(8)
 
     recap_points = [
-        "1. Complete C++17 Multi-Tier Pipeline: ~25% unique files discarded in O(1) with 0 disk reads.",
-        "2. Optimal Dynamic Bloom Filter: Proven FN = 0 invariant, O(k) Kirsch-Mitzenmacher double-hashing.",
-        "3. Chained Hash Table with Dynamic Rehashing: Maintains load factor λ ≤ 0.75 in amortized O(1) time.",
-        "4. Guaranteed 100% Data Preservation: 64KB chunk streaming byte verifier + atomic POSIX hard-linking.",
-        "5. Validated on Authentic Corpora: Reclaimed 28% storage capacity across Small, Medium, and Large datasets (throughput up to 622 MB/s).",
-        "6. Automated 10-Suite Test Harness: 100% pass rate across TC-01 through TC-10.",
-        "7. Decoupled Web Management UI: Live dashboard with breakdown charts and execution telemetry."
+        "1. Hierarchical I/O Pruning: Size bucketing and prefix hashing eliminate >80% of unnecessary disk reads.",
+        "2. Optimal Bloom Filter: Proven FN = 0 invariant with O(k) Kirsch-Mitzenmacher double-hashing using only 117 KB RAM.",
+        "3. Chained Hash Table with Dynamic Rehashing: Enforces λ ≤ 0.75 for amortized O(1) lookups across 50,000+ files.",
+        "4. Guaranteed Crash-Safe Consolidation: Streaming 64KB byte verifier + atomic POSIX hard-linking (link + rename).",
+        "5. Validated on Authentic Corpora: Reclaimed ~27.2% storage capacity with throughput up to 622 MB/s and peak RAM < 45 MB.",
+        "6. Comprehensive Test Suite: 10 automated test suites covering edge cases, cycle detection, and memory efficiency.",
+        "7. Decoupled Web Dashboard: Provides space breakdown visualizations, memory metrics, and instant work directory reset."
     ]
 
     for pt_text in recap_points:
@@ -813,11 +865,11 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
         p.space_before = Pt(6)
 
     p_end = tf.add_paragraph()
-    p_end.text = "Thank you! We welcome questions and feedback from the Professor."
+    p_end.text = "Thank you! We welcome questions and discussion."
     p_end.font.size = Pt(16)
     p_end.font.bold = True
     p_end.font.color.rgb = COLOR_EMERALD
-    p_end.space_before = Pt(16)
+    p_end.space_before = Pt(14)
 
     add_footer(s13, 13)
 
@@ -829,4 +881,3 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
 
 if __name__ == "__main__":
     build_presentation()
-

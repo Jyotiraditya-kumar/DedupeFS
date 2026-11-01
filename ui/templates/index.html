@@ -121,7 +121,7 @@
 
   <!-- Navbar -->
   <header
-    class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+    class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
     <div class="flex items-center space-x-3">
       <div
         class="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400">
@@ -131,20 +131,17 @@
         <div class="flex items-center space-x-2">
           <span class="text-xl font-bold tracking-tight text-white">DedupFS</span>
           <span
-            class="px-2 py-0.5 text-xs font-semibold rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">M.Tech
-            Sem 1</span>
-          <span
-            class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Phase
-            1</span>
+            class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/20">M.Tech
+            CSE (CS503)</span>
         </div>
-        <p class="text-xs text-slate-400">High-Performance Storage Deduplication Engine &bull; ADS Project</p>
+        <p class="text-xs text-slate-400">File Storage Deduplication System &bull; Advanced Data Structures</p>
       </div>
     </div>
     <div class="flex items-center space-x-3">
       <a href="/presentation" target="_blank"
         class="text-xs text-purple-400 hover:text-purple-300 flex items-center space-x-1.5 border border-purple-800/60 bg-purple-950/40 px-3 py-1.5 rounded-lg transition">
         <i class="fa-solid fa-chalkboard-user"></i>
-        <span>Presentation Slides</span>
+        <span>Slides</span>
       </a>
       <a href="/presentation/download"
         class="text-xs text-amber-400 hover:text-amber-300 flex items-center space-x-1.5 border border-amber-800/60 bg-amber-950/40 px-3 py-1.5 rounded-lg transition">
@@ -153,13 +150,13 @@
       </a>
       <a href="/api/report/html" target="_blank"
         class="text-xs text-sky-400 hover:text-sky-300 flex items-center space-x-1.5 border border-slate-700 bg-slate-800 px-3 py-1.5 rounded-lg transition">
-        <i class="fa-solid fa-file-invoice"></i>
-        <span>Academic Report</span>
+        <i class="fa-solid fa-file-lines"></i>
+        <span>Full Report</span>
       </a>
       <div
-        class="flex items-center space-x-2 text-xs text-slate-400 border border-slate-800 bg-slate-950 px-3 py-1.5 rounded-lg">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>Engine Ready</span>
+        class="flex items-center space-x-1.5 text-xs text-slate-400 border border-slate-800 bg-slate-950 px-3 py-1.5 rounded-lg">
+        <i class="fa-solid fa-circle text-emerald-400 text-[8px]"></i>
+        <span>Port 5000</span>
       </div>
     </div>
   </header>
@@ -177,13 +174,12 @@
             <i class="fa-solid fa-folder-open text-sky-400"></i>
             <span>Target Storage Directory</span>
           </h2>
-          <p class="text-xs text-slate-400 mt-1">Specify an absolute or relative directory path to inspect or optimize
-            for data redundancy.</p>
+          <p class="text-xs text-slate-400 mt-1">Specify target directory to audit duplicates or reclaim physical disk space.</p>
         </div>
 
         <!-- Preset Buttons -->
         <div class="flex flex-wrap items-center gap-2">
-          <span class="text-xs font-medium text-slate-400 mr-1">Presets:</span>
+          <span class="text-xs font-medium text-slate-400 mr-1">Datasets:</span>
           {% for key, p in presets.items() %}
           <button onclick="setPreset('{{ p.path }}')"
             class="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">
@@ -204,15 +200,21 @@
         </div>
 
         <button id="btnScan" onclick="triggerScan()"
-          class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-sky-600/20 disabled:opacity-50">
+          class="px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-sky-600/20 disabled:opacity-50" title="Non-destructive duplicate audit">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <span>Run Safe Audit (Scan)</span>
+          <span>Run Audit (Scan)</span>
         </button>
 
         <button id="btnOptimize" onclick="triggerOptimize()"
-          class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-600/20 disabled:opacity-50">
+          class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-600/20 disabled:opacity-50" title="Consolidate duplicate files into atomic hard links">
           <i class="fa-solid fa-link"></i>
-          <span>Consolidate Inodes (Optimize)</span>
+          <span>Consolidate (Optimize)</span>
+        </button>
+
+        <button id="btnReset" onclick="triggerReset()"
+          class="px-4 py-2.5 bg-amber-600/90 hover:bg-amber-600 text-white font-medium text-sm rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-amber-600/20 disabled:opacity-50" title="Restore work directory from ground_truth reference copy">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Reset Work Dir</span>
         </button>
       </div>
 
@@ -224,19 +226,19 @@
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
-        <span id="loaderMsg">Executing DedupFS multi-tier pipeline...</span>
+        <span id="loaderMsg">Executing pipeline...</span>
       </div>
     </section>
 
     <!-- Key Metrics Grid -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
       <!-- Card 1 -->
       <div class="glass-card p-5 relative overflow-hidden">
-        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Raw Dataset Scanned</div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Dataset Scanned</div>
         <div class="text-2xl font-bold text-white tracking-tight" id="metricScanned">279.6 MB</div>
         <div class="text-xs text-slate-400 mt-1 flex items-center space-x-1">
           <i class="fa-regular fa-file text-slate-500"></i>
-          <span id="metricFileCount">9,516 files traversed</span>
+          <span id="metricFileCount">9,516 files</span>
         </div>
       </div>
 
@@ -281,16 +283,33 @@
 
       <!-- Card 4 -->
       <div class="glass-card p-5 relative overflow-hidden border-l-4 border-l-amber-500">
-        <div class="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Duplicates Identified</div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Duplicates Found</div>
         <div class="text-2xl font-bold text-amber-300 tracking-tight" id="metricDupFiles">3,092</div>
-        <div class="text-xs text-slate-400 mt-1" id="metricDupGroups">In 1,999 equivalence clusters</div>
+        <div class="text-xs text-slate-400 mt-1" id="metricDupGroups">In 1,999 clusters</div>
       </div>
 
       <!-- Card 5 -->
       <div class="glass-card p-5 relative overflow-hidden">
-        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Engine Throughput</div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Throughput</div>
         <div class="text-2xl font-bold text-white tracking-tight" id="metricThroughput">622 MB/s</div>
         <div class="text-xs text-slate-400 mt-1" id="metricRuntime">Duration: 449.5 ms</div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="glass-card p-5 relative overflow-hidden border-l-4 border-l-purple-500">
+        <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-purple-400 mb-1">
+          <span>Memory Usage</span>
+          <span class="tooltip-trigger text-slate-500 hover:text-purple-400">
+            <i class="fa-solid fa-circle-info text-[10px]"></i>
+            <div class="tooltip-box">
+              <strong>Peak Process Memory (RSS)</strong>
+              <div class="formula">RSS = Resident Set Size via getrusage()</div>
+              Physical memory consumed during directory traversal, Bloom filter bitset allocation, and hash table bucket chains.
+            </div>
+          </span>
+        </div>
+        <div class="text-2xl font-bold text-purple-300 tracking-tight" id="metricMemory">32.2 MB</div>
+        <div class="text-xs text-slate-400 mt-1" id="metricMemorySubtext">Bloom bitset: 117 KB</div>
       </div>
     </section>
 
@@ -718,7 +737,7 @@
               toggled to 1 across all inserted elements.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> A Bloom filter's false-positive rate begins to
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> A Bloom filter's false-positive rate begins to
               escalate as saturation approaches 50%. DedupFS allocates sufficient bit capacity so that saturation
               remains under 5% (observed: ~1.46%), guaranteeing maximum discriminatory power and minimal hash table
               lookups.
@@ -743,7 +762,7 @@
               slots in the hash table, representing average bucket density.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-purple-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> When &lambda; exceeds 0.75 in separate
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> When &lambda; exceeds 0.75 in separate
               chaining, collision chains lengthen, degrading lookup from O(1) toward O(N). DedupFS enforces dynamic
               capacity doubling at &lambda; &gt; 0.75 to preserve amortized O(1) constant time.
             </div>
@@ -767,7 +786,7 @@
               can simulate k uniform hash functions without increasing the asymptotic false positive rate.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Instead of calculating 7 separate
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Instead of calculating 7 separate
               cryptographic digests per file, DedupFS extracts two 64-bit words directly from the SHA-256 fingerprint,
               evaluating all k probes via fast O(1) CPU arithmetic!
             </div>
@@ -791,7 +810,7 @@
               at any of the k probed indices is 0, the element was provably never inserted.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-emerald-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> This guarantee is vital for file systems:
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> This guarantee is vital for file systems:
               unique files are NEVER incorrectly labeled as duplicates. True negatives bypass secondary index lookups in
               O(k) bit tests with 0% error risk.
             </div>
@@ -815,7 +834,7 @@
               functions (k) that bound the false-positive rate to p for n expected items.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Sizing the filter dynamically prevents memory
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Sizing the filter dynamically prevents memory
               waste. For 100,000 files at p = 1.0%, DedupFS allocates ~958,506 bits (just 117 KB RAM) with k = 7
               functions.
             </div>
@@ -839,7 +858,7 @@
               table density exceeds the optimal load threshold.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-purple-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Power-of-two capacities allow replacing
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Power-of-two capacities allow replacing
               expensive modulo division with fast bitwise AND: bucket = hash &amp; (capacity - 1). Dynamic doubling
               maintains amortized O(1) complexity across millions of files.
             </div>
@@ -863,7 +882,7 @@
               measures the statistical spread of elements across occupied buckets.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-purple-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Low chain variance (observed &sigma;² = 0.26)
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Low chain variance (observed &sigma;² = 0.26)
               and shallow max depth (&le;4) statistically verify that cryptographic SHA-256 distributes keys uniformly
               without adversarial hash clustering.
             </div>
@@ -887,7 +906,7 @@
               having unique byte lengths are discarded immediately.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Identical files must have identical sizes.
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Identical files must have identical sizes.
               Discarding singletons in O(1) prunes ~25% of unique files with ZERO disk read I/O!
             </div>
           </div>
@@ -910,7 +929,7 @@
               128-bit non-cryptographic hash.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-amber-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Eliminates files that share identical byte
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Eliminates files that share identical byte
               sizes but possess differing headers or magic numbers without reading entire multi-megabyte file bodies.
             </div>
           </div>
@@ -933,7 +952,7 @@
               between candidate duplicates prior to any storage consolidation.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-emerald-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Even though SHA-256 collision probability is
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Even though SHA-256 collision probability is
               2⁻²⁵⁶, enterprise storage systems demand zero risk of data corruption. The Byte Verifier guarantees
               absolute mathematical safety against false deduplication.
             </div>
@@ -957,7 +976,7 @@
               canonical file's physical inode (st_ino).
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-emerald-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Atomic rename guarantees crash resilience: the
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Atomic rename guarantees crash resilience: the
               duplicate path is NEVER missing or corrupted during power failure. The OS kernel immediately deallocates
               redundant blocks while incrementing st_nlink.
             </div>
@@ -980,7 +999,7 @@
               many times larger the logical data is compared to actual physical disk consumption.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> A ratio of DR = 1.37x means physical storage
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> A ratio of DR = 1.37x means physical storage
               is reduced to 73% of initial volume, achieving 27.2% net physical capacity reclamation.
             </div>
           </div>
@@ -1002,7 +1021,7 @@
               skip already-consolidated hard links (st_nlink &gt; 1).
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-slate-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Prevents infinite loops caused by symlinks and
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Prevents infinite loops caused by symlinks and
               skips processing files that have already been deduplicated in previous runs.
             </div>
           </div>
@@ -1025,7 +1044,7 @@
               but hash table found key absent) to total negative queries.
             </p>
             <div class="bg-slate-950/60 p-2.5 rounded border-l-2 border-l-sky-400 text-[11px] text-slate-400">
-              <strong class="text-slate-200">M.Tech ADS Insight:</strong> Across all benchmark runs, empirical FPR
+              <strong class="text-slate-200">Technical Rationale &amp; Context:</strong> Across all benchmark runs, empirical FPR
               remained at 0.00%, proving that double-hashing with our chosen sizing achieves design bounds with zero
               error leakage.
             </div>
@@ -1157,20 +1176,54 @@
         }
       }
 
+      async function triggerReset() {
+        const path = document.getElementById('targetPath').value.trim();
+        if (!path) return alert('Please enter a target directory.');
+
+        if (!confirm(`Reset working directory '${path}' from pristine ground_truth reference copy?\n\nThis will restore all original duplicate files and un-link consolidated inodes for clean re-testing.`)) {
+          return;
+        }
+
+        setLoading(true, `Restoring '${path}' from ground_truth reference copy...`);
+        try {
+          const res = await fetch('/api/reset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: path })
+          });
+          const data = await res.json();
+          if (!data.success) {
+            alert('Reset Error: ' + (data.error || 'Failed to reset directory'));
+            return;
+          }
+
+          const term = document.getElementById('terminalOutput');
+          term.innerText = `[INFO] ${data.message}\n[INFO] Target: ${data.work_path}\n[INFO] Source Reference: ${data.ground_truth_path}\n[INFO] Work directory is now in fresh pre-deduplication state. Ready for fresh audit scan!`;
+          alert(data.message);
+        } catch (err) {
+          alert('Reset Error: ' + err);
+        } finally {
+          setLoading(false);
+        }
+      }
+
       function setLoading(isLoading, msg = '') {
         const loader = document.getElementById('loader');
         const btnScan = document.getElementById('btnScan');
         const btnOpt = document.getElementById('btnOptimize');
+        const btnReset = document.getElementById('btnReset');
 
         if (isLoading) {
           loader.classList.remove('hidden');
           document.getElementById('loaderMsg').innerText = msg;
           btnScan.disabled = true;
           btnOpt.disabled = true;
+          if (btnReset) btnReset.disabled = true;
         } else {
           loader.classList.add('hidden');
           btnScan.disabled = false;
           btnOpt.disabled = false;
+          if (btnReset) btnReset.disabled = false;
         }
       }
 
@@ -1263,6 +1316,19 @@
         document.getElementById('metricDupGroups').innerText = `In ${s.duplicate_groups_count.toLocaleString()} equivalence clusters`;
         document.getElementById('metricThroughput').innerText = `${s.throughput_mbs} MB/s`;
         document.getElementById('metricRuntime').innerText = `Duration: ${s.total_runtime_ms} ms`;
+
+        // Memory Metrics
+        if (s.peak_rss_formatted) {
+          document.getElementById('metricMemory').innerText = s.peak_rss_formatted;
+        } else if (s.peak_rss_bytes) {
+          document.getElementById('metricMemory').innerText = (s.peak_rss_bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+        if (m.bloom_filter && m.bloom_filter.memory_formatted) {
+          document.getElementById('metricMemorySubtext').innerText = `Bloom bitset: ${m.bloom_filter.memory_formatted}`;
+        } else if (m.bloom_filter && m.bloom_filter.bits_m) {
+          const kb = ((m.bloom_filter.bits_m + 7) / 8 / 1024).toFixed(1);
+          document.getElementById('metricMemorySubtext').innerText = `Bloom bitset: ${kb} KB`;
+        }
 
         // Bloom Filter
         if (m.bloom_filter) {

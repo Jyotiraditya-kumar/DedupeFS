@@ -41,11 +41,11 @@
 <div class="container">
   <div class="header">
     <h1>DedupFS: Storage Evaluation & Telemetry Report</h1>
-    <div class="subtitle">M.Tech Computer Science &bull; Advanced Data Structures (M.Tech Semester 1) &bull; Phase 1 Review 2</div>
+    <div class="subtitle">M.Tech Computer Science &bull; Advanced Data Structures (CS503) &bull; Project Evaluation Report</div>
     <div class="meta-grid">
       <div class="meta-item"><span class="meta-label">Authors</span><span class="meta-val">Aryan Ravi Zodape (206126006) &amp; Jyotiraditya Kumar (206126014)</span></div>
-      <div class="meta-item"><span class="meta-label">Execution Time</span><span class="meta-val">2026-11-01 22:18:22</span></div>
-      <div class="meta-item"><span class="meta-label">Target Directory</span><span class="meta-val">/home/jyotiraditya/CodingProjects/DedupFS/datasets/test_medium_1GB/work</span></div>
+      <div class="meta-item"><span class="meta-label">Execution Time</span><span class="meta-val">2026-11-01 22:39:43</span></div>
+      <div class="meta-item"><span class="meta-label">Target Directory</span><span class="meta-val">./scratch_e2e_sandbox</span></div>
       <div class="meta-item"><span class="meta-label">Execution Mode</span><span class="meta-val">DRY-RUN (Non-Destructive Audit)</span></div>
     </div>
   </div>
@@ -53,28 +53,28 @@
   <div class="cards-grid">
     <div class="stat-card">
       <div class="stat-title">Raw Volume Scanned</div>
-      <div class="stat-value">1.09 GB</div>
-      <div class="stat-sub">23380 regular files traversed</div>
+      <div class="stat-value">6.98 KB</div>
+      <div class="stat-sub">4 regular files traversed</div>
     </div>
     <div class="stat-card success">
       <div class="stat-title">Space Reclaimed</div>
-      <div class="stat-value">303.31 MB</div>
-      <div class="stat-sub">27.2% physical capacity freed</div>
+      <div class="stat-value">2.00 KB</div>
+      <div class="stat-sub">28.7% physical capacity freed</div>
     </div>
     <div class="stat-card success">
       <div class="stat-title">Deduplication Ratio</div>
-      <div class="stat-value">1.37x</div>
-      <div class="stat-sub">Post-dedup size: 811.89 MB</div>
+      <div class="stat-value">1.40x</div>
+      <div class="stat-sub">Post-dedup size: 4.98 KB</div>
     </div>
     <div class="stat-card warn">
       <div class="stat-title">Duplicate Files</div>
-      <div class="stat-value">9620</div>
-      <div class="stat-sub">In 6028 equivalence classes</div>
+      <div class="stat-value">1</div>
+      <div class="stat-sub">In 1 equivalence classes</div>
     </div>
     <div class="stat-card">
       <div class="stat-title">Throughput</div>
-      <div class="stat-value">192.1 MB/s</div>
-      <div class="stat-sub">Total runtime: 5.80 s</div>
+      <div class="stat-value">3.6 MB/s</div>
+      <div class="stat-sub">Total runtime: 1.88 ms</div>
     </div>
   </div>
 
@@ -86,762 +86,14 @@
       </thead>
       <tbody>
         <tr>
-          <td><span class="badge badge-accent">.jpg</span></td>
-          <td>3546</td>
-          <td>549.86 MB</td>
-          <td>890</td>
-          <td><strong>140.16 MB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 25.5%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">25.5%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.pdf</span></td>
-          <td>1604</td>
-          <td>424.26 MB</td>
-          <td>406</td>
-          <td><strong>116.55 MB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 27.5%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">27.5%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.c</span></td>
-          <td>5551</td>
-          <td>81.63 MB</td>
-          <td>2292</td>
-          <td><strong>24.58 MB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 30.1%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">30.1%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.h</span></td>
-          <td>4435</td>
-          <td>28.32 MB</td>
-          <td>1525</td>
-          <td><strong>7.35 MB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 25.9%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">25.9%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">(no ext)</span></td>
-          <td>4896</td>
-          <td>7.45 MB</td>
-          <td>2972</td>
-          <td><strong>4.27 MB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 57.4%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">57.4%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.tmpl</span></td>
-          <td>39</td>
-          <td>6.13 MB</td>
-          <td>25</td>
-          <td><strong>3.96 MB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 64.6%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">64.6%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.3</span></td>
-          <td>1312</td>
-          <td>4.17 MB</td>
-          <td>339</td>
-          <td><strong>1.13 MB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 27.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">27.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.sln</span></td>
-          <td>59</td>
-          <td>1.30 MB</td>
-          <td>39</td>
-          <td><strong>884.49 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 66.2%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">66.2%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.pl</span></td>
-          <td>153</td>
-          <td>1.43 MB</td>
-          <td>86</td>
-          <td><strong>717.08 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 49.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">49.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.m4</span></td>
-          <td>70</td>
-          <td>1.24 MB</td>
-          <td>40</td>
-          <td><strong>595.38 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 46.9%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">46.9%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.py</span></td>
-          <td>97</td>
-          <td>829.11 KB</td>
-          <td>60</td>
-          <td><strong>471.84 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 56.9%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">56.9%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.md</span></td>
-          <td>152</td>
-          <td>889.84 KB</td>
-          <td>81</td>
-          <td><strong>429.83 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 48.3%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">48.3%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.com</span></td>
-          <td>50</td>
-          <td>555.58 KB</td>
-          <td>31</td>
-          <td><strong>335.26 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 60.3%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">60.3%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.d</span></td>
-          <td>693</td>
-          <td>525.69 KB</td>
-          <td>429</td>
-          <td><strong>305.23 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 58.1%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">58.1%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.pm</span></td>
-          <td>37</td>
-          <td>571.52 KB</td>
-          <td>22</td>
-          <td><strong>209.22 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 36.6%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">36.6%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.in</span></td>
-          <td>21</td>
-          <td>336.23 KB</td>
-          <td>10</td>
-          <td><strong>166.74 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 49.6%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">49.6%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.yml</span></td>
-          <td>80</td>
-          <td>345.21 KB</td>
-          <td>40</td>
-          <td><strong>155.70 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 45.1%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">45.1%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.ac</span></td>
-          <td>3</td>
-          <td>419.38 KB</td>
-          <td>1</td>
-          <td><strong>140.00 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 33.4%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">33.4%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.inc</span></td>
-          <td>32</td>
-          <td>257.82 KB</td>
-          <td>16</td>
-          <td><strong>122.56 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 47.5%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">47.5%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.pem</span></td>
-          <td>38</td>
-          <td>160.49 KB</td>
-          <td>26</td>
-          <td><strong>109.80 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 68.4%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">68.4%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.sh</span></td>
-          <td>39</td>
-          <td>150.62 KB</td>
-          <td>24</td>
-          <td><strong>99.11 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 65.8%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">65.8%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.cmake</span></td>
-          <td>55</td>
-          <td>235.82 KB</td>
-          <td>27</td>
-          <td><strong>98.38 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 41.7%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">41.7%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.bat</span></td>
-          <td>17</td>
-          <td>161.70 KB</td>
-          <td>10</td>
-          <td><strong>85.13 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 52.7%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">52.7%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.am</span></td>
-          <td>60</td>
-          <td>199.70 KB</td>
-          <td>32</td>
-          <td><strong>79.29 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 39.7%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">39.7%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.txt</span></td>
-          <td>58</td>
-          <td>264.60 KB</td>
-          <td>33</td>
-          <td><strong>68.37 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 25.8%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">25.8%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.crt</span></td>
-          <td>17</td>
-          <td>89.03 KB</td>
-          <td>11</td>
-          <td><strong>57.46 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 64.5%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">64.5%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.vc</span></td>
-          <td>5</td>
-          <td>74.61 KB</td>
-          <td>3</td>
-          <td><strong>47.39 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 63.5%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">63.5%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.1</span></td>
-          <td>11</td>
-          <td>71.24 KB</td>
-          <td>6</td>
-          <td><strong>37.96 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 53.3%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">53.3%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.os400</span></td>
-          <td>3</td>
-          <td>49.44 KB</td>
-          <td>2</td>
-          <td><strong>32.96 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 66.7%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">66.7%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.filters</span></td>
-          <td>33</td>
-          <td>26.26 KB</td>
-          <td>32</td>
-          <td><strong>25.47 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 97.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">97.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.key</span></td>
-          <td>21</td>
-          <td>34.95 KB</td>
-          <td>14</td>
-          <td><strong>23.30 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 66.7%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">66.7%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.sdl</span></td>
+          <td><span class="badge badge-accent">.bin</span></td>
           <td>4</td>
-          <td>27.05 KB</td>
-          <td>3</td>
-          <td><strong>20.29 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 75.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">75.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.der</span></td>
-          <td>35</td>
-          <td>25.92 KB</td>
-          <td>22</td>
-          <td><strong>16.66 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 64.3%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">64.3%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.prm</span></td>
-          <td>18</td>
-          <td>19.18 KB</td>
-          <td>11</td>
-          <td><strong>11.75 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 61.2%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">61.2%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.csr</span></td>
-          <td>16</td>
-          <td>15.39 KB</td>
-          <td>9</td>
-          <td><strong>8.67 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 56.4%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">56.4%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.opt</span></td>
-          <td>2</td>
-          <td>17.27 KB</td>
+          <td>6.98 KB</td>
           <td>1</td>
-          <td><strong>8.63 KB</strong></td>
+          <td><strong>2.00 KB</strong></td>
           <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.default</span></td>
-          <td>4</td>
-          <td>10.93 KB</td>
-          <td>3</td>
-          <td><strong>8.19 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 75.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">75.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.crl</span></td>
-          <td>16</td>
-          <td>12.11 KB</td>
-          <td>10</td>
-          <td><strong>7.50 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 62.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">62.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.cpp</span></td>
-          <td>2</td>
-          <td>12.50 KB</td>
-          <td>1</td>
-          <td><strong>6.25 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.rc</span></td>
-          <td>5</td>
-          <td>15.76 KB</td>
-          <td>2</td>
-          <td><strong>5.96 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 37.8%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">37.8%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.msg</span></td>
-          <td>2</td>
-          <td>11.13 KB</td>
-          <td>1</td>
-          <td><strong>5.56 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.cacert</span></td>
-          <td>2</td>
-          <td>10.13 KB</td>
-          <td>1</td>
-          <td><strong>5.07 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.cvs</span></td>
-          <td>5</td>
-          <td>5.77 KB</td>
-          <td>4</td>
-          <td><strong>4.61 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 80.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">80.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.mk</span></td>
-          <td>6</td>
-          <td>30.43 KB</td>
-          <td>2</td>
-          <td><strong>4.58 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 15.1%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">15.1%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.el</span></td>
-          <td>4</td>
-          <td>5.27 KB</td>
-          <td>3</td>
-          <td><strong>3.95 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 75.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">75.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.example</span></td>
-          <td>3</td>
-          <td>5.64 KB</td>
-          <td>2</td>
-          <td><strong>3.76 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 66.7%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">66.7%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.cmd</span></td>
-          <td>4</td>
-          <td>7.35 KB</td>
-          <td>2</td>
-          <td><strong>3.68 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.supp</span></td>
-          <td>2</td>
-          <td>6.12 KB</td>
-          <td>1</td>
-          <td><strong>3.06 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.c_first</span></td>
-          <td>2</td>
-          <td>4.87 KB</td>
-          <td>1</td>
-          <td><strong>2.43 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.dist</span></td>
-          <td>2</td>
-          <td>4.62 KB</td>
-          <td>1</td>
-          <td><strong>2.31 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.props</span></td>
-          <td>2</td>
-          <td>3.99 KB</td>
-          <td>1</td>
-          <td><strong>1.99 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.soname</span></td>
-          <td>2</td>
-          <td>3.17 KB</td>
-          <td>1</td>
-          <td><strong>1.58 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.def</span></td>
-          <td>2</td>
-          <td>3.11 KB</td>
-          <td>1</td>
-          <td><strong>1.55 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.conf</span></td>
-          <td>2</td>
-          <td>2.24 KB</td>
-          <td>1</td>
-          <td><strong>1.12 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.proto</span></td>
-          <td>2</td>
-          <td>2.23 KB</td>
-          <td>1</td>
-          <td><strong>1.12 KB</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.asn1</span></td>
-          <td>2</td>
-          <td>1.62 KB</td>
-          <td>1</td>
-          <td><strong>829.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.yaml</span></td>
-          <td>2</td>
-          <td>1.31 KB</td>
-          <td>1</td>
-          <td><strong>672.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.pubkey-pinned</span></td>
-          <td>13</td>
-          <td>585.00 B</td>
-          <td>7</td>
-          <td><strong>315.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 53.8%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">53.8%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.cnf</span></td>
-          <td>2</td>
-          <td>484.00 B</td>
-          <td>1</td>
-          <td><strong>242.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.patch</span></td>
-          <td>2</td>
-          <td>234.00 B</td>
-          <td>1</td>
-          <td><strong>117.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">50.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.dat</span></td>
-          <td>6</td>
-          <td>2.38 MB</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.words</span></td>
-          <td>2</td>
-          <td>12.85 KB</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.dhp</span></td>
-          <td>12</td>
-          <td>0.00 B</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.utf8data</span></td>
-          <td>1</td>
-          <td>2.46 KB</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.hex</span></td>
-          <td>1</td>
-          <td>4.02 KB</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.config</span></td>
-          <td>2</td>
-          <td>801.00 B</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.locks</span></td>
-          <td>1</td>
-          <td>4.92 KB</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.c_shipped</span></td>
-          <td>2</td>
-          <td>646.99 KB</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-accent">.debug</span></td>
-          <td>1</td>
-          <td>758.00 B</td>
-          <td>0</td>
-          <td><strong>0.00 B</strong></td>
-          <td style="width: 180px;">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0.0%"></div></div>
-            <span style="font-size: 11px; color: var(--muted);">0.0%</span>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 28.7%"></div></div>
+            <span style="font-size: 11px; color: var(--muted);">28.7%</span>
           </td>
         </tr>
       </tbody>
@@ -857,65 +109,23 @@
       </thead>
       <tbody>
         <tr>
-          <td><strong>documents</strong></td>
-          <td>1198</td>
-          <td>307.71 MB</td>
-          <td>250</td>
-          <td><span class="badge badge-success">68.27 MB</span></td>
+          <td><strong>sub1</strong></td>
+          <td>1</td>
+          <td>2.00 KB</td>
+          <td>1</td>
+          <td><span class="badge badge-success">2.00 KB</span></td>
         </tr>
         <tr>
-          <td><strong>deeply_nested_archives</strong></td>
-          <td>1329</td>
-          <td>61.99 MB</td>
-          <td>1329</td>
-          <td><span class="badge badge-success">61.99 MB</span></td>
+          <td><strong>sub2</strong></td>
+          <td>1</td>
+          <td>2.00 KB</td>
+          <td>0</td>
+          <td><span class="badge badge-success">0.00 B</span></td>
         </tr>
         <tr>
-          <td><strong>downloads_inbox</strong></td>
-          <td>1364</td>
-          <td>68.73 MB</td>
-          <td>653</td>
-          <td><span class="badge badge-success">47.95 MB</span></td>
-        </tr>
-        <tr>
-          <td><strong>media</strong></td>
-          <td>2656</td>
-          <td>409.70 MB</td>
-          <td>288</td>
-          <td><span class="badge badge-success">45.08 MB</span></td>
-        </tr>
-        <tr>
-          <td><strong>source_code</strong></td>
-          <td>13683</td>
-          <td>106.73 MB</td>
-          <td>6239</td>
-          <td><span class="badge badge-success">32.44 MB</span></td>
-        </tr>
-        <tr>
-          <td><strong>shared_corporate_nas</strong></td>
-          <td>869</td>
-          <td>44.92 MB</td>
-          <td>485</td>
-          <td><span class="badge badge-success">30.92 MB</span></td>
-        </tr>
-        <tr>
-          <td><strong>workspace_clones</strong></td>
-          <td>935</td>
-          <td>46.42 MB</td>
-          <td>227</td>
-          <td><span class="badge badge-success">10.68 MB</span></td>
-        </tr>
-        <tr>
-          <td><strong>backup_snapshots</strong></td>
-          <td>1340</td>
-          <td>66.61 MB</td>
-          <td>149</td>
-          <td><span class="badge badge-success">5.99 MB</span></td>
-        </tr>
-        <tr>
-          <td><strong>dedup_edge_cases</strong></td>
-          <td>6</td>
-          <td>2.38 MB</td>
+          <td><strong>(root)</strong></td>
+          <td>2</td>
+          <td>2.98 KB</td>
           <td>0</td>
           <td><span class="badge badge-success">0.00 B</span></td>
         </tr>
@@ -932,8 +142,8 @@
         <table style="font-size: 12px;">
           <tr><td>Optimal Bits (m):</td><td><strong>958506</strong> (117.01 KB)</td></tr>
           <tr><td>Hash Count (k):</td><td><strong>7</strong> (Double-hashing)</td></tr>
-          <tr><td>Fill Ratio:</td><td><strong>4.33%</strong></td></tr>
-          <tr><td>True Negatives:</td><td><strong>6054</strong> (Bypassed table)</td></tr>
+          <tr><td>Fill Ratio:</td><td><strong>0.00%</strong></td></tr>
+          <tr><td>True Negatives:</td><td><strong>1</strong> (Bypassed table)</td></tr>
           <tr><td>False Positives:</td><td><strong>0</strong> (Empirical FPR: 0.00%)</td></tr>
           <tr><td>FN Invariant:</td><td><strong style="color: var(--success);">Zero False Negatives (FN = 0)</strong></td></tr>
         </table>
@@ -942,12 +152,12 @@
         <h3 style="color: var(--accent); font-size: 14px; margin-top: 0;">Primary Chained Inverted Hash Table</h3>
         <p style="font-size: 13px; color: var(--muted);">Maps 256-bit cryptographic digest to duplicate equivalence classes.</p>
         <table style="font-size: 12px;">
-          <tr><td>Allocated Buckets:</td><td><strong>8192</strong> (Power of 2)</td></tr>
-          <tr><td>Stored Elements:</td><td><strong>6054</strong></td></tr>
-          <tr><td>Load Factor (&lambda;):</td><td><strong>0.739</strong> (&le; 0.75)</td></tr>
-          <tr><td>Rehash Events:</td><td><strong>1</strong> expansions</td></tr>
-          <tr><td>Max Chain Depth:</td><td><strong>5</strong></td></tr>
-          <tr><td>Avg Chain Length:</td><td><strong>1.42</strong></td></tr>
+          <tr><td>Allocated Buckets:</td><td><strong>4096</strong> (Power of 2)</td></tr>
+          <tr><td>Stored Elements:</td><td><strong>1</strong></td></tr>
+          <tr><td>Load Factor (&lambda;):</td><td><strong>0.000</strong> (&le; 0.75)</td></tr>
+          <tr><td>Rehash Events:</td><td><strong>0</strong> expansions</td></tr>
+          <tr><td>Max Chain Depth:</td><td><strong>1</strong></td></tr>
+          <tr><td>Avg Chain Length:</td><td><strong>1.00</strong></td></tr>
         </table>
       </div>
     </div>

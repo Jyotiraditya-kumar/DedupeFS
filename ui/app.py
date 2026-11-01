@@ -8,6 +8,8 @@ import os
 import sys
 import json
 import re
+import shutil
+import time
 import subprocess
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_file
@@ -88,6 +90,26 @@ def parse_duplicate_clusters(max_clusters=50):
 
     return clusters
 
+def enrich_metrics_memory(metrics):
+    if not isinstance(metrics, dict):
+        return metrics
+    summary = metrics.get("summary", {})
+    if "peak_rss_bytes" in summary and "peak_rss_formatted" not in summary:
+        rss = summary.get("peak_rss_bytes", 0)
+        if rss >= 1024 * 1024:
+            summary["peak_rss_formatted"] = f"{rss / (1024 * 1024):.2f} MB"
+        else:
+            summary["peak_rss_formatted"] = f"{rss / 1024:.1f} KB"
+    bf = metrics.get("bloom_filter", {})
+    if "bits_m" in bf and "memory_formatted" not in bf:
+        bytes_count = (bf.get("bits_m", 0) + 7) // 8
+        if bytes_count >= 1024 * 1024:
+            bf["memory_formatted"] = f"{bytes_count / (1024 * 1024):.2f} MB"
+        else:
+            bf["memory_formatted"] = f"{bytes_count / 1024:.1f} KB"
+        bf["memory_bytes"] = bytes_count
+    return metrics
+
 def run_dedupfs_binary(command_type, target_dir, min_size=1, fpr=0.01):
     """Executes ./bin/dedupfs scan|optimize <target_dir> and captures output."""
     if not BINARY_PATH.exists():
@@ -120,7 +142,7 @@ def run_dedupfs_binary(command_type, target_dir, min_size=1, fpr=0.01):
         metrics_data = {}
         if json_file.exists():
             with open(json_file, "r", encoding="utf-8") as f:
-                metrics_data = json.load(f)
+                metrics_data = enrich_metrics_memory(json.load(f))
 
         return {
             "success": (proc.returncode == 0),
@@ -148,7 +170,7 @@ def get_latest_metrics():
     if json_file.exists():
         try:
             with open(json_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
+                data = enrich_metrics_memory(json.load(f))
             return jsonify({"success": True, "metrics": data})
         except Exception as e:
             return jsonify({"success": False, "error": str(e)})
@@ -185,6 +207,60 @@ def optimize_directory():
 
     result = run_dedupfs_binary("optimize", path, min_size, fpr)
     return jsonify(result)
+
+@app.route("/api/reset", methods=["POST"])
+def reset_directory():
+    """Restores work/ from untouched ground_truth/ reference copy."""
+    data = request.json or {}
+    path_str = data.get("path", "").strip()
+    if not path_str:
+        return jsonify({"success": False, "error": "Path cannot be empty."}), 400
+
+    target = Path(path_str)
+    if not target.is_absolute():
+        target = (PROJECT_ROOT / target).resolve()
+    else:
+        target = target.resolve()
+
+    if not target.exists():
+        return jsonify({"success": False, "error": f"Target path '{target}' does not exist."}), 404
+
+    # Determine ground_truth and work directories
+    gt_dir = None
+    work_dir = None
+
+    if target.name == "work" and (target.parent / "ground_truth").is_dir():
+        work_dir = target
+        gt_dir = target.parent / "ground_truth"
+    elif (target / "ground_truth").is_dir() and (target / "work").is_dir():
+        work_dir = target / "work"
+        gt_dir = target / "ground_truth"
+    elif (target.parent / "ground_truth").is_dir():
+        work_dir = target
+        gt_dir = target.parent / "ground_truth"
+
+    if not gt_dir or not gt_dir.is_dir():
+        return jsonify({
+            "success": False,
+            "error": f"No 'ground_truth' reference directory found for '{target}'. Reset requires an untouched reference directory."
+        }), 400
+
+    try:
+        t0 = time.time()
+        if work_dir.exists():
+            shutil.rmtree(work_dir)
+        subprocess.run(["cp", "-r", str(gt_dir), str(work_dir)], check=True)
+        duration = time.time() - t0
+
+        return jsonify({
+            "success": True,
+            "message": f"Successfully restored '{work_dir.name}' from pristine '{gt_dir.name}' in {duration:.2f}s.",
+            "work_path": str(work_dir),
+            "ground_truth_path": str(gt_dir),
+            "duration_s": round(duration, 2)
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Failed to reset work directory: {str(e)}"}), 500
 
 @app.route("/api/report/html", methods=["GET"])
 def get_html_report():
