@@ -66,6 +66,15 @@ struct Hash256 {
         return oss.str();
     }
 
+    static Hash256 from_hex(const std::string& hex_str) {
+        Hash256 h{};
+        for (size_t i = 0; i < 32 && (i * 2 + 1) < hex_str.size(); ++i) {
+            std::string byte_str = hex_str.substr(i * 2, 2);
+            h.bytes[i] = static_cast<uint8_t>(std::strtoul(byte_str.c_str(), nullptr, 16));
+        }
+        return h;
+    }
+
     // Extract two 64-bit words for double hashing in Bloom filter
     std::pair<uint64_t, uint64_t> to_words() const {
         uint64_t w1 = 0;
@@ -139,6 +148,20 @@ struct DedupStats {
     // Granular breakdowns for academic reporting and UI visualization
     std::unordered_map<std::string, UsageMetric> file_type_metrics;
     std::unordered_map<std::string, UsageMetric> subfolder_metrics;
+
+    // Advanced Data Structure 3: Merkle Tree Telemetry
+    std::string merkle_root_hash{""};
+    size_t merkle_total_nodes{0};
+    size_t merkle_leaf_nodes{0};
+    size_t duplicate_subtrees_count{0};
+    uintmax_t duplicate_subtree_wasted_bytes{0};
+    double merkle_build_time_ms{0.0};
+
+    // Advanced Data Structure 4: Max-Heap Priority Queue Telemetry (Top-K)
+    size_t top_k_clusters_count{0};
+    uintmax_t top_k_reclaimed_bytes{0};
+    double top_k_space_percentage{0.0};
+    std::vector<std::pair<double, double>> pareto_curve;
 };
 
 } // namespace dedupfs

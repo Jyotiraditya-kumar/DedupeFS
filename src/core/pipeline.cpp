@@ -99,6 +99,7 @@ DedupStats DedupPipeline::run() {
 
     SizeBucketMap candidate_map = scanner.scan_directory(config_.root_path, stats_);
     stats_.scan_time_ms = scan_timer.elapsed_ms();
+    all_scanned_files_ = scanner.all_scanned_files();
     utils::Logger::success("Directory scan complete in " + utils::Logger::format_time_ms(stats_.scan_time_ms));
     utils::Logger::info("Total files found: " + std::to_string(stats_.total_files_scanned) + 
                         " (" + utils::Logger::format_bytes(stats_.total_bytes_scanned) + ")");
@@ -148,7 +149,33 @@ DedupStats DedupPipeline::run() {
     stats_.duplicate_files_count = total_dup_files;
     stats_.potential_reclaimed_bytes = total_dup_bytes;
 
-    // Step 4: Storage Optimization
+    // Step 4: Advanced Data Structures Analysis (Binary Max-Heap & Hierarchical Merkle Tree)
+    utils::Logger::info("Building Binary Max-Heap Priority Queue for Top-K cluster prioritization...");
+    max_heap_ = ds::DuplicateMaxHeap(duplicate_groups_);
+    auto heap_diag = max_heap_.get_diagnostics(10);
+    stats_.top_k_clusters_count = heap_diag.top_k_count;
+    stats_.top_k_reclaimed_bytes = heap_diag.top_k_wasted_bytes;
+    stats_.top_k_space_percentage = heap_diag.top_k_share_percent;
+    stats_.pareto_curve = max_heap_.compute_pareto_distribution();
+
+    utils::Logger::info("Constructing Cryptographic Merkle Hash Tree...");
+    utils::Timer merkle_timer;
+    merkle_tree_.build(config_.root_path, all_scanned_files_);
+    stats_.merkle_build_time_ms = merkle_timer.elapsed_ms();
+    stats_.merkle_root_hash = merkle_tree_.root_hash_hex();
+    stats_.merkle_total_nodes = merkle_tree_.total_nodes();
+    stats_.merkle_leaf_nodes = merkle_tree_.total_leaves();
+    auto dup_subtrees = merkle_tree_.find_duplicate_subtrees();
+    stats_.duplicate_subtrees_count = dup_subtrees.size();
+    uintmax_t wasted_subtree_bytes = 0;
+    for (const auto& st : dup_subtrees) {
+        wasted_subtree_bytes += st.wasted_bytes();
+    }
+    stats_.duplicate_subtree_wasted_bytes = wasted_subtree_bytes;
+    utils::Logger::success("Merkle Tree constructed in " + utils::Logger::format_time_ms(stats_.merkle_build_time_ms) + 
+                          " (Root: " + (stats_.merkle_root_hash.empty() ? "empty" : stats_.merkle_root_hash.substr(0, 16) + "...") + ")");
+
+    // Step 5: Storage Optimization
     utils::Logger::info("Running Storage Optimizer...");
     utils::Timer dedup_timer;
     StorageOptimizer optimizer(config_.mode);
@@ -158,7 +185,7 @@ DedupStats DedupPipeline::run() {
     stats_.total_time_ms = total_timer.elapsed_ms();
     utils::Logger::success("Deduplication run finished in " + utils::Logger::format_time_ms(stats_.total_time_ms));
 
-    // Step 5: Generate Run Report and File-Level Duplicate Report
+    // Step 6: Generate Run Report and File-Level Duplicate Report
     if (config_.enable_reports) {
         utils::Reporter::generate_reports(
             config_.reports_dir,
@@ -169,6 +196,8 @@ DedupStats DedupPipeline::run() {
             stats_,
             bloom_filter_,
             hash_table_,
+            max_heap_,
+            merkle_tree_,
             duplicate_groups_,
             summary_report_path_,
             duplicate_report_path_
@@ -221,6 +250,24 @@ void DedupPipeline::print_report() const {
     std::cout << std::setw(38) << "Collisions in Buckets:" << ht_diag.collisions << "\n";
     std::cout << std::setw(38) << "Max Bucket Chain Length:" << ht_diag.max_chain_length << "\n";
     std::cout << std::setw(38) << "Avg Non-Empty Chain Length:" << std::fixed << std::setprecision(2) << ht_diag.avg_non_empty_chain_length << "\n";
+
+    std::cout << "\n--- PRIORITY QUEUE (MAX-HEAP) TOP-K TELEMETRY ---\n";
+    auto heap_diag = max_heap_.get_diagnostics(10);
+    std::cout << std::setw(38) << "Total Redundancy Clusters in Heap:" << heap_diag.total_clusters << "\n";
+    std::cout << std::setw(38) << "Max Wasted Single Cluster:" << utils::Logger::format_bytes(heap_diag.max_single_cluster_wasted) << "\n";
+    std::cout << std::setw(38) << "Top-10 Clusters Reclaimable Volume:" << utils::Logger::format_bytes(heap_diag.top_k_wasted_bytes) << "\n";
+    std::cout << std::setw(38) << "Top-10 Storage Share %:" << std::fixed << std::setprecision(2) << heap_diag.top_k_share_percent << "%\n";
+
+    std::cout << "\n--- HIERARCHICAL CRYPTOGRAPHIC MERKLE TREE ---\n";
+    auto merkle_diag = merkle_tree_.get_diagnostics();
+    std::cout << std::setw(38) << "Cryptographic Merkle Root:" << (merkle_diag.root_hash_hex.empty() ? "(empty)" : merkle_diag.root_hash_hex) << "\n";
+    std::cout << std::setw(38) << "Total Merkle Graph Nodes:" << merkle_diag.total_nodes << "\n";
+    std::cout << std::setw(38) << "Leaf Nodes (Files):" << merkle_diag.leaf_files_count << "\n";
+    std::cout << std::setw(38) << "Internal Nodes (Directories):" << merkle_diag.directory_nodes_count << "\n";
+    std::cout << std::setw(38) << "Tree Max Depth:" << merkle_diag.max_depth << "\n";
+    std::cout << std::setw(38) << "Identical Subtrees Detected:" << merkle_diag.duplicate_subtrees_count << "\n";
+    std::cout << std::setw(38) << "Subtree Redundant Volume:" << utils::Logger::format_bytes(merkle_diag.duplicate_subtree_wasted_bytes) << "\n";
+    std::cout << std::setw(38) << "Tree Build Latency:" << utils::Logger::format_time_ms(stats_.merkle_build_time_ms) << "\n";
 
     std::cout << "\n--- VERIFICATION & DEDUPLICATION RESULTS ---\n";
     std::cout << std::setw(38) << "Byte Verifications Performed:" << stats_.byte_verifications_performed << "\n";

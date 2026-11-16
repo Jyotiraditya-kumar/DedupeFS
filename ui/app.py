@@ -269,6 +269,39 @@ def get_html_report():
         return send_file(html_file)
     return "HTML report not generated yet.", 404
 
+@app.route("/api/benchmarks", methods=["GET"])
+def get_benchmarks():
+    bm_file = PROJECT_ROOT / "benchmarks" / "benchmark_results.json"
+    if bm_file.exists():
+        try:
+            with open(bm_file, "r", encoding="utf-8") as f:
+                return jsonify({"success": True, "data": json.load(f)})
+        except Exception as e:
+            return jsonify({"success": False, "error": str(e)})
+    return jsonify({"success": False, "error": "No benchmark results generated yet."})
+
+@app.route("/api/benchmarks/run", methods=["POST"])
+def run_benchmark():
+    data = request.json or {}
+    path = data.get("path", "").strip() or str(PROJECT_ROOT / "datasets" / "test_small_250MB" / "work")
+    bm_script = PROJECT_ROOT / "benchmarks" / "run_benchmarks.py"
+    try:
+        proc = subprocess.run(
+            [sys.executable, str(bm_script), str(path)],
+            cwd=str(PROJECT_ROOT),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=180
+        )
+        bm_file = PROJECT_ROOT / "benchmarks" / "benchmark_results.json"
+        if bm_file.exists():
+            with open(bm_file, "r", encoding="utf-8") as f:
+                return jsonify({"success": True, "output": proc.stdout, "data": json.load(f)})
+        return jsonify({"success": proc.returncode == 0, "output": proc.stdout})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
 @app.route("/presentation")
 def get_presentation_slides():
     slides_file = PROJECT_ROOT / "presentation" / "index.html"

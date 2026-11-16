@@ -27,12 +27,16 @@ public:
     // Scans directory recursively and groups files having identical sizes (candidate duplicates)
     SizeBucketMap scan_directory(const std::string& root_path, DedupStats& stats);
 
+    // All valid scanned files (including unique and candidate files) for Merkle Tree construction
+    const std::vector<FileInfo>& all_scanned_files() const { return all_scanned_files_; }
+
 private:
     bool is_excluded(const std::string& path) const;
     uint64_t make_inode_key(dev_t dev, ino_t ino) const;
 
     ScannerOptions options_;
     std::unordered_set<uint64_t> visited_inodes_;
+    std::vector<FileInfo> all_scanned_files_;
 };
 
 } // namespace core

@@ -5,6 +5,8 @@ namespace dedupfs {
 namespace tests {
     bool run_bloom_filter_tests();
     bool run_hash_table_tests();
+    bool run_priority_queue_tests();
+    bool run_merkle_tree_tests();
     bool run_verifier_and_optimizer_tests();
     bool run_pipeline_e2e_tests();
 }
@@ -12,13 +14,15 @@ namespace tests {
 
 int main() {
     using namespace dedupfs;
-    utils::Logger::header("DEDUPFS PHASE 1 AUTOMATED TEST SUITE");
+    utils::Logger::header("DEDUPFS ADVANCED DATA STRUCTURES AUTOMATED TEST SUITE");
 
     int passed = 0;
-    int total = 4;
+    int total = 6;
 
     if (tests::run_bloom_filter_tests()) passed++;
     if (tests::run_hash_table_tests()) passed++;
+    if (tests::run_priority_queue_tests()) passed++;
+    if (tests::run_merkle_tree_tests()) passed++;
     if (tests::run_verifier_and_optimizer_tests()) passed++;
     if (tests::run_pipeline_e2e_tests()) passed++;
 
@@ -28,7 +32,7 @@ int main() {
     std::cout << "Suites Failed:   " << (total - passed) << "\n";
 
     if (passed == total) {
-        utils::Logger::success("ALL PHASE 1 TEST SUITES PASSED SUCCESSFULLY (100% PASS RATE)!");
+        utils::Logger::success("ALL 6 DEDUPFS TEST SUITES PASSED SUCCESSFULLY (100% PASS RATE)!");
         return 0;
     } else {
         utils::Logger::error("SOME TEST CASES FAILED.");

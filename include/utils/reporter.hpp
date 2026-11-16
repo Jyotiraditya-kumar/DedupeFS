@@ -4,6 +4,8 @@
 #include "core/storage_optimizer.hpp"
 #include "ds/bloom_filter.hpp"
 #include "ds/hash_table.hpp"
+#include "ds/priority_queue.hpp"
+#include "ds/merkle_tree.hpp"
 
 #include <string>
 #include <vector>
@@ -23,6 +25,8 @@ public:
         const DedupStats& stats,
         const ds::BloomFilter& bloom_filter,
         const ds::FingerprintHashTable& hash_table,
+        const ds::DuplicateMaxHeap& max_heap,
+        const ds::MerkleTree& merkle_tree,
         const std::vector<DuplicateGroup>& duplicate_groups,
         std::string& out_summary_path,
         std::string& out_duplicates_path
@@ -42,6 +46,8 @@ private:
         const DedupStats& stats,
         const ds::BloomFilter& bloom_filter,
         const ds::HashTableDiagnostics& ht_diag,
+        const ds::DuplicateMaxHeap& max_heap,
+        const ds::MerkleTree& merkle_tree,
         const std::vector<DuplicateGroup>& duplicate_groups
     );
     static void generate_json_report(
@@ -54,6 +60,8 @@ private:
         const DedupStats& stats,
         const ds::BloomFilter& bloom_filter,
         const ds::HashTableDiagnostics& ht_diag,
+        const ds::DuplicateMaxHeap& max_heap,
+        const ds::MerkleTree& merkle_tree,
         const std::vector<DuplicateGroup>& duplicate_groups
     );
 };

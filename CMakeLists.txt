@@ -23,6 +23,8 @@ set(LIB_SOURCES
     src/ds/murmur3.cpp
     src/ds/bloom_filter.cpp
     src/ds/hash_table.cpp
+    src/ds/priority_queue.cpp
+    src/ds/merkle_tree.cpp
     src/utils/logger.cpp
     src/utils/metrics.cpp
     src/utils/reporter.cpp
@@ -39,6 +41,8 @@ target_link_libraries(dedupfs PRIVATE dedupfs_core)
 set(TEST_SOURCES
     tests/test_bloom_filter.cpp
     tests/test_hash_table.cpp
+    tests/test_priority_queue.cpp
+    tests/test_merkle_tree.cpp
     tests/test_verifier_optimizer.cpp
     tests/test_pipeline.cpp
     tests/test_runner.cpp

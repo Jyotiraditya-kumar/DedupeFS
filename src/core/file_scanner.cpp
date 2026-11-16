@@ -31,6 +31,7 @@ bool FileScanner::is_excluded(const std::string& path) const {
 SizeBucketMap FileScanner::scan_directory(const std::string& root_path, DedupStats& stats) {
     SizeBucketMap raw_size_map;
     visited_inodes_.clear();
+    all_scanned_files_.clear();
 
     std::error_code ec;
     if (!fs::exists(root_path, ec) || !fs::is_directory(root_path, ec)) {
@@ -128,6 +129,7 @@ SizeBucketMap FileScanner::scan_directory(const std::string& root_path, DedupSta
                 info.mtime = st.st_mtime;
                 info.nlink = st.st_nlink;
 
+                all_scanned_files_.push_back(info);
                 raw_size_map[file_size].push_back(std::move(info));
             }
         }

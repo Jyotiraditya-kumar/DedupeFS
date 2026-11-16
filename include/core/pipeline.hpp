@@ -7,6 +7,8 @@
 #include "core/storage_optimizer.hpp"
 #include "ds/bloom_filter.hpp"
 #include "ds/hash_table.hpp"
+#include "ds/priority_queue.hpp"
+#include "ds/merkle_tree.hpp"
 
 #include <string>
 #include <vector>
@@ -37,6 +39,8 @@ public:
     const ds::BloomFilter& bloom_filter() const { return bloom_filter_; }
     const ds::FingerprintHashTable& hash_table() const { return hash_table_; }
     const std::vector<DuplicateGroup>& duplicate_groups() const { return duplicate_groups_; }
+    const ds::DuplicateMaxHeap& max_heap() const { return max_heap_; }
+    const ds::MerkleTree& merkle_tree() const { return merkle_tree_; }
     const std::string& summary_report_path() const { return summary_report_path_; }
     const std::string& duplicate_report_path() const { return duplicate_report_path_; }
 
@@ -50,6 +54,9 @@ private:
     DedupStats stats_;
     ds::BloomFilter bloom_filter_;
     ds::FingerprintHashTable hash_table_;
+    ds::DuplicateMaxHeap max_heap_;
+    ds::MerkleTree merkle_tree_;
+    std::vector<FileInfo> all_scanned_files_;
     std::vector<DuplicateGroup> duplicate_groups_;
     std::string summary_report_path_;
     std::string duplicate_report_path_;

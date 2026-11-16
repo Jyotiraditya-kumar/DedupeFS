@@ -18,7 +18,9 @@ CORE_SRCS = $(SRC_DIR)/core/file_scanner.cpp \
 
 DS_SRCS = $(SRC_DIR)/ds/murmur3.cpp \
           $(SRC_DIR)/ds/bloom_filter.cpp \
-          $(SRC_DIR)/ds/hash_table.cpp
+          $(SRC_DIR)/ds/hash_table.cpp \
+          $(SRC_DIR)/ds/priority_queue.cpp \
+          $(SRC_DIR)/ds/merkle_tree.cpp
 
 UTILS_SRCS = $(SRC_DIR)/utils/logger.cpp \
              $(SRC_DIR)/utils/metrics.cpp \
@@ -32,6 +34,8 @@ MAIN_OBJ = $(BUILD_DIR)/main.o
 
 TEST_SRCS = $(TESTS_DIR)/test_bloom_filter.cpp \
             $(TESTS_DIR)/test_hash_table.cpp \
+            $(TESTS_DIR)/test_priority_queue.cpp \
+            $(TESTS_DIR)/test_merkle_tree.cpp \
             $(TESTS_DIR)/test_verifier_optimizer.cpp \
             $(TESTS_DIR)/test_pipeline.cpp \
             $(TESTS_DIR)/test_runner.cpp
