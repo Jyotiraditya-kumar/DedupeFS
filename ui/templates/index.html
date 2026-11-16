@@ -679,97 +679,378 @@
       </div>
 
       <!-- Tab 4: Pipeline Flowchart -->
-      <div id="tabContent-flowchart" class="hidden space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+      <div id="tabContent-flowchart" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
           <div class="flex items-center space-x-2">
             <i class="fa-solid fa-diagram-project text-sky-400"></i>
-            <span class="text-sm font-bold text-white">Multi-Tier Hashing &amp; Pruning Pipeline Architecture</span>
+            <span class="text-sm font-bold text-white">Vertical Execution Flowchart &amp; Algorithmic Branching Logic</span>
           </div>
-          <span class="text-xs text-slate-400">Decision gates eliminate ~50-80% of unnecessary disk I/O</span>
-        </div>
-
-        <!-- Flowchart Grid (Top Row) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div class="bg-slate-900/80 border border-sky-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-sky-400">Stage 1: File Scanner</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800">stat(2)</span>
-            </div>
-            <p class="text-[11px] text-slate-300">Recursively scans filesystem tree, filtering existing hard links by (st_dev, st_ino) to prevent cycles.</p>
-          </div>
-
-          <div class="bg-slate-900/80 border border-sky-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-sky-400">Stage 2: Tier 1 Size Filter</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">0 Disk Reads</span>
-            </div>
-            <p class="text-[11px] text-slate-300">Groups files into size buckets in O(1). Buckets with 1 file are immediately pruned. ~25% unique files eliminated.</p>
-          </div>
-
-          <div class="bg-slate-900/80 border border-amber-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-amber-400">Stage 3: Tier 2 Prefix Hash</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">&le; 4KB Read</span>
-            </div>
-            <p class="text-[11px] text-slate-300">Reads first 4,096 bytes and computes 128-bit MurmurHash3. Mismatched headers pruned without reading full files.</p>
-          </div>
-
-          <div class="bg-slate-900/80 border border-amber-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-amber-400">Stage 4: Tier 3 Full SHA-256</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">Crypto Digest</span>
-            </div>
-            <p class="text-[11px] text-slate-300">Computes 256-bit cryptographic digest only on candidate files passing both Tier 1 and Tier 2.</p>
+          <div class="flex items-center space-x-2">
+            <span class="text-[11px] px-2.5 py-1 rounded-full bg-sky-950 text-sky-300 border border-sky-800 font-medium">
+              <i class="fa-solid fa-arrow-down mr-1"></i> Vertical Top-to-Bottom Flow
+            </span>
+            <span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 font-medium">
+              <i class="fa-solid fa-code-branch mr-1"></i> Multi-Tier Decision Gates
+            </span>
           </div>
         </div>
 
-        <!-- Flowchart Grid (Bottom Row) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div class="bg-slate-900/80 border border-purple-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-purple-400">Stage 8: Merkle Hash Tree</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">O(1) Subtrees</span>
+        <!-- Vertical Flowchart Container -->
+        <div class="max-w-4xl mx-auto space-y-3 py-2">
+
+          <!-- STAGE 1: INGESTION -->
+          <div class="bg-slate-900/90 border border-sky-500/40 rounded-xl p-4 shadow-lg hover:border-sky-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold text-xs flex items-center justify-center border border-sky-500/40">1</span>
+                <span class="text-sm font-bold text-white">Filesystem Traversal &amp; Metadata Ingestion</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800 font-mono">stat(2) / lstat(2)</span>
             </div>
-            <p class="text-[11px] text-slate-300">Builds cryptographic DAG over directory hierarchy; detects identical subtrees and enables O(log N) change sync.</p>
+            <p class="text-xs text-slate-300 mb-3">Recursively walks directory hierarchy collecting metadata; extracts device ID and inode number <code>(st_dev, st_ino)</code>.</p>
+            
+            <!-- Inode Decision Branch -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="border-l-2 border-l-rose-500 pl-3">
+                <div class="flex items-center space-x-1.5 text-rose-400 font-bold mb-1">
+                  <i class="fa-solid fa-code-branch"></i>
+                  <span>BRANCH: Inode Already Visited? (YES)</span>
+                </div>
+                <p class="text-[11px] text-slate-400">&rarr; <strong>SKIP:</strong> Existing hard link or symlink loop detected. Bypass to prevent cyclic re-processing.</p>
+              </div>
+              <div class="border-l-2 border-l-emerald-500 pl-3">
+                <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
+                  <i class="fa-solid fa-arrow-down"></i>
+                  <span>BRANCH: Fresh Inode? (NO)</span>
+                </div>
+                <p class="text-[11px] text-slate-400">&rarr; <strong>CONTINUE:</strong> Record unique inode into set; forward file to Tier-1 Size Bucketing.</p>
+              </div>
+            </div>
           </div>
 
-          <div class="bg-slate-900/80 border border-purple-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-purple-400">Stage 7: Max-Heap Priority Q</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">Top-K Pareto</span>
-            </div>
-            <p class="text-[11px] text-slate-300">Floyd's O(N) heapify prioritizes clusters by wasted volume; validates 80/20 rule for bounded I/O deduplication.</p>
+          <!-- CONNECTOR 1 -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-sky-400 to-sky-500"></div>
+            <i class="fa-solid fa-chevron-down text-sky-400 text-xs"></i>
           </div>
 
-          <div class="bg-slate-900/80 border border-emerald-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-emerald-400">Stage 6: POSIX Hard-Linking</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Crash Safe</span>
+          <!-- STAGE 2: DECISION GATE 1 (SIZE) -->
+          <div class="bg-slate-900/90 border border-sky-500/50 rounded-xl p-4 shadow-lg hover:border-sky-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold text-xs flex items-center justify-center border border-sky-500/40">2</span>
+                <span class="text-sm font-bold text-white">Decision Gate 1: Tier-1 File Size Bucketing</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono">O(1) Memory Hash</span>
             </div>
-            <p class="text-[11px] text-slate-300">Streaming 64KB byte verifier guarantees 0 collisions; atomic link() + rename() reclaims disk blocks immediately.</p>
+            <p class="text-xs text-slate-300 mb-3">Indexes file sizes into primary size hash table in memory. Only files sharing exact byte size can be duplicates.</p>
+
+            <!-- Size Branches -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
+                  <i class="fa-solid fa-shield-halved"></i>
+                  <span>BRANCH: |Bucket(Size)| == 1 (Unique Size)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">PRUNE: 0 Byte Disk Read!</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Provably distinct file. Discarded immediately without accessing disk storage. (Eliminates ~25-40% of files)</p>
+              </div>
+              <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
+                  <i class="fa-solid fa-arrow-down"></i>
+                  <span>BRANCH: |Bucket(Size)| &ge; 2 (Collision)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">CONTINUE TO TIER-2:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">2+ files share identical size; candidate group promoted to 4KB header prefix test.</p>
+              </div>
+            </div>
           </div>
 
-          <div class="bg-slate-900/80 border border-emerald-500/40 rounded-lg p-3.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-emerald-400">Stage 5: Bloom Filter &amp; HT</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">FN = 0 Invariant</span>
-            </div>
-            <p class="text-[11px] text-slate-300">Kirsch-Mitzenmacher double-hashing rejects unique files in O(k); candidate matches indexed into chained hash table.</p>
+          <!-- CONNECTOR 2 -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-sky-400 to-amber-500"></div>
+            <i class="fa-solid fa-chevron-down text-amber-400 text-xs"></i>
           </div>
+
+          <!-- STAGE 3: DECISION GATE 2 (PREFIX HASH) -->
+          <div class="bg-slate-900/90 border border-amber-500/50 rounded-xl p-4 shadow-lg hover:border-amber-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xs flex items-center justify-center border border-amber-500/40">3</span>
+                <span class="text-sm font-bold text-white">Decision Gate 2: Tier-2 4KB Prefix Hash</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-mono">128-bit MurmurHash3</span>
+            </div>
+            <p class="text-xs text-slate-300 mb-3">Reads first 4,096 bytes and computes fast non-cryptographic MurmurHash3 to verify file header signature.</p>
+
+            <!-- Prefix Branches -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="border-l-2 border-l-amber-400 pl-3 bg-amber-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-amber-400 font-bold mb-1">
+                  <i class="fa-solid fa-scissors"></i>
+                  <span>BRANCH: Murmur3 Mismatch? (Header Diff)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-amber-300">PRUNE: Full File Read Avoided!</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Headers differ; candidate rejected having read &le; 4KB instead of reading gigabytes of payload.</p>
+              </div>
+              <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
+                  <i class="fa-solid fa-arrow-down"></i>
+                  <span>BRANCH: Murmur3 Match? (Identical Header)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">CONTINUE TO FULL DIGEST:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Matching header confirmed; promoted to full cryptographic digest computation.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONNECTOR 3 -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-amber-500 to-amber-400"></div>
+            <i class="fa-solid fa-chevron-down text-amber-400 text-xs"></i>
+          </div>
+
+          <!-- STAGE 4: TIER-3 FULL SHA-256 DIGEST -->
+          <div class="bg-slate-900/90 border border-amber-500/40 rounded-xl p-4 shadow-lg hover:border-amber-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xs flex items-center justify-center border border-amber-500/40">4</span>
+                <span class="text-sm font-bold text-white">Tier-3 Full File Cryptographic SHA-256</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-mono">OpenSSL EVP_sha256()</span>
+            </div>
+            <p class="text-xs text-slate-300">Computes 256-bit cryptographic digest using streaming chunks. Executed exclusively on true candidate files surviving Gates 1 and 2.</p>
+          </div>
+
+          <!-- CONNECTOR 4 -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-amber-400 to-emerald-500"></div>
+            <i class="fa-solid fa-chevron-down text-emerald-400 text-xs"></i>
+          </div>
+
+          <!-- STAGE 5: DECISION GATE 3 (BLOOM FILTER ADS 1) -->
+          <div class="bg-slate-900/90 border border-emerald-500/50 rounded-xl p-4 shadow-lg hover:border-emerald-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center border border-emerald-500/40">5</span>
+                <span class="text-sm font-bold text-white">Decision Gate 3: Probabilistic Bloom Filter (ADS 1)</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono">FN = 0 Invariant</span>
+            </div>
+            <p class="text-xs text-slate-300 mb-3">Queries optimal bitset with Kirsch-Mitzenmacher double-hashing <code>g_i(x) = (h1 + i&middot;h2) mod m</code> across <code>k</code> probes.</p>
+
+            <!-- Bloom Branches -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
+                  <i class="fa-solid fa-filter"></i>
+                  <span>BRANCH: Any Probe Bit == 0 (Negative)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">DEFINITELY UNIQUE (FN = 0):</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Insert bits into filter; bypass costly secondary Hash Table lookup entirely in O(k) bit operations.</p>
+              </div>
+              <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
+                  <i class="fa-solid fa-arrow-down"></i>
+                  <span>BRANCH: All k Probe Bits == 1 (Positive)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">CANDIDATE DUPLICATE:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Candidate passes to Primary Chained Hash Table to resolve equivalence class.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONNECTOR 5 -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-emerald-500 to-sky-400"></div>
+            <i class="fa-solid fa-chevron-down text-sky-400 text-xs"></i>
+          </div>
+
+          <!-- STAGE 6: DECISION GATE 4 (CHAINED HASH TABLE ADS 2) -->
+          <div class="bg-slate-900/90 border border-sky-500/50 rounded-xl p-4 shadow-lg hover:border-sky-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold text-xs flex items-center justify-center border border-sky-500/40">6</span>
+                <span class="text-sm font-bold text-white">Decision Gate 4: Primary Chained Hash Table (ADS 2)</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800 font-mono">&lambda; &le; 0.75 Dynamic Doubling</span>
+            </div>
+            <p class="text-xs text-slate-300 mb-3">Indexes 256-bit fingerprints into cache-aligned chained hash table. Capacity dynamically doubles when load factor &gt; 0.75.</p>
+
+            <!-- Hash Table Branches -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="border-l-2 border-l-slate-400 pl-3 bg-slate-900/30 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-slate-300 font-bold mb-1">
+                  <i class="fa-solid fa-user-plus"></i>
+                  <span>BRANCH: Key Not Found in Bucket?</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-slate-200">INSERT AS GROUP LEADER:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">First occurrence of this SHA-256 fingerprint. Stored as canonical target file; byte verification skipped.</p>
+              </div>
+              <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
+                  <i class="fa-solid fa-arrow-down"></i>
+                  <span>BRANCH: Matching Key Found in Bucket?</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">CANDIDATE DUPLICATE PAIR:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Colliding fingerprint located; pair forwarded to streaming byte-for-byte verifier.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONNECTOR 6 -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-sky-400 to-rose-500"></div>
+            <i class="fa-solid fa-chevron-down text-rose-400 text-xs"></i>
+          </div>
+
+          <!-- STAGE 7: DECISION GATE 5 (STREAMING BYTE VERIFIER) -->
+          <div class="bg-slate-900/90 border border-rose-500/50 rounded-xl p-4 shadow-lg hover:border-rose-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xs flex items-center justify-center border border-rose-500/40">7</span>
+                <span class="text-sm font-bold text-white">Decision Gate 5: Streaming 64KB Byte Verifier</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-mono">Zero Collision Risk</span>
+            </div>
+            <p class="text-xs text-slate-300 mb-3">Performs synchronous 64KB chunked byte-for-byte memory comparison between canonical leader and candidate duplicate.</p>
+
+            <!-- Byte Verifier Branches -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="border-l-2 border-l-rose-500 pl-3 bg-rose-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-rose-400 font-bold mb-1">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <span>BRANCH: Byte Mismatch Detected? (Collision)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-rose-400">CRYPTOGRAPHIC COLLISION!</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Critical safety tripwire: pairing aborted immediately, discrepancy logged, zero data loss guaranteed.</p>
+              </div>
+              <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
+                  <i class="fa-solid fa-check-double"></i>
+                  <span>BRANCH: 100% Byte Identity Confirmed?</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">CONFIRMED DUPLICATE CLUSTER:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Verified identical; group registered for Hierarchical Merkle Tree and Priority Queue ranking.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONNECTOR 7 (FORK TO DUAL ADS) -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-rose-500 to-purple-500"></div>
+            <i class="fa-solid fa-code-fork text-purple-400 text-xs"></i>
+          </div>
+
+          <!-- STAGE 8: DUAL ADVANCED DATA STRUCTURES (MERKLE & MAX-HEAP) -->
+          <div class="bg-slate-900/90 border border-purple-500/50 rounded-xl p-4 shadow-lg hover:border-purple-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xs flex items-center justify-center border border-purple-500/40">8</span>
+                <span class="text-sm font-bold text-white">Parallel Branch: Advanced Data Structures Execution</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-mono">Dual ADS Stage</span>
+            </div>
+
+            <!-- Side-by-side Dual ADS Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- Left Branch: ADS 3 Merkle Tree -->
+              <div class="bg-slate-950 border border-purple-500/30 rounded-lg p-3.5 space-y-2">
+                <div class="flex items-center justify-between border-b border-purple-900/50 pb-2">
+                  <span class="font-bold text-purple-300 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-sitemap"></i>
+                    <span>ADS 3: Hierarchical Merkle Tree</span>
+                  </span>
+                  <span class="text-[10px] text-purple-400 font-mono">O(N) Build</span>
+                </div>
+                <p class="text-[11px] text-slate-300">Computes internal directory hashes deterministically by sorting and hashing child digests.</p>
+                <div class="space-y-1.5 pt-1 text-[11px]">
+                  <div class="border-l-2 border-l-purple-400 pl-2">
+                    <strong class="text-white">Subtree Branch:</strong> Identical root digest &rarr; <span class="text-purple-300 font-semibold">O(1) duplicate directory match</span> without walking subtree.
+                  </div>
+                  <div class="border-l-2 border-l-purple-400 pl-2">
+                    <strong class="text-white">Proof Branch:</strong> Generates tamper-proof <span class="text-purple-300 font-semibold">O(log N) cryptographic inclusion audit proofs</span>.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Branch: ADS 4 Max-Heap Priority Queue -->
+              <div class="bg-slate-950 border border-purple-500/30 rounded-lg p-3.5 space-y-2">
+                <div class="flex items-center justify-between border-b border-purple-900/50 pb-2">
+                  <span class="font-bold text-purple-300 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>ADS 4: Max-Heap Priority Queue</span>
+                  </span>
+                  <span class="text-[10px] text-purple-400 font-mono">Floyd's O(N)</span>
+                </div>
+                <p class="text-[11px] text-slate-300">Organizes duplicate groups by reclaimable volume: <code>(count - 1) &times; file_size</code>.</p>
+                <div class="space-y-1.5 pt-1 text-[11px]">
+                  <div class="border-l-2 border-l-purple-400 pl-2">
+                    <strong class="text-white">Top-K Branch:</strong> Extracts <span class="text-purple-300 font-semibold">Top-K clusters in O(K log N)</span> for maximum storage reclamation ROI.
+                  </div>
+                  <div class="border-l-2 border-l-purple-400 pl-2">
+                    <strong class="text-white">Pareto Curve Branch:</strong> Computes <span class="text-purple-300 font-semibold">Pareto 80/20 distribution</span> to optimize hardlink I/O budget.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONNECTOR 8 -->
+          <div class="flex flex-col items-center justify-center py-0.5">
+            <div class="w-0.5 h-4 bg-gradient-to-b from-purple-500 to-emerald-400"></div>
+            <i class="fa-solid fa-chevron-down text-emerald-400 text-xs"></i>
+          </div>
+
+          <!-- STAGE 9: DECISION GATE 6 (EXECUTION MODE: SCAN VS OPTIMIZE) -->
+          <div class="bg-slate-900/90 border border-emerald-500/50 rounded-xl p-4 shadow-lg hover:border-emerald-400 transition">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center border border-emerald-500/40">9</span>
+                <span class="text-sm font-bold text-white">Decision Gate 6: Engine Operation Mode</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono">Atomic POSIX Reclaim</span>
+            </div>
+            <p class="text-xs text-slate-300 mb-3">User selects non-destructive audit mode or atomic filesystem physical consolidation mode.</p>
+
+            <!-- Mode Branches -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
+                <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <span>BRANCH: Mode == 'Scan' (Dry-Run Audit)</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">TELEMETRY REPORT GENERATION:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">No filesystem mutations. Emits comprehensive JSON telemetry, HTML dashboard, and console reports.</p>
+              </div>
+              <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/20 py-1 rounded-r border border-emerald-500/30">
+                <div class="flex items-center space-x-1.5 text-emerald-300 font-bold mb-1">
+                  <i class="fa-solid fa-link"></i>
+                  <span>BRANCH: Mode == 'Optimize' (Consolidation)</span>
+                </div>
+                <p class="text-[11px] text-slate-200 font-medium">&rarr; <strong class="text-emerald-300">ATOMIC HARDLINK RECLAMATION:</strong></p>
+                <p class="text-[10px] text-slate-300 mt-0.5">Executes <code>link(target, tmp) &rarr; rename(tmp, dup)</code>. Reclaims physical disk extents with crash-safe atomicity!</p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Decision Gates Summary Banner -->
+        <!-- Invariants Footer Summary -->
         <div class="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-2 text-xs">
-          <div class="font-bold text-amber-400 uppercase text-[11px] tracking-wide">Mathematical Pruning Invariants:</div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-slate-300">
+          <div class="font-bold text-amber-400 uppercase text-[11px] tracking-wide flex items-center space-x-1.5">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <span>Summary of Pruning Theorems &amp; Invariants:</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-slate-300 pt-1">
             <div class="border-l-2 border-l-sky-400 pl-2">
-              <strong class="text-white">Gate 1 (Unique Size):</strong> If |Bucket(size)| == 1 &rarr; Provably distinct file. Zero disk bytes read.
+              <strong class="text-white">Gate 1 (Unique Size):</strong> If |Bucket(size)| == 1 &rarr; Provably distinct file. Zero disk bytes read from physical media.
             </div>
             <div class="border-l-2 border-l-amber-400 pl-2">
-              <strong class="text-white">Gate 2 (Prefix Mismatch):</strong> If Murmur3(4KB) differs &rarr; Headers differ. Full file read avoided.
+              <strong class="text-white">Gate 2 (Prefix Mismatch):</strong> If Murmur3(4KB) differs &rarr; Headers differ. Full file read completely spared.
             </div>
             <div class="border-l-2 border-l-emerald-400 pl-2">
-              <strong class="text-white">Gate 3 (Bloom Fast Rejection):</strong> If any bit in g_i(x) == 0 &rarr; Provably absent (FN = 0). Table lookup skipped.
+              <strong class="text-white">Gate 3 (Bloom Fast Reject):</strong> If any bit in g_i(x) == 0 &rarr; Provably absent (FN = 0). Hash table lookup bypassed in O(k).
             </div>
           </div>
         </div>

@@ -226,67 +226,282 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s2, 2)
 
     # =========================================================================
-    # SLIDE 3: SYSTEM ARCHITECTURE & PIPELINE FLOWCHART
+    # SLIDE 3: SYSTEM ARCHITECTURE & VERTICAL PIPELINE FLOWCHART
     # =========================================================================
     s3 = prs.slides.add_slide(blank_layout)
     set_slide_background(s3, BG_DARK)
-    add_header(s3, "End-to-End Pipeline & Algorithmic Flowchart", "SYSTEM ARCHITECTURE")
+    add_header(s3, "Vertical Pipeline Architecture & Decision Branching", "SYSTEM ARCHITECTURE")
 
-    # Draw Flowchart Stages (Top Row: Ingestion to Hashing; Bottom Row: Verification to Optimization)
-    flow_steps = [
-        ("1. File Scanner", "stat(2) traversal\nst_ino hardlink filter", COLOR_CYAN, 0.8, 1.5, 2.6, 1.3),
-        ("2. Tier 1: Size Bucket", "O(1) file size filter\nPrunes unique sizes", COLOR_CYAN, 3.8, 1.5, 2.6, 1.3),
-        ("3. Tier 2: 4KB Murmur3", "Fast prefix read\nPrunes header diffs", COLOR_CYAN, 6.8, 1.5, 2.6, 1.3),
-        ("4. Tier 3: SHA-256", "Hardware crypto digest\nOnly candidate files", COLOR_CYAN, 9.8, 1.5, 2.6, 1.3),
-        ("8. Hierarchical Merkle", "O(1) subtree dup check\nO(log N) diff sync", COLOR_PURPLE, 0.8, 3.4, 2.6, 1.3),
-        ("7. Max-Heap Priority Q", "Floyd's O(N) heapify\nTop-K Pareto ranking", COLOR_PURPLE, 3.8, 3.4, 2.6, 1.3),
-        ("6. Atomic POSIX Link", "Atomic link() + rename()\nZero data loss reclaim", COLOR_EMERALD, 6.8, 3.4, 2.6, 1.3),
-        ("5. Bloom Filter & HT", "Double-hash (FN = 0)\nChained hash table", COLOR_AMBER, 9.8, 3.4, 2.6, 1.3),
-    ]
+    def add_arrow_shape(slide, arrow_type, left, top, width, height, color):
+        arrow = slide.shapes.add_shape(arrow_type, left, top, width, height)
+        arrow.fill.solid()
+        arrow.fill.fore_color.rgb = color
+        arrow.line.fill.background()
+        return arrow
 
-    for title, desc, color, left, top, width, height in flow_steps:
-        add_card(s3, Inches(left), Inches(top), Inches(width), Inches(height), border_color=color, bg_color=BG_CARD)
-        tb = s3.shapes.add_textbox(Inches(left + 0.1), Inches(top + 0.1), Inches(width - 0.2), Inches(height - 0.2))
-        tf = tb.text_frame
-        tf.word_wrap = True
-        p1 = tf.paragraphs[0]
-        p1.text = title
-        p1.font.size = Pt(12)
-        p1.font.bold = True
-        p1.font.color.rgb = color
+    # --- LANE 1: INGESTION & EARLY PRUNING GATES (VERTICAL) ---
+    add_card(s3, Inches(0.6), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_CYAN, bg_color=BG_CARD)
+    tb_l1 = s3.shapes.add_textbox(Inches(0.75), Inches(1.48), Inches(3.55), Inches(0.3))
+    tf_l1 = tb_l1.text_frame
+    p_l1 = tf_l1.paragraphs[0]
+    p_l1.text = "LANE 1: INGESTION & EARLY PRUNING"
+    p_l1.font.size = Pt(11)
+    p_l1.font.bold = True
+    p_l1.font.color.rgb = COLOR_CYAN
 
-        p2 = tf.add_paragraph()
-        p2.text = desc
-        p2.font.size = Pt(10)
-        p2.font.color.rgb = COLOR_WHITE
-        p2.space_before = Pt(3)
+    # Step 1: Traversal
+    add_card(s3, Inches(0.75), Inches(1.85), Inches(3.55), Inches(0.95), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s1 = s3.shapes.add_textbox(Inches(0.85), Inches(1.9), Inches(3.35), Inches(0.85))
+    tf_s1 = tb_s1.text_frame
+    tf_s1.word_wrap = True
+    p = tf_s1.paragraphs[0]
+    p.text = "1. Filesystem Traversal | stat(2)"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_CYAN
+    p = tf_s1.add_paragraph()
+    p.text = "Walks tree; records (st_dev, st_ino) to prevent cycles"
+    p.font.size = Pt(9)
+    p.font.color.rgb = COLOR_MUTED
+    p = tf_s1.add_paragraph()
+    p.text = "• BRANCH: Seen Inode?  →  SKIP (Hardlink/loop)"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_RED
 
-    # Explanatory Notes Card below Flowchart
-    add_card(s3, Inches(0.8), Inches(5.0), Inches(11.6), Inches(1.7), border_color=BORDER_COLOR, bg_color=BG_ACCENT)
-    tb_exp = s3.shapes.add_textbox(Inches(1.0), Inches(5.1), Inches(11.2), Inches(1.5))
-    tf_exp = tb_exp.text_frame
-    tf_exp.word_wrap = True
-    pe_title = tf_exp.paragraphs[0]
-    pe_title.text = "KEY PIPELINE DECISION GATES & PRUNING LOGIC"
-    pe_title.font.size = Pt(12)
-    pe_title.font.bold = True
-    pe_title.font.color.rgb = COLOR_AMBER
+    add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(2.4), Inches(2.85), Inches(0.25), Inches(0.18), COLOR_CYAN)
 
-    pe1 = tf_exp.add_paragraph()
-    pe1.text = "• Gate 1 (Unique Size Discard): If file size bucket cardinality = 1, file is 100% distinct. Zero physical byte reads performed."
-    pe1.font.size = Pt(11)
-    pe1.font.color.rgb = COLOR_WHITE
-    pe1.space_before = Pt(3)
+    # Step 2: Gate 1 (Size)
+    add_card(s3, Inches(0.75), Inches(3.08), Inches(3.55), Inches(1.05), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s2 = s3.shapes.add_textbox(Inches(0.85), Inches(3.13), Inches(3.35), Inches(0.95))
+    tf_s2 = tb_s2.text_frame
+    tf_s2.word_wrap = True
+    p = tf_s2.paragraphs[0]
+    p.text = "2. Gate 1: Size Bucketing | O(1)"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+    p = tf_s2.add_paragraph()
+    p.text = "Exact byte size hash; unique sizes cannot match"
+    p.font.size = Pt(9)
+    p.font.color.rgb = COLOR_MUTED
+    p = tf_s2.add_paragraph()
+    p.text = "• BRANCH: |Bucket| == 1  →  PRUNE (0 Disk Reads!)"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+    p = tf_s2.add_paragraph()
+    p.text = "• BRANCH: |Bucket| ≥ 2  →  CONTINUE to Tier-2"
+    p.font.size = Pt(8.5)
+    p.font.color.rgb = COLOR_CYAN
 
-    pe2 = tf_exp.add_paragraph()
-    pe2.text = "• Gate 2 (Header Mismatch): If 128-bit MurmurHash3 differs in the first 4KB, file bodies cannot match. Entire file read avoided."
-    pe2.font.size = Pt(11)
-    pe2.font.color.rgb = COLOR_WHITE
+    add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(2.4), Inches(4.18), Inches(0.25), Inches(0.18), COLOR_AMBER)
 
-    pe3 = tf_exp.add_paragraph()
-    pe3.text = "• Gate 3 (Bloom Fast Rejection): If any of k hash bits in Bloom filter is 0, file is provably unique (FN = 0). Secondary table lookup bypassed."
-    pe3.font.size = Pt(11)
-    pe3.font.color.rgb = COLOR_WHITE
+    # Step 3: Gate 2 (Prefix Murmur3)
+    add_card(s3, Inches(0.75), Inches(4.41), Inches(3.55), Inches(1.05), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s3 = s3.shapes.add_textbox(Inches(0.85), Inches(4.46), Inches(3.35), Inches(0.95))
+    tf_s3 = tb_s3.text_frame
+    tf_s3.word_wrap = True
+    p = tf_s3.paragraphs[0]
+    p.text = "3. Gate 2: 4KB Murmur3 Prefix | 128-bit"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_AMBER
+    p = tf_s3.add_paragraph()
+    p.text = "Reads first 4,096 bytes; tests header equality"
+    p.font.size = Pt(9)
+    p.font.color.rgb = COLOR_MUTED
+    p = tf_s3.add_paragraph()
+    p.text = "• BRANCH: Murmur3 Diff  →  PRUNE (Spares full read)"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_AMBER
+    p = tf_s3.add_paragraph()
+    p.text = "• BRANCH: Murmur3 Match →  CONTINUE to SHA-256"
+    p.font.size = Pt(8.5)
+    p.font.color.rgb = COLOR_CYAN
+
+    add_card(s3, Inches(0.75), Inches(5.8), Inches(3.55), Inches(0.45), border_color=COLOR_CYAN, bg_color=BG_ACCENT)
+    tb_f1 = s3.shapes.add_textbox(Inches(0.85), Inches(5.82), Inches(3.35), Inches(0.38))
+    tf_f1 = tb_f1.text_frame
+    p = tf_f1.paragraphs[0]
+    p.text = "Candidates Surviving Gates 1 & 2  →  Lane 2  »"
+    p.font.size = Pt(9.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_CYAN
+
+    # --- LANE 2: CRYPTO HASHING & ADS 1/2 INDEXING (VERTICAL) ---
+    add_card(s3, Inches(4.75), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_AMBER, bg_color=BG_CARD)
+    tb_l2 = s3.shapes.add_textbox(Inches(4.9), Inches(1.48), Inches(3.55), Inches(0.3))
+    tf_l2 = tb_l2.text_frame
+    p_l2 = tf_l2.paragraphs[0]
+    p_l2.text = "LANE 2: CRYPTO HASHING & ADS INDEXING"
+    p_l2.font.size = Pt(11)
+    p_l2.font.bold = True
+    p_l2.font.color.rgb = COLOR_AMBER
+
+    # Step 4: SHA-256
+    add_card(s3, Inches(4.9), Inches(1.85), Inches(3.55), Inches(0.85), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s4 = s3.shapes.add_textbox(Inches(5.0), Inches(1.9), Inches(3.35), Inches(0.75))
+    tf_s4 = tb_s4.text_frame
+    tf_s4.word_wrap = True
+    p = tf_s4.paragraphs[0]
+    p.text = "4. Tier-3 Full SHA-256 Digest | OpenSSL"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_AMBER
+    p = tf_s4.add_paragraph()
+    p.text = "Hardware crypto digest computed on true candidates"
+    p.font.size = Pt(9)
+    p.font.color.rgb = COLOR_MUTED
+
+    add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(6.55), Inches(2.75), Inches(0.25), Inches(0.18), COLOR_EMERALD)
+
+    # Step 5: Gate 3 (Bloom Filter ADS 1)
+    add_card(s3, Inches(4.9), Inches(2.98), Inches(3.55), Inches(1.15), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s5 = s3.shapes.add_textbox(Inches(5.0), Inches(3.03), Inches(3.35), Inches(1.05))
+    tf_s5 = tb_s5.text_frame
+    tf_s5.word_wrap = True
+    p = tf_s5.paragraphs[0]
+    p.text = "5. Gate 3: Bloom Filter (ADS 1) | FN = 0"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+    p = tf_s5.add_paragraph()
+    p.text = "Kirsch-Mitzenmacher: g_i(x) = (h1 + i·h2) mod m"
+    p.font.size = Pt(9)
+    p.font.color.rgb = COLOR_MUTED
+    p = tf_s5.add_paragraph()
+    p.text = "• BRANCH: Any Bit == 0  →  PRUNE (Unique, skip table)"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+    p = tf_s5.add_paragraph()
+    p.text = "• BRANCH: All k Bits == 1 →  CONTINUE to Hash Table"
+    p.font.size = Pt(8.5)
+    p.font.color.rgb = COLOR_CYAN
+
+    add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(6.55), Inches(4.18), Inches(0.25), Inches(0.18), COLOR_CYAN)
+
+    # Step 6: Gate 4 (Hash Table ADS 2)
+    add_card(s3, Inches(4.9), Inches(4.41), Inches(3.55), Inches(1.05), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s6 = s3.shapes.add_textbox(Inches(5.0), Inches(4.46), Inches(3.35), Inches(0.95))
+    tf_s6 = tb_s6.text_frame
+    tf_s6.word_wrap = True
+    p = tf_s6.paragraphs[0]
+    p.text = "6. Gate 4: Chained Hash Table (ADS 2)"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_CYAN
+    p = tf_s6.add_paragraph()
+    p.text = "λ ≤ 0.75 dynamic doubling for amortized O(1) lookups"
+    p.font.size = Pt(9)
+    p.font.color.rgb = COLOR_MUTED
+    p = tf_s6.add_paragraph()
+    p.text = "• BRANCH: New Key   →  INSERT as Leader (Skip test)"
+    p.font.size = Pt(8.5)
+    p.font.color.rgb = COLOR_WHITE
+    p = tf_s6.add_paragraph()
+    p.text = "• BRANCH: Match Key →  Forward to Byte Verifier"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+
+    add_card(s3, Inches(4.9), Inches(5.8), Inches(3.55), Inches(0.45), border_color=COLOR_AMBER, bg_color=BG_ACCENT)
+    tb_f2 = s3.shapes.add_textbox(Inches(5.0), Inches(5.82), Inches(3.35), Inches(0.38))
+    tf_f2 = tb_f2.text_frame
+    p = tf_f2.paragraphs[0]
+    p.text = "Candidate Pairs Forwarded  →  Lane 3  »"
+    p.font.size = Pt(9.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_AMBER
+
+    # --- LANE 3: DUAL ADS & ATOMIC HARDLINKING (VERTICAL) ---
+    add_card(s3, Inches(8.9), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_PURPLE, bg_color=BG_CARD)
+    tb_l3 = s3.shapes.add_textbox(Inches(9.05), Inches(1.48), Inches(3.55), Inches(0.3))
+    tf_l3 = tb_l3.text_frame
+    p_l3 = tf_l3.paragraphs[0]
+    p_l3.text = "LANE 3: DUAL ADS & ATOMIC HARDLINKING"
+    p_l3.font.size = Pt(11)
+    p_l3.font.bold = True
+    p_l3.font.color.rgb = COLOR_PURPLE
+
+    # Step 7: Gate 5 (64KB Byte Verifier)
+    add_card(s3, Inches(9.05), Inches(1.85), Inches(3.55), Inches(1.05), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s7 = s3.shapes.add_textbox(Inches(9.15), Inches(1.9), Inches(3.35), Inches(0.95))
+    tf_s7 = tb_s7.text_frame
+    tf_s7.word_wrap = True
+    p = tf_s7.paragraphs[0]
+    p.text = "7. Gate 5: 64KB Byte Verifier | Zero Risk"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_RED
+    p = tf_s7.add_paragraph()
+    p.text = "Chunked byte-for-byte stream verification"
+    p.font.size = Pt(9)
+    p.font.color.rgb = COLOR_MUTED
+    p = tf_s7.add_paragraph()
+    p.text = "• BRANCH: Byte Diff   →  ALERT: Collision (Safe Abort)"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_RED
+    p = tf_s7.add_paragraph()
+    p.text = "• BRANCH: 100% Match  →  Confirmed Duplicate Cluster"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+
+    add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(10.7), Inches(2.95), Inches(0.25), Inches(0.18), COLOR_PURPLE)
+
+    # Step 8: Dual ADS Fork (Merkle + Max-Heap)
+    add_card(s3, Inches(9.05), Inches(3.18), Inches(3.55), Inches(1.25), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s8 = s3.shapes.add_textbox(Inches(9.15), Inches(3.23), Inches(3.35), Inches(1.15))
+    tf_s8 = tb_s8.text_frame
+    tf_s8.word_wrap = True
+    p = tf_s8.paragraphs[0]
+    p.text = "8. Dual ADS Parallel Fork | ADS 3 & 4"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_PURPLE
+    p = tf_s8.add_paragraph()
+    p.text = "• ADS 3 (Merkle Tree): O(1) subtree duplicate detection & O(log N) tamper-proof audit proofs"
+    p.font.size = Pt(8.5)
+    p.font.color.rgb = COLOR_WHITE
+    p = tf_s8.add_paragraph()
+    p.text = "• ADS 4 (Max-Heap): Floyd O(N) heapify & Top-K Pareto 80/20 storage reclamation ranking"
+    p.font.size = Pt(8.5)
+    p.font.color.rgb = COLOR_WHITE
+
+    add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(10.7), Inches(4.48), Inches(0.25), Inches(0.18), COLOR_EMERALD)
+
+    # Step 9: Gate 6 (Operation Mode)
+    add_card(s3, Inches(9.05), Inches(4.71), Inches(3.55), Inches(0.95), border_color=BORDER_COLOR, bg_color=BG_DARK)
+    tb_s9 = s3.shapes.add_textbox(Inches(9.15), Inches(4.76), Inches(3.35), Inches(0.85))
+    tf_s9 = tb_s9.text_frame
+    tf_s9.word_wrap = True
+    p = tf_s9.paragraphs[0]
+    p.text = "9. Gate 6: Operation Mode | Crash Safe"
+    p.font.size = Pt(10.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+    p = tf_s9.add_paragraph()
+    p.text = "• BRANCH: Scan     →  JSON / HTML Telemetry Reports"
+    p.font.size = Pt(8.5)
+    p.font.color.rgb = COLOR_CYAN
+    p = tf_s9.add_paragraph()
+    p.text = "• BRANCH: Optimize →  Atomic link() + rename() Consolidation"
+    p.font.size = Pt(8.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
+
+    add_card(s3, Inches(9.05), Inches(5.8), Inches(3.55), Inches(0.45), border_color=COLOR_EMERALD, bg_color=BG_ACCENT)
+    tb_f3 = s3.shapes.add_textbox(Inches(9.15), Inches(5.82), Inches(3.35), Inches(0.38))
+    tf_f3 = tb_f3.text_frame
+    p = tf_f3.paragraphs[0]
+    p.text = "50-80% Disk I/O Pruned • Zero Loss • FN = 0"
+    p.font.size = Pt(9.5)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_EMERALD
 
     add_footer(s3, 3)
 
