@@ -226,11 +226,11 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     add_footer(s2, 2)
 
     # =========================================================================
-    # SLIDE 3: SYSTEM ARCHITECTURE & VERTICAL PIPELINE FLOWCHART
+    # SLIDE 3: SYSTEM ARCHITECTURE & PIPELINE FLOWCHART
     # =========================================================================
     s3 = prs.slides.add_slide(blank_layout)
     set_slide_background(s3, BG_DARK)
-    add_header(s3, "Vertical Pipeline Architecture & Decision Branching", "SYSTEM ARCHITECTURE")
+    add_header(s3, "Pipeline Architecture & Algorithmic Flow", "SYSTEM ARCHITECTURE")
 
     def add_arrow_shape(slide, arrow_type, left, top, width, height, color):
         arrow = slide.shapes.add_shape(arrow_type, left, top, width, height)
@@ -239,12 +239,12 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
         arrow.line.fill.background()
         return arrow
 
-    # --- LANE 1: INGESTION & EARLY PRUNING GATES (VERTICAL) ---
+    # --- STAGE I: INGESTION & EARLY PRUNING GATES ---
     add_card(s3, Inches(0.6), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_CYAN, bg_color=BG_CARD)
     tb_l1 = s3.shapes.add_textbox(Inches(0.75), Inches(1.48), Inches(3.55), Inches(0.3))
     tf_l1 = tb_l1.text_frame
     p_l1 = tf_l1.paragraphs[0]
-    p_l1.text = "LANE 1: INGESTION & EARLY PRUNING"
+    p_l1.text = "STAGE I: INGESTION & I/O PRUNING"
     p_l1.font.size = Pt(11)
     p_l1.font.bold = True
     p_l1.font.color.rgb = COLOR_CYAN
@@ -264,7 +264,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.size = Pt(9)
     p.font.color.rgb = COLOR_MUTED
     p = tf_s1.add_paragraph()
-    p.text = "• BRANCH: Seen Inode?  →  SKIP (Hardlink/loop)"
+    p.text = "• Branch: Inode visited  →  Skip hard link / cycle"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_RED
@@ -286,12 +286,12 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.size = Pt(9)
     p.font.color.rgb = COLOR_MUTED
     p = tf_s2.add_paragraph()
-    p.text = "• BRANCH: |Bucket| == 1  →  PRUNE (0 Disk Reads!)"
+    p.text = "• Branch: Unique size   →  Prune (0 disk reads)"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
     p = tf_s2.add_paragraph()
-    p.text = "• BRANCH: |Bucket| ≥ 2  →  CONTINUE to Tier-2"
+    p.text = "• Branch: Shared size   →  Proceed to Tier-2"
     p.font.size = Pt(8.5)
     p.font.color.rgb = COLOR_CYAN
 
@@ -312,12 +312,12 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.size = Pt(9)
     p.font.color.rgb = COLOR_MUTED
     p = tf_s3.add_paragraph()
-    p.text = "• BRANCH: Murmur3 Diff  →  PRUNE (Spares full read)"
+    p.text = "• Branch: Header diff   →  Prune (Spares full read)"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_AMBER
     p = tf_s3.add_paragraph()
-    p.text = "• BRANCH: Murmur3 Match →  CONTINUE to SHA-256"
+    p.text = "• Branch: Header match  →  Proceed to SHA-256"
     p.font.size = Pt(8.5)
     p.font.color.rgb = COLOR_CYAN
 
@@ -325,17 +325,17 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tb_f1 = s3.shapes.add_textbox(Inches(0.85), Inches(5.82), Inches(3.35), Inches(0.38))
     tf_f1 = tb_f1.text_frame
     p = tf_f1.paragraphs[0]
-    p.text = "Candidates Surviving Gates 1 & 2  →  Lane 2  »"
+    p.text = "Candidates Surviving Gates 1 & 2  →  Stage II  »"
     p.font.size = Pt(9.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
-    # --- LANE 2: CRYPTO HASHING & ADS 1/2 INDEXING (VERTICAL) ---
+    # --- STAGE II: CRYPTO HASHING & ADS INDEXING ---
     add_card(s3, Inches(4.75), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_AMBER, bg_color=BG_CARD)
     tb_l2 = s3.shapes.add_textbox(Inches(4.9), Inches(1.48), Inches(3.55), Inches(0.3))
     tf_l2 = tb_l2.text_frame
     p_l2 = tf_l2.paragraphs[0]
-    p_l2.text = "LANE 2: CRYPTO HASHING & ADS INDEXING"
+    p_l2.text = "STAGE II: CRYPTOGRAPHIC VERIFICATION"
     p_l2.font.size = Pt(11)
     p_l2.font.bold = True
     p_l2.font.color.rgb = COLOR_AMBER
@@ -372,12 +372,12 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.size = Pt(9)
     p.font.color.rgb = COLOR_MUTED
     p = tf_s5.add_paragraph()
-    p.text = "• BRANCH: Any Bit == 0  →  PRUNE (Unique, skip table)"
+    p.text = "• Branch: Probe bit 0   →  Prune (FN = 0, skip table)"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
     p = tf_s5.add_paragraph()
-    p.text = "• BRANCH: All k Bits == 1 →  CONTINUE to Hash Table"
+    p.text = "• Branch: All k bits 1  →  Proceed to Hash Table"
     p.font.size = Pt(8.5)
     p.font.color.rgb = COLOR_CYAN
 
@@ -398,11 +398,11 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.size = Pt(9)
     p.font.color.rgb = COLOR_MUTED
     p = tf_s6.add_paragraph()
-    p.text = "• BRANCH: New Key   →  INSERT as Leader (Skip test)"
+    p.text = "• Branch: New hash      →  Insert as group leader"
     p.font.size = Pt(8.5)
     p.font.color.rgb = COLOR_WHITE
     p = tf_s6.add_paragraph()
-    p.text = "• BRANCH: Match Key →  Forward to Byte Verifier"
+    p.text = "• Branch: Match found   →  Pass to Byte Verifier"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
@@ -411,17 +411,17 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tb_f2 = s3.shapes.add_textbox(Inches(5.0), Inches(5.82), Inches(3.35), Inches(0.38))
     tf_f2 = tb_f2.text_frame
     p = tf_f2.paragraphs[0]
-    p.text = "Candidate Pairs Forwarded  →  Lane 3  »"
+    p.text = "Candidate Pairs Forwarded  →  Stage III  »"
     p.font.size = Pt(9.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_AMBER
 
-    # --- LANE 3: DUAL ADS & ATOMIC HARDLINKING (VERTICAL) ---
+    # --- STAGE III: DUAL ADS & ATOMIC HARDLINKING ---
     add_card(s3, Inches(8.9), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_PURPLE, bg_color=BG_CARD)
     tb_l3 = s3.shapes.add_textbox(Inches(9.05), Inches(1.48), Inches(3.55), Inches(0.3))
     tf_l3 = tb_l3.text_frame
     p_l3 = tf_l3.paragraphs[0]
-    p_l3.text = "LANE 3: DUAL ADS & ATOMIC HARDLINKING"
+    p_l3.text = "STAGE III: ADVANCED DATA STRUCTURES"
     p_l3.font.size = Pt(11)
     p_l3.font.bold = True
     p_l3.font.color.rgb = COLOR_PURPLE
@@ -441,12 +441,12 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.size = Pt(9)
     p.font.color.rgb = COLOR_MUTED
     p = tf_s7.add_paragraph()
-    p.text = "• BRANCH: Byte Diff   →  ALERT: Collision (Safe Abort)"
+    p.text = "• Branch: Byte diff     →  Collision alert (Safe abort)"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_RED
     p = tf_s7.add_paragraph()
-    p.text = "• BRANCH: 100% Match  →  Confirmed Duplicate Cluster"
+    p.text = "• Branch: 100% Match    →  Confirmed duplicate cluster"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
@@ -459,7 +459,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tf_s8 = tb_s8.text_frame
     tf_s8.word_wrap = True
     p = tf_s8.paragraphs[0]
-    p.text = "8. Dual ADS Parallel Fork | ADS 3 & 4"
+    p.text = "8. Parallel ADS Execution | ADS 3 & 4"
     p.font.size = Pt(10.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_PURPLE
@@ -485,11 +485,11 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
     p = tf_s9.add_paragraph()
-    p.text = "• BRANCH: Scan     →  JSON / HTML Telemetry Reports"
+    p.text = "• Branch: Scan Mode     →  Generate JSON & HTML reports"
     p.font.size = Pt(8.5)
     p.font.color.rgb = COLOR_CYAN
     p = tf_s9.add_paragraph()
-    p.text = "• BRANCH: Optimize →  Atomic link() + rename() Consolidation"
+    p.text = "• Branch: Optimize Mode →  Atomic link() + rename() consolidation"
     p.font.size = Pt(8.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
@@ -498,7 +498,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     tb_f3 = s3.shapes.add_textbox(Inches(9.15), Inches(5.82), Inches(3.35), Inches(0.38))
     tf_f3 = tb_f3.text_frame
     p = tf_f3.paragraphs[0]
-    p.text = "50-80% Disk I/O Pruned • Zero Loss • FN = 0"
+    p.text = "50-80% Disk I/O Pruned • Zero Data Loss • FN = 0"
     p.font.size = Pt(9.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD

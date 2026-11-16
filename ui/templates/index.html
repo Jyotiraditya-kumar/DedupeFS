@@ -683,19 +683,19 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
           <div class="flex items-center space-x-2">
             <i class="fa-solid fa-diagram-project text-sky-400"></i>
-            <span class="text-sm font-bold text-white">Vertical Execution Flowchart &amp; Algorithmic Branching Logic</span>
+            <span class="text-sm font-bold text-white">Pipeline Architecture &amp; Decision Flow</span>
           </div>
           <div class="flex items-center space-x-2">
             <span class="text-[11px] px-2.5 py-1 rounded-full bg-sky-950 text-sky-300 border border-sky-800 font-medium">
-              <i class="fa-solid fa-arrow-down mr-1"></i> Vertical Top-to-Bottom Flow
+              <i class="fa-solid fa-gauge-high mr-1"></i> 50&ndash;80% I/O Pruned
             </span>
             <span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 font-medium">
-              <i class="fa-solid fa-code-branch mr-1"></i> Multi-Tier Decision Gates
+              <i class="fa-solid fa-shield-halved mr-1"></i> Multi-Tier Invariants
             </span>
           </div>
         </div>
 
-        <!-- Vertical Flowchart Container -->
+        <!-- Pipeline Flowchart Container -->
         <div class="max-w-4xl mx-auto space-y-3 py-2">
 
           <!-- STAGE 1: INGESTION -->
@@ -707,23 +707,23 @@
               </div>
               <span class="text-[10px] px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800 font-mono">stat(2) / lstat(2)</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Recursively walks directory hierarchy collecting metadata; extracts device ID and inode number <code>(st_dev, st_ino)</code>.</p>
+            <p class="text-xs text-slate-300 mb-3">Recursively walks directory hierarchy collecting metadata; records device ID and inode number <code>(st_dev, st_ino)</code>.</p>
             
             <!-- Inode Decision Branch -->
             <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
               <div class="border-l-2 border-l-rose-500 pl-3">
                 <div class="flex items-center space-x-1.5 text-rose-400 font-bold mb-1">
                   <i class="fa-solid fa-code-branch"></i>
-                  <span>BRANCH: Inode Already Visited? (YES)</span>
+                  <span>Existing Inode Detected</span>
                 </div>
-                <p class="text-[11px] text-slate-400">&rarr; <strong>SKIP:</strong> Existing hard link or symlink loop detected. Bypass to prevent cyclic re-processing.</p>
+                <p class="text-[11px] text-slate-400">&rarr; <strong>Skip:</strong> Hard link or cyclic reference detected. Bypassed to prevent redundant processing.</p>
               </div>
               <div class="border-l-2 border-l-emerald-500 pl-3">
                 <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
                   <i class="fa-solid fa-arrow-down"></i>
-                  <span>BRANCH: Fresh Inode? (NO)</span>
+                  <span>New Inode</span>
                 </div>
-                <p class="text-[11px] text-slate-400">&rarr; <strong>CONTINUE:</strong> Record unique inode into set; forward file to Tier-1 Size Bucketing.</p>
+                <p class="text-[11px] text-slate-400">&rarr; <strong>Proceed:</strong> Inode recorded into visited set; forwarded to Tier-1 Size Bucketing.</p>
               </div>
             </div>
           </div>
@@ -743,25 +743,25 @@
               </div>
               <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono">O(1) Memory Hash</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Indexes file sizes into primary size hash table in memory. Only files sharing exact byte size can be duplicates.</p>
+            <p class="text-xs text-slate-300 mb-3">Indexes file sizes into primary size hash table in memory. Only files sharing exact byte sizes can be duplicates.</p>
 
             <!-- Size Branches -->
             <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
               <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
                   <i class="fa-solid fa-shield-halved"></i>
-                  <span>BRANCH: |Bucket(Size)| == 1 (Unique Size)</span>
+                  <span>Unique File Size (|Bucket| == 1)</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">PRUNE: 0 Byte Disk Read!</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Provably distinct file. Discarded immediately without accessing disk storage. (Eliminates ~25-40% of files)</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">Prune: 0 Disk Reads</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Provably unique file. Pruned immediately without disk I/O. (Eliminates ~25&ndash;40% of candidates)</p>
               </div>
               <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
                   <i class="fa-solid fa-arrow-down"></i>
-                  <span>BRANCH: |Bucket(Size)| &ge; 2 (Collision)</span>
+                  <span>Shared File Size (|Bucket| &ge; 2)</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">CONTINUE TO TIER-2:</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">2+ files share identical size; candidate group promoted to 4KB header prefix test.</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">Proceed to Tier-2:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Two or more files share identical byte size; candidate group promoted to prefix testing.</p>
               </div>
             </div>
           </div>
@@ -781,25 +781,25 @@
               </div>
               <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-mono">128-bit MurmurHash3</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Reads first 4,096 bytes and computes fast non-cryptographic MurmurHash3 to verify file header signature.</p>
+            <p class="text-xs text-slate-300 mb-3">Reads first 4,096 bytes and computes 128-bit MurmurHash3 to verify file header signature.</p>
 
             <!-- Prefix Branches -->
             <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
               <div class="border-l-2 border-l-amber-400 pl-3 bg-amber-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-amber-400 font-bold mb-1">
                   <i class="fa-solid fa-scissors"></i>
-                  <span>BRANCH: Murmur3 Mismatch? (Header Diff)</span>
+                  <span>Header Mismatch</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-amber-300">PRUNE: Full File Read Avoided!</strong></p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-amber-300">Prune: Spares Full File Read</strong></p>
                 <p class="text-[10px] text-slate-400 mt-0.5">Headers differ; candidate rejected having read &le; 4KB instead of reading gigabytes of payload.</p>
               </div>
               <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
                   <i class="fa-solid fa-arrow-down"></i>
-                  <span>BRANCH: Murmur3 Match? (Identical Header)</span>
+                  <span>Header Match</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">CONTINUE TO FULL DIGEST:</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Matching header confirmed; promoted to full cryptographic digest computation.</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">Proceed to SHA-256:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Matching headers confirmed; candidate promoted to full cryptographic digest computation.</p>
               </div>
             </div>
           </div>
@@ -844,17 +844,17 @@
               <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
                   <i class="fa-solid fa-filter"></i>
-                  <span>BRANCH: Any Probe Bit == 0 (Negative)</span>
+                  <span>Probe Bit 0 (FN = 0)</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">DEFINITELY UNIQUE (FN = 0):</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Insert bits into filter; bypass costly secondary Hash Table lookup entirely in O(k) bit operations.</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">Guaranteed Unique:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Insert bits into filter; bypass secondary Hash Table lookup entirely in O(k) bit operations.</p>
               </div>
               <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
                   <i class="fa-solid fa-arrow-down"></i>
-                  <span>BRANCH: All k Probe Bits == 1 (Positive)</span>
+                  <span>All k Bits 1</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">CANDIDATE DUPLICATE:</strong></p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">Candidate Match:</strong></p>
                 <p class="text-[10px] text-slate-400 mt-0.5">Candidate passes to Primary Chained Hash Table to resolve equivalence class.</p>
               </div>
             </div>
@@ -882,18 +882,18 @@
               <div class="border-l-2 border-l-slate-400 pl-3 bg-slate-900/30 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-slate-300 font-bold mb-1">
                   <i class="fa-solid fa-user-plus"></i>
-                  <span>BRANCH: Key Not Found in Bucket?</span>
+                  <span>First Occurrence</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-slate-200">INSERT AS GROUP LEADER:</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">First occurrence of this SHA-256 fingerprint. Stored as canonical target file; byte verification skipped.</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-slate-200">Insert as Group Leader:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">First occurrence of fingerprint. Stored as canonical leader; byte verification skipped.</p>
               </div>
               <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
                   <i class="fa-solid fa-arrow-down"></i>
-                  <span>BRANCH: Matching Key Found in Bucket?</span>
+                  <span>Matching Fingerprint Found</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">CANDIDATE DUPLICATE PAIR:</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Colliding fingerprint located; pair forwarded to streaming byte-for-byte verifier.</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">Candidate Duplicate Pair:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Matching fingerprint located; pair forwarded to streaming byte-for-byte verifier.</p>
               </div>
             </div>
           </div>
@@ -913,25 +913,25 @@
               </div>
               <span class="text-[10px] px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-mono">Zero Collision Risk</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Performs synchronous 64KB chunked byte-for-byte memory comparison between canonical leader and candidate duplicate.</p>
+            <p class="text-xs text-slate-300 mb-3">Performs synchronous 64KB chunked byte-for-byte comparison between canonical leader and candidate duplicate.</p>
 
             <!-- Byte Verifier Branches -->
             <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
               <div class="border-l-2 border-l-rose-500 pl-3 bg-rose-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-rose-400 font-bold mb-1">
                   <i class="fa-solid fa-triangle-exclamation"></i>
-                  <span>BRANCH: Byte Mismatch Detected? (Collision)</span>
+                  <span>Byte Mismatch (Collision)</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-rose-400">CRYPTOGRAPHIC COLLISION!</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Critical safety tripwire: pairing aborted immediately, discrepancy logged, zero data loss guaranteed.</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-rose-400">Cryptographic Collision Alert:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Safety tripwire: pairing aborted immediately, anomaly logged, zero data loss guaranteed.</p>
               </div>
               <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-emerald-400 font-bold mb-1">
                   <i class="fa-solid fa-check-double"></i>
-                  <span>BRANCH: 100% Byte Identity Confirmed?</span>
+                  <span>100% Byte Identity Confirmed</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">CONFIRMED DUPLICATE CLUSTER:</strong></p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Verified identical; group registered for Hierarchical Merkle Tree and Priority Queue ranking.</p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-emerald-300">Confirmed Duplicate Cluster:</strong></p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Verified identical; group registered for Merkle Tree and Priority Queue ranking.</p>
               </div>
             </div>
           </div>
@@ -969,7 +969,7 @@
                     <strong class="text-white">Subtree Branch:</strong> Identical root digest &rarr; <span class="text-purple-300 font-semibold">O(1) duplicate directory match</span> without walking subtree.
                   </div>
                   <div class="border-l-2 border-l-purple-400 pl-2">
-                    <strong class="text-white">Proof Branch:</strong> Generates tamper-proof <span class="text-purple-300 font-semibold">O(log N) cryptographic inclusion audit proofs</span>.
+                    <strong class="text-white">Proof Branch:</strong> Generates tamper-proof <span class="text-purple-300 font-semibold">O(log N) cryptographic audit proofs</span>.
                   </div>
                 </div>
               </div>
@@ -1018,18 +1018,18 @@
               <div class="border-l-2 border-l-sky-400 pl-3 bg-sky-950/10 py-1 rounded-r">
                 <div class="flex items-center space-x-1.5 text-sky-400 font-bold mb-1">
                   <i class="fa-solid fa-magnifying-glass"></i>
-                  <span>BRANCH: Mode == 'Scan' (Dry-Run Audit)</span>
+                  <span>Scan Mode (Dry-Run Audit)</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">TELEMETRY REPORT GENERATION:</strong></p>
+                <p class="text-[11px] text-slate-300 font-medium">&rarr; <strong class="text-sky-300">Telemetry Report Generation:</strong></p>
                 <p class="text-[10px] text-slate-400 mt-0.5">No filesystem mutations. Emits comprehensive JSON telemetry, HTML dashboard, and console reports.</p>
               </div>
               <div class="border-l-2 border-l-emerald-400 pl-3 bg-emerald-950/20 py-1 rounded-r border border-emerald-500/30">
                 <div class="flex items-center space-x-1.5 text-emerald-300 font-bold mb-1">
                   <i class="fa-solid fa-link"></i>
-                  <span>BRANCH: Mode == 'Optimize' (Consolidation)</span>
+                  <span>Optimize Mode (Consolidation)</span>
                 </div>
-                <p class="text-[11px] text-slate-200 font-medium">&rarr; <strong class="text-emerald-300">ATOMIC HARDLINK RECLAMATION:</strong></p>
-                <p class="text-[10px] text-slate-300 mt-0.5">Executes <code>link(target, tmp) &rarr; rename(tmp, dup)</code>. Reclaims physical disk extents with crash-safe atomicity!</p>
+                <p class="text-[11px] text-slate-200 font-medium">&rarr; <strong class="text-emerald-300">Atomic Hardlink Consolidation:</strong></p>
+                <p class="text-[10px] text-slate-300 mt-0.5">Executes <code>link(target, tmp) &rarr; rename(tmp, dup)</code>. Reclaims physical disk extents with crash-safe atomicity.</p>
               </div>
             </div>
           </div>
