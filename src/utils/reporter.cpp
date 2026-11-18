@@ -710,6 +710,10 @@ void Reporter::generate_json_report(
         << "    \"duplicate_groups_count\": " << stats.duplicate_groups_count << ",\n"
         << "    \"duplicate_files_count\": " << stats.duplicate_files_count << ",\n"
         << "    \"total_runtime_ms\": " << std::fixed << std::setprecision(2) << stats.total_time_ms << ",\n"
+        << "    \"scan_time_ms\": " << std::fixed << std::setprecision(2) << stats.scan_time_ms << ",\n"
+        << "    \"hash_time_ms\": " << std::fixed << std::setprecision(2) << stats.hash_time_ms << ",\n"
+        << "    \"merkle_time_ms\": " << std::fixed << std::setprecision(2) << stats.merkle_build_time_ms << ",\n"
+        << "    \"dedup_time_ms\": " << std::fixed << std::setprecision(2) << stats.dedup_time_ms << ",\n"
         << "    \"throughput_mbs\": " << std::fixed << std::setprecision(2) << throughput_mbs << ",\n"
         << "    \"peak_rss_bytes\": " << peak_ram << "\n"
         << "  },\n";

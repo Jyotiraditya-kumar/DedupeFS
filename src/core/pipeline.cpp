@@ -25,6 +25,7 @@ void DedupPipeline::process_size_bucket(uintmax_t /*size*/, std::vector<FileInfo
     for (auto& file : files) {
         stats_.prefix_hash_evaluated++;
         if (HashEngine::compute_prefix_hash(file)) {
+            computed_prefix_hashes_[file.path] = file.prefix_hash;
             prefix_map[file.prefix_hash].push_back(std::move(file));
         }
     }
@@ -42,6 +43,7 @@ void DedupPipeline::process_size_bucket(uintmax_t /*size*/, std::vector<FileInfo
             if (!HashEngine::compute_full_sha256(file)) {
                 continue;
             }
+            computed_full_hashes_[file.path] = file.full_hash;
 
             // Bloom Filter Fast Existence Check
             stats_.bloom_filter_queries++;
@@ -160,6 +162,22 @@ DedupStats DedupPipeline::run() {
 
     utils::Logger::info("Constructing Cryptographic Merkle Hash Tree...");
     utils::Timer merkle_timer;
+
+    // Propagate all computed hashes into the Merkle file list to avoid re-reading files from disk
+    for (auto& file : all_scanned_files_) {
+        auto it = computed_full_hashes_.find(file.path);
+        if (it != computed_full_hashes_.end()) {
+            file.full_hash = it->second;
+            file.has_full_hash = true;
+        } else {
+            auto itp = computed_prefix_hashes_.find(file.path);
+            if (itp != computed_prefix_hashes_.end()) {
+                file.prefix_hash = itp->second;
+                file.has_prefix_hash = true;
+            }
+        }
+    }
+
     merkle_tree_.build(config_.root_path, all_scanned_files_);
     stats_.merkle_build_time_ms = merkle_timer.elapsed_ms();
     stats_.merkle_root_hash = merkle_tree_.root_hash_hex();

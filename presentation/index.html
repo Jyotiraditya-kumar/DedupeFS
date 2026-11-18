@@ -652,10 +652,11 @@
           <div class="text-xs font-bold text-rose-400 uppercase">1. Naive Pairwise Check</div>
           <div class="text-base font-bold text-white">O(N² &middot; L) Complexity</div>
           <div class="text-xs text-slate-300 space-y-1">
-            <div>Comparisons: <span class="font-bold text-white">45,215,295</span></div>
+            <div>Comparisons: <span class="font-bold text-white">45,215,295 pairs</span></div>
+            <div>Cold Seek Time: <span class="font-bold text-rose-300">~400 s (6.6 min on SSD)</span></div>
+            <div>In-Memory Bypass: <span class="font-bold text-slate-400">~2.0 s (size skipped)</span></div>
             <div>Disk I/O Read: <span class="font-bold text-rose-300">482.7 MB</span></div>
-            <div>Scalability: Catastrophic disk thrashing at N &gt; 10,000 files.</div>
-            <div class="text-rose-400 font-semibold pt-1">Unviable for production.</div>
+            <div class="text-rose-400 font-semibold pt-1">Severe thrashing without index.</div>
           </div>
         </div>
 
@@ -664,9 +665,10 @@
           <div class="text-base font-bold text-white">O(N &middot; L) Complexity</div>
           <div class="text-xs text-slate-300 space-y-1">
             <div>Disk I/O Read: <span class="font-bold text-amber-300">279.6 MB (100%)</span></div>
+            <div>Warm Hash Latency: <span class="font-bold text-amber-400">0.26 s</span> (Cold: 8.5 s)</div>
             <div>No size bucketing or prefix pruning.</div>
             <div>No Bloom filter pre-check.</div>
-            <div class="text-amber-400 font-semibold pt-1">Forces heavy I/O on unique files.</div>
+            <div class="text-amber-400 font-semibold pt-1">Reads 100% of bytes for every file.</div>
           </div>
         </div>
 
@@ -674,10 +676,11 @@
           <div class="text-xs font-bold text-emerald-400 uppercase">3. DedupFS Multi-Tier ADS</div>
           <div class="text-base font-bold text-white">O(N) Amortized Complexity</div>
           <div class="text-xs text-slate-300 space-y-1">
-            <div>Disk I/O Read: <span class="font-bold text-emerald-300">178.1 MB</span></div>
-            <div>Pruning Savings: <span class="font-bold text-emerald-400">36.3% - 75% read I/O saved</span></div>
-            <div>Throughput: <span class="font-bold text-white">358.2 MB/s</span></div>
-            <div class="text-emerald-400 font-semibold pt-1">Up to 1000x faster than Naive O(N²).</div>
+            <div>Multi-Tier Hashing: <span class="font-bold text-emerald-300">0.16 s (1.65x faster)</span></div>
+            <div>Total Engine: <span class="font-bold text-emerald-400">0.78 s (with 10K Merkle DAG)</span></div>
+            <div>Disk I/O Read: <span class="font-bold text-emerald-300">178.1 MB</span> (36.3% saved)</div>
+            <div>Pruning: <span class="font-bold text-white">4,406 files spared from SHA-256</span></div>
+            <div class="text-emerald-400 font-semibold pt-1">O(N) amortized with O(1) hash table.</div>
           </div>
         </div>
       </div>

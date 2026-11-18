@@ -58,6 +58,8 @@ private:
     ds::MerkleTree merkle_tree_;
     std::vector<FileInfo> all_scanned_files_;
     std::vector<DuplicateGroup> duplicate_groups_;
+    std::unordered_map<std::string, Hash256> computed_full_hashes_;
+    std::unordered_map<std::string, Hash128> computed_prefix_hashes_;
     std::string summary_report_path_;
     std::string duplicate_report_path_;
 };

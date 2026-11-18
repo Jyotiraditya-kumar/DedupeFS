@@ -1,108 +1,1311 @@
 {
-  "timestamp": "2026-11-16 12:01:47",
-  "target_directory": "./scratch_e2e_sandbox",
+  "timestamp": "2026-11-18 08:04:40",
+  "target_directory": "datasets/test_large_3.5GB/work",
   "execution_mode": "DRY-RUN (Non-Destructive Audit)",
   "min_file_size": 1,
   "bloom_target_fpr": 0.01,
   "summary": {
-    "total_files_scanned": 4,
-    "total_bytes_scanned": 7144,
-    "total_bytes_scanned_formatted": "6.98 KB",
-    "post_dedup_bytes": 5096,
-    "post_dedup_bytes_formatted": "4.98 KB",
-    "reclaimed_bytes": 2048,
-    "reclaimed_bytes_formatted": "2.00 KB",
+    "total_files_scanned": 58629,
+    "total_bytes_scanned": 4286149566,
+    "total_bytes_scanned_formatted": "3.99 GB",
+    "post_dedup_bytes": 3068854407,
+    "post_dedup_bytes_formatted": "2.86 GB",
+    "reclaimed_bytes": 1217295159,
+    "reclaimed_bytes_formatted": "1.13 GB",
     "deduplication_ratio": 1.40,
-    "space_saved_percent": 28.67,
-    "duplicate_groups_count": 1,
-    "duplicate_files_count": 1,
-    "total_runtime_ms": 0.48,
-    "throughput_mbs": 14.34,
-    "peak_rss_bytes": 8773632
+    "space_saved_percent": 28.40,
+    "duplicate_groups_count": 15413,
+    "duplicate_files_count": 24431,
+    "total_runtime_ms": 4833.30,
+    "scan_time_ms": 1058.14,
+    "hash_time_ms": 2284.43,
+    "merkle_time_ms": 996.45,
+    "dedup_time_ms": 44.36,
+    "throughput_mbs": 845.71,
+    "peak_rss_bytes": 128270336
   },
   "filtering": {
-    "tier1_unique_size_discarded": 1,
-    "tier2_prefix_hashes_computed": 3,
-    "tier2_prefix_mismatches_pruned": 1,
-    "tier3_full_hashes_computed": 2
+    "tier1_unique_size_discarded": 14132,
+    "tier2_prefix_hashes_computed": 44497,
+    "tier2_prefix_mismatches_pruned": 4546,
+    "tier3_full_hashes_computed": 39951
   },
   "bloom_filter": {
     "bits_m": 958506,
     "hashes_k": 7,
-    "fill_ratio": 0.00,
-    "queries": 2,
-    "true_negatives": 1,
-    "positives": 1,
+    "fill_ratio": 0.11,
+    "queries": 39951,
+    "true_negatives": 15520,
+    "positives": 24431,
     "false_positives": 0
   },
   "hash_table": {
-    "elements": 1,
-    "buckets": 4096,
-    "load_factor": 0.00,
-    "rehashes": 0,
-    "collisions": 0,
-    "max_chain_length": 1
+    "elements": 15520,
+    "buckets": 32768,
+    "load_factor": 0.47,
+    "rehashes": 3,
+    "collisions": 3176,
+    "max_chain_length": 5
   },
   "priority_queue": {
-    "total_clusters": 1,
-    "max_single_cluster_wasted": 2048,
-    "max_single_cluster_wasted_formatted": "2.00 KB",
-    "top_k_count": 1,
-    "top_k_wasted_bytes": 2048,
-    "top_k_wasted_bytes_formatted": "2.00 KB",
-    "top_k_share_percent": 100.00,
+    "total_clusters": 15413,
+    "max_single_cluster_wasted": 6989936,
+    "max_single_cluster_wasted_formatted": "6.67 MB",
+    "top_k_count": 10,
+    "top_k_wasted_bytes": 30429380,
+    "top_k_wasted_bytes_formatted": "29.02 MB",
+    "top_k_share_percent": 2.50,
     "pareto_curve": [
+      {"cluster_pct": 10.00, "wasted_storage_pct": 60.74},
+      {"cluster_pct": 20.00, "wasted_storage_pct": 82.21},
+      {"cluster_pct": 29.99, "wasted_storage_pct": 91.91},
+      {"cluster_pct": 39.99, "wasted_storage_pct": 95.79},
+      {"cluster_pct": 49.99, "wasted_storage_pct": 97.73},
+      {"cluster_pct": 59.99, "wasted_storage_pct": 98.82},
+      {"cluster_pct": 69.99, "wasted_storage_pct": 99.44},
+      {"cluster_pct": 79.98, "wasted_storage_pct": 99.78},
+      {"cluster_pct": 89.98, "wasted_storage_pct": 99.94},
+      {"cluster_pct": 99.98, "wasted_storage_pct": 100.00},
       {"cluster_pct": 100.00, "wasted_storage_pct": 100.00}
     ]
   },
   "merkle_tree": {
-    "root_hash": "2457193932f44f6c4cf5b4233a3b1f7316651f588058e0e5b8487000073514fe",
-    "total_nodes": 7,
-    "leaf_files_count": 4,
-    "directory_nodes_count": 3,
-    "max_depth": 3,
-    "build_time_ms": 0.07,
-    "duplicate_subtrees_count": 0,
-    "duplicate_subtree_wasted_bytes": 0,
-    "duplicate_subtree_wasted_bytes_formatted": "0.00 B",
+    "root_hash": "182657d2e8b1b03e79ce5d13ce9dd588575370a20d9fa6ddf5114b91b6553a49",
+    "total_nodes": 60841,
+    "leaf_files_count": 58629,
+    "directory_nodes_count": 2212,
+    "max_depth": 13,
+    "build_time_ms": 996.45,
+    "duplicate_subtrees_count": 98,
+    "duplicate_subtree_wasted_bytes": 2516697,
+    "duplicate_subtree_wasted_bytes_formatted": "2.40 MB",
     "duplicate_subtrees": [
+      {
+        "hash": "2d1ed846b6d8a27db89aa39653f290b6ff95685464e1cb3104f5c38510502b3b",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/arizona",
+        "subtree_size": 499773,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 499773
+      },
+      {
+        "hash": "31c2dbb9ee7aa9a6a663404f6321fdd7e10be7b61a43d7d69730d5fa9fe6797f",
+        "canonical_path": "source_code/linux-6.10/include/linux/atomic",
+        "subtree_size": 314827,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 314827
+      },
+      {
+        "hash": "66c23761362cacdadf3837c66441723b28151d4e51e12ee05e91227e313980d0",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/sis",
+        "subtree_size": 135573,
+        "files_count": 5,
+        "replicas_count": 1,
+        "wasted_bytes": 135573
+      },
+      {
+        "hash": "b48b444c2e42c022896fc45ab2da0e36318cae36a69d7041f23f999adf6b5620",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/wm8350",
+        "subtree_size": 102445,
+        "files_count": 7,
+        "replicas_count": 1,
+        "wasted_bytes": 102445
+      },
+      {
+        "hash": "2269b2d4f6076d16448adda25cdd788484db410a4ce75c3bb865c146cf5dc547",
+        "canonical_path": "source_code/linux-6.10/fs/notify/fanotify",
+        "subtree_size": 99351,
+        "files_count": 5,
+        "replicas_count": 1,
+        "wasted_bytes": 99351
+      },
+      {
+        "hash": "ebe1c3c712e2074fd1e82ca644b2b5c235d26023ad1ea199c1223ef8c3cd8453",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/mt6357",
+        "subtree_size": 84104,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 84104
+      },
+      {
+        "hash": "5f3bf95db3e6b7a81525a75ca302ce4615bd3395b8fb580efacb207c53e7464c",
+        "canonical_path": "source_code/linux-6.10/drivers/net/phy/qcom",
+        "subtree_size": 79056,
+        "files_count": 6,
+        "replicas_count": 1,
+        "wasted_bytes": 79056
+      },
+      {
+        "hash": "3a26fcb77120177f62b58377f04bc39bf8fafb6618bad25238b0f12bcef219c3",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/gce",
+        "subtree_size": 77490,
+        "files_count": 6,
+        "replicas_count": 1,
+        "wasted_bytes": 77490
+      },
+      {
+        "hash": "e78b5b0ebc4ebb94bec31daf98414c4ee00b9e737016f0ba9247e0403023838e",
+        "canonical_path": "source_code/linux-6.10/drivers/net/slip",
+        "subtree_size": 60269,
+        "files_count": 5,
+        "replicas_count": 1,
+        "wasted_bytes": 60269
+      },
+      {
+        "hash": "69ae70dd0a010e2b13b49ee32b60fe58d29080946b62872442f85c6fd2f4697e",
+        "canonical_path": "source_code/linux-6.10/include/linux/avf",
+        "subtree_size": 56559,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 56559
+      },
+      {
+        "hash": "dc3909513244591ba87ceaafaf0e6f349d0d5f9b3010b93123aed72ddfb6182d",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/actions",
+        "subtree_size": 54157,
+        "files_count": 4,
+        "replicas_count": 1,
+        "wasted_bytes": 54157
+      },
+      {
+        "hash": "4148c5dc5b737f07f4ccac30258dcdec2b0c8f81217dea9de3f1ac9b5cc5546b",
+        "canonical_path": "source_code/linux-6.10/arch/x86/kernel/kprobes",
+        "subtree_size": 52471,
+        "files_count": 5,
+        "replicas_count": 1,
+        "wasted_bytes": 52471
+      },
+      {
+        "hash": "f3e56cabe1fbf5756babb4b27c99a4e097191c368113ed3d15e5b6c6ccfc0527",
+        "canonical_path": "source_code/linux-6.10/arch/x86/platform/uv",
+        "subtree_size": 50824,
+        "files_count": 5,
+        "replicas_count": 1,
+        "wasted_bytes": 50824
+      },
+      {
+        "hash": "c3d0028a2588901167b2b041e62c8f6bf7c9eaf38d3d91080638b4ef6dc16270",
+        "canonical_path": "source_code/linux-6.10/include/uapi/scsi/fc",
+        "subtree_size": 45469,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 45469
+      },
+      {
+        "hash": "7816d163d3f6c336c7410697dee2686ce81720c70637171cdf66778fa904636a",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/nxp",
+        "subtree_size": 41395,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 41395
+      },
+      {
+        "hash": "9ebf962a9e7b26305a150182084e87a14f118acf1d9c383e13909c524c2d0c0e",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/ni",
+        "subtree_size": 39745,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 39745
+      },
+      {
+        "hash": "492989b866358b86d8368ab0f909c489d656e8461a676aa4e1120ae2fbdf2c6d",
+        "canonical_path": "source_code/linux-6.10/drivers/net/thunderbolt",
+        "subtree_size": 39743,
+        "files_count": 4,
+        "replicas_count": 1,
+        "wasted_bytes": 39743
+      },
+      {
+        "hash": "3ebca2a9d43bb44c84857565e4b13051f06e1adc0dc2899a4bbca49b19eb4c40",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/da9150",
+        "subtree_size": 39203,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 39203
+      },
+      {
+        "hash": "ddc33dccb8fcb5cba77776a57247dab81093631a602b6e505a08b5b4ef818f56",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/da9062",
+        "subtree_size": 35984,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 35984
+      },
+      {
+        "hash": "c66362f39b5abb9c07a20f04547dc30c2b0f2b002a25d4d8ee4b72f36bf0b715",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/fujitsu",
+        "subtree_size": 34919,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 34919
+      },
+      {
+        "hash": "3e521629ccdd82428fb208e1e48e88caa7ff7edac903b2790fdf84a413ebdcda",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/allwinner",
+        "subtree_size": 34538,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 34538
+      },
+      {
+        "hash": "92d05f2dcd258a9be7eea600fd8ba6ebfc1e3b0e38c676dfd720a75d958d6763",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/rdc",
+        "subtree_size": 33211,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 33211
+      },
+      {
+        "hash": "abea7151148d7c3dfc60dfcc2cb2856652954d458c2a8971340b12cd9921e8a7",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/wcd934x",
+        "subtree_size": 28196,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 28196
+      },
+      {
+        "hash": "175853534f5e59482d8baff361cdaa5fbaf4243a851deb76d1844c4ca12d04b7",
+        "canonical_path": "source_code/linux-6.10/include/net/9p",
+        "subtree_size": 27724,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 27724
+      },
+      {
+        "hash": "2808cac710470ec4c5fc4bdc7d4225137d0ecf878e134011f629f448bbdba8bb",
+        "canonical_path": "source_code/linux-6.10/include/trace/misc",
+        "subtree_size": 24077,
+        "files_count": 4,
+        "replicas_count": 1,
+        "wasted_bytes": 24077
+      },
+      {
+        "hash": "ab679fbdade7d18084a62c357164be628e09e3515090f5861550010e54354bc6",
+        "canonical_path": "source_code/linux-6.10/include/uapi/xen",
+        "subtree_size": 22364,
+        "files_count": 4,
+        "replicas_count": 1,
+        "wasted_bytes": 22364
+      },
+      {
+        "hash": "f452395beb000868a8e962fb0a6ff697f50b4a34f922f4fa65083fd397f06e5c",
+        "canonical_path": "source_code/linux-6.10/include/net/iucv",
+        "subtree_size": 21594,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 21594
+      },
+      {
+        "hash": "92fcf16ac59fca866e92433eebb3d5009cf14d78d46a1a3f0c529ac8a7357e31",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/raid",
+        "subtree_size": 20070,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 20070
+      },
+      {
+        "hash": "cd9032178de266ea2cef85d685bc197a39d79640c8ac4d343125903da4a17a41",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/netronome/nfp/crypto",
+        "subtree_size": 20057,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 20057
+      },
+      {
+        "hash": "d1c590d818f434e1ff9d6c570574bdb72519f71c8e32ce7d585a9548ba341ee4",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/android",
+        "subtree_size": 17229,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 17229
+      },
+      {
+        "hash": "b340b032b367cc46228775713834cce5e689ab1821dcec32543555fc0b83925d",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/mt6323",
+        "subtree_size": 17205,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 17205
+      },
+      {
+        "hash": "9f9c207490a1e5ebd22b79b192e0d494670f91a6f0d0f86e5f57e7ac9b5dcad4",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/netronome/nfp/nic",
+        "subtree_size": 16381,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 16381
+      },
+      {
+        "hash": "c975c47b34175e24fc4b9fcbdf96bd98879d66b46ce8432b19c78b5716aaaea3",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/usb",
+        "subtree_size": 16168,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 16168
+      },
+      {
+        "hash": "ccc17b3af35717e4b9f345055c2addbce048eae62daa0a075f05b4f4bd9990d0",
+        "canonical_path": "source_code/linux-6.10/include/media/tpg",
+        "subtree_size": 16046,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 16046
+      },
+      {
+        "hash": "8fbc7748cd2926bc4e29ba9c2bedf13b25aab2d46f3004ac37513c1a1903e9a6",
+        "canonical_path": "source_code/linux-6.10/include/linux/fpga",
+        "subtree_size": 15897,
+        "files_count": 5,
+        "replicas_count": 1,
+        "wasted_bytes": 15897
+      },
+      {
+        "hash": "e049d253f2f63e3b3f125a0a044f0055ff7d6d36bb06fbec0d8ae60b6437144c",
+        "canonical_path": "source_code/linux-6.10/net/strparser",
+        "subtree_size": 13200,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 13200
+      },
+      {
+        "hash": "981f474abd209695c4738926e58f24bd80fd6292fd187e13e9153c633167b61a",
+        "canonical_path": "source_code/linux-6.10/drivers/net/wireless/broadcom/brcm80211/brcmutil",
+        "subtree_size": 13161,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 13161
+      },
+      {
+        "hash": "d43cda0e03a0386eef92b012d21d08e6d9048823ed5814686ff50929a0abecdd",
+        "canonical_path": "source_code/linux-6.10/include/uapi/sound/sof",
+        "subtree_size": 11080,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 11080
+      },
+      {
+        "hash": "e1539290a5c66ffd357c64380c534cf332bff698633651edd3fe97f2d3b5efad",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/surface_aggregator",
+        "subtree_size": 10598,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 10598
+      },
+      {
+        "hash": "38f10e20f1fcdde0385544a79f6bb55449a18683cd84a4978596d321de58906a",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/cavium/common",
+        "subtree_size": 10462,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 10462
+      },
+      {
+        "hash": "78dea7101855346b489ee33ad489f4b295aa9d3af2dbc188f18fecede01ced63",
+        "canonical_path": "source_code/linux-6.10/include/linux/net/intel",
+        "subtree_size": 9822,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 9822
+      },
+      {
+        "hash": "e69da69216a331bc6e6613c19ba42982bbee3254ec68e6c7bd5b0af4d0b92c5f",
+        "canonical_path": "source_code/linux-6.10/include/linux/net",
+        "subtree_size": 9822,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 9822
+      },
+      {
+        "hash": "e8a3153a6f14f515085d9a6ed0345130879226419ce073f21fe1799c2c62fa54",
+        "canonical_path": "source_code/linux-6.10/include/soc/bcm2835",
+        "subtree_size": 9643,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 9643
+      },
+      {
+        "hash": "731b0ca3a775a85184deef5a43a28b95cd52ed3c1f59adc80ccadfd422a58630",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/mellanox/mlx5/core/esw/diag",
+        "subtree_size": 9211,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 9211
+      },
+      {
+        "hash": "c5c94fd416c07d869ed01b7da30db52b1559804b5092a2b8076e5a93973db52a",
+        "canonical_path": "source_code/linux-6.10/include/linux/firmware/intel",
+        "subtree_size": 9137,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 9137
+      },
+      {
+        "hash": "0d854b33563f2bbd46fc0d3fd8b1f7034f458ba00b7461021a33c696b2d3fd16",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/byteorder",
+        "subtree_size": 7827,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 7827
+      },
+      {
+        "hash": "f946b7726977a0f94bfbc4ba34b8aa3c5a9e9b7c7aed8ae59a83728e768f0264",
+        "canonical_path": "source_code/linux-6.10/include/linux/can/dev",
+        "subtree_size": 7750,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 7750
+      },
+      {
+        "hash": "c06d856e52771774c2919d853f1614dfcf540905c27679dfeccb35fa122e09d1",
+        "canonical_path": "source_code/linux-6.10/arch/x86/boot/tools",
+        "subtree_size": 7747,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 7747
+      },
+      {
+        "hash": "d79a375e7f60743cf83454090e4108315eccb498aabb853401d1e93711a65e41",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/mellanox/mlx5/core/sf/diag",
+        "subtree_size": 6902,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 6902
+      },
+      {
+        "hash": "cacdd3bd93efba012c76baa47886d367eff0696752a787f93868f3851261f995",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/mux",
+        "subtree_size": 6889,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 6889
+      },
+      {
+        "hash": "28c343d92656c6b1c08fcd896f602832eb3bea332a1efb7c40ee2302d5c904f3",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/caif",
+        "subtree_size": 6870,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 6870
+      },
+      {
+        "hash": "20e6ad8a6e7b88e463307329477332d6df226b8640033134f2f073b9b41da421",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/nfsd",
+        "subtree_size": 6766,
+        "files_count": 4,
+        "replicas_count": 1,
+        "wasted_bytes": 6766
+      },
+      {
+        "hash": "af69d1c5dede44b6a21b46eb7c063e5ac2a0d148ae0c5b8952ee9edd8ab32da7",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/netfilter_arp",
+        "subtree_size": 6705,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 6705
+      },
+      {
+        "hash": "10a7a9ff1075e5875eae17101110976c23cf0cd2d112cf83eb06acddec097b7c",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/spi",
+        "subtree_size": 6623,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 6623
+      },
+      {
+        "hash": "6c2f7b4adca25ebf47702248880e7aec22f43e9484dd57b3a026b19f8d915508",
+        "canonical_path": "source_code/linux-6.10/include/linux/bus",
+        "subtree_size": 4985,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 4985
+      },
+      {
+        "hash": "21303684065698daba8af83500e899d67e98e2693a8769a1f9095f60ddac8c18",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/isdn",
+        "subtree_size": 4783,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 4783
+      },
+      {
+        "hash": "93b73b472b8fd09ecf1a375eb0fe42483c918d803127d394997a7e15c40db5f9",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/sched",
+        "subtree_size": 4528,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 4528
+      },
+      {
+        "hash": "aef481abe29dbbb8c6d591b83e988e623174f1011bf7dd450effdc548c6ff53e",
+        "canonical_path": "source_code/linux-6.10/net/nsh",
+        "subtree_size": 3761,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 3761
+      },
+      {
+        "hash": "62d43cd2b6da13c8c9442f45595460fd9bef602b73a99ed6899c739edc9af736",
+        "canonical_path": "source_code/linux-6.10/include/linux/mfd/mt6359",
+        "subtree_size": 3525,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 3525
+      },
+      {
+        "hash": "6adee52a436e1d4c45656f19921aa44f1de3ee15d674193206abc0aca2e8c253",
+        "canonical_path": "source_code/linux-6.10/arch/x86/platform/scx200",
+        "subtree_size": 3335,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 3335
+      },
+      {
+        "hash": "072489de57053e2674698c0da7bb99105dc85493ac8fc5e552e55bfde819ff2f",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/misc",
+        "subtree_size": 3007,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 3007
+      },
+      {
+        "hash": "caaf03114bcd6da7bbd333154f387ce9b119abce09b113aa3723e610a22225c6",
+        "canonical_path": "source_code/linux-6.10/include/linux/netfilter_ipv4",
+        "subtree_size": 2455,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 2455
+      },
+      {
+        "hash": "b9ff1047dfeb2797191190bc4a16315d4d5426614755d93e7b8b1aad4aa66cf9",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/display",
+        "subtree_size": 2393,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 2393
+      },
+      {
+        "hash": "542adefd5d679f752504eb5293b673c17dba7a8fc85ad17003901ff559c149b1",
+        "canonical_path": "source_code/linux-6.10/include/soc/imx",
+        "subtree_size": 2360,
+        "files_count": 3,
+        "replicas_count": 1,
+        "wasted_bytes": 2360
+      },
+      {
+        "hash": "24b562e2b2637c1c7884fa0073e8379348bf15e1db50186db15e72756e577c5b",
+        "canonical_path": "source_code/linux-6.10/include/media/davinci",
+        "subtree_size": 2310,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 2310
+      },
+      {
+        "hash": "8446b38ecc4f32382bd56efeec92a099bc4bdd3799e5dddf055d740f686cf831",
+        "canonical_path": "source_code/linux-6.10/include/linux/extcon",
+        "subtree_size": 2243,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 2243
+      },
+      {
+        "hash": "df756576281d7a63e257bccb36a4df587ddd3724cb92539cc2a477fa3cf7689f",
+        "canonical_path": "source_code/linux-6.10/include/linux/netfilter_arp",
+        "subtree_size": 2223,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 2223
+      },
+      {
+        "hash": "16a651e87ec4f786502c454b208fee1fd0cf3551cad4a717aa058a2c35fcce11",
+        "canonical_path": "source_code/linux-6.10/drivers/net/ethernet/mellanox/mlx5/core/sf/dev/diag",
+        "subtree_size": 1799,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1799
+      },
+      {
+        "hash": "0f81c4ec82f1544f340665ea39dc4ac9bb7854600cbed833ff0eb31cc9f777ed",
+        "canonical_path": "source_code/linux-6.10/drivers/net/can/slcan",
+        "subtree_size": 1630,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 1630
+      },
+      {
+        "hash": "bdcea172b75f020f9076a74f2cb73e47108253433d58ce99745911b5fc6171e9",
+        "canonical_path": "source_code/linux-6.10/include/soc/amlogic",
+        "subtree_size": 1612,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1612
+      },
+      {
+        "hash": "1d5742415ad2445fe23e1604ffc5a9d0089c82ddf81a7e31b9d46739fb4e2484",
+        "canonical_path": "source_code/linux-6.10/include/linux/soc/mmp",
+        "subtree_size": 1594,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1594
+      },
+      {
+        "hash": "6c32ba568aed57407db0b875a0e77452a46e4c1291b239afa1414827f1df348f",
+        "canonical_path": "source_code/linux-6.10/include/linux/soc/marvell",
+        "subtree_size": 1580,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1580
+      },
+      {
+        "hash": "8b9287a128f3bad7dd41bd116c19d6a1e004effb7d25c510fde5fc69810dab8a",
+        "canonical_path": "source_code/linux-6.10/include/linux/soc/marvell/octeontx2",
+        "subtree_size": 1580,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1580
+      },
+      {
+        "hash": "3ce153eafc2c1b3fa6be815e9180c8fede8e8d16c7be69ac492a852a8ed2d66a",
+        "canonical_path": "source_code/linux-6.10/include/linux/netfilter_ipv6",
+        "subtree_size": 1536,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1536
+      },
+      {
+        "hash": "ba00f47b034c53d010b6bc2bba33a500fad7556895dc2effd3070ccaa3e1d775",
+        "canonical_path": "source_code/linux-6.10/include/linux/net/intel/libie",
+        "subtree_size": 1471,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1471
+      },
+      {
+        "hash": "0dd7f16fc97121453d67e7ea3133d159d5461fb97578411195fa5398c8cd8847",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/bus",
+        "subtree_size": 1418,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 1418
+      },
+      {
+        "hash": "1aecd1cbaa2dcba0406356f89f6e7c393976ae1ecbbe7b678e90cfbf50349e08",
+        "canonical_path": "source_code/linux-6.10/include/soc/microchip",
+        "subtree_size": 1349,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1349
+      },
+      {
+        "hash": "3bbb81f84e39a8427d115bbc0df9756af5846b5755516de0e7cd5933c60f2cde",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/firmware",
+        "subtree_size": 1338,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1338
+      },
+      {
+        "hash": "283852a3b4bb51da13dede134ae8250806d383e9e81bb9e832e6e2fc2772909d",
+        "canonical_path": "source_code/linux-6.10/include/uapi/video",
+        "subtree_size": 1321,
+        "files_count": 2,
+        "replicas_count": 1,
+        "wasted_bytes": 1321
+      },
+      {
+        "hash": "ee58928ef7221c1733150a6fedab4b5c780c31f2c56ade9c5cafa7fb58d412ef",
+        "canonical_path": "source_code/linux-6.10/include/uapi/linux/sunrpc",
+        "subtree_size": 1159,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1159
+      },
+      {
+        "hash": "4b5f0e162ca4e59b40c1a59534c95e95784e1e90081a2fd496c106b6ee164b97",
+        "canonical_path": "source_code/linux-6.10/include/linux/unaligned",
+        "subtree_size": 1059,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 1059
+      },
+      {
+        "hash": "93463bdc7bf21aa16bf6bae90d8f412df9750d49cab002c9de6a6bf6364761c3",
+        "canonical_path": "source_code/linux-6.10/arch/x86/ras",
+        "subtree_size": 990,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 990
+      },
+      {
+        "hash": "9e41b72cb0966956ab70d6bb69d840424854106371cbf76f30b4a1b1b3a1afc8",
+        "canonical_path": "source_code/linux-6.10/include/linux/firmware/meson",
+        "subtree_size": 923,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 923
+      },
+      {
+        "hash": "75d4f91464ccdc598f2a2eb15bcef04370f46136fe78311a806a69a30ed20a65",
+        "canonical_path": "source_code/linux-6.10/arch/x86/video",
+        "subtree_size": 906,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 906
+      },
+      {
+        "hash": "edbe80e1afb1e76b425229f047d04021c136ee27031a53fb6c080d942510e687",
+        "canonical_path": "source_code/linux-6.10/include/linux/soc/nxp",
+        "subtree_size": 829,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 829
+      },
+      {
+        "hash": "5a3b11bfefed12d72e50e0bfbe001348db583f939153011ce6ee80621001950c",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/iio/addac",
+        "subtree_size": 717,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 717
+      },
+      {
+        "hash": "acda6e15f7304a8458fd2c8d61c23ace759fa6c5e480d59bd4c912b396b636dd",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/pmu",
+        "subtree_size": 690,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 690
+      },
+      {
+        "hash": "d89ed1b244486b150d858ce947de8a0b1e60f4657dbddc8df6c7c818fdd6e6ea",
+        "canonical_path": "source_code/linux-6.10/include/asm-generic/vdso",
+        "subtree_size": 675,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 675
+      },
+      {
+        "hash": "6bef71b3dfe6ad1f92a6ac47212ce0f87d31cd5a93dbbd0148b5a22096540686",
+        "canonical_path": "source_code/linux-6.10/include/soc/mediatek",
+        "subtree_size": 615,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 615
+      },
+      {
+        "hash": "5de8360311ad2b91f4a3e68565cd587aa4e3bc5f70bbad88b1064d0742910350",
+        "canonical_path": "source_code/linux-6.10/include/linux/soc/brcmstb",
+        "subtree_size": 614,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 614
+      },
+      {
+        "hash": "5853dc7ec9a63e65e296ce6149932b196508f8a099d42241604d45287dbdce6f",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/ata",
+        "subtree_size": 525,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 525
+      },
+      {
+        "hash": "71804f8a39a8f444094842a165800f91b0e2b5ef06f84a3b280e54f98bc49d76",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/iio/temperature",
+        "subtree_size": 456,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 456
+      },
+      {
+        "hash": "e1263b63d66231c1e40f34e11ae87715c50dc8f1a6f480f164ead9bf605dab2c",
+        "canonical_path": "source_code/linux-6.10/include/linux/soc/andes",
+        "subtree_size": 446,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 446
+      },
+      {
+        "hash": "1b96df51314dec2b50bf96cdca7fbf0f02cd198e1d5d101a6fff3aeaa3b4cb66",
+        "canonical_path": "source_code/linux-6.10/include/soc/starfive",
+        "subtree_size": 400,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 400
+      },
+      {
+        "hash": "e75a5265378db53b21801c186589e45b9debfd2524975422cca43699054e141d",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/mips",
+        "subtree_size": 376,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 376
+      },
+      {
+        "hash": "cd4d462b9d008685178a24da87d5b0375cc872ee49a620940637de729a386123",
+        "canonical_path": "source_code/linux-6.10/include/dt-bindings/pwm",
+        "subtree_size": 336,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 336
+      },
+      {
+        "hash": "999b72435a8e32ec2cb9275cafa576489f714d987304ce3d40872b522a9f107b",
+        "canonical_path": "source_code/linux-6.10/include/soc/sa1100",
+        "subtree_size": 281,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 281
+      },
+      {
+        "hash": "ee786e8ca92d1e29c6856886ffbae9fc66ef2fa9eff1c9dcfc3ffda96c180e14",
+        "canonical_path": "source_code/linux-6.10/include/linux/soc/actions",
+        "subtree_size": 235,
+        "files_count": 1,
+        "replicas_count": 1,
+        "wasted_bytes": 235
+      }
     ]
   },
   "file_types": [
     {
-      "extension": ".bin",
-      "file_count": 4,
-      "total_bytes": 7144,
-      "total_bytes_formatted": "6.98 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 2048,
-      "wasted_bytes_formatted": "2.00 KB"
-    }
-  ],
-  "subfolders": [
-    {
-      "folder": "sub1",
-      "file_count": 1,
-      "total_bytes": 2048,
-      "total_bytes_formatted": "2.00 KB",
-      "duplicate_count": 1,
-      "wasted_bytes": 2048,
-      "wasted_bytes_formatted": "2.00 KB"
+      "extension": ".jpg",
+      "file_count": 12396,
+      "total_bytes": 2019674101,
+      "total_bytes_formatted": "1.88 GB",
+      "duplicate_count": 3159,
+      "wasted_bytes": 516412303,
+      "wasted_bytes_formatted": "492.49 MB"
     },
     {
-      "folder": "sub2",
-      "file_count": 1,
-      "total_bytes": 2048,
+      "extension": ".pdf",
+      "file_count": 6042,
+      "total_bytes": 1634131903,
+      "total_bytes_formatted": "1.52 GB",
+      "duplicate_count": 1564,
+      "wasted_bytes": 431495615,
+      "wasted_bytes_formatted": "411.51 MB"
+    },
+    {
+      "extension": ".c",
+      "file_count": 21532,
+      "total_bytes": 493832174,
+      "total_bytes_formatted": "470.96 MB",
+      "duplicate_count": 10026,
+      "wasted_bytes": 208086075,
+      "wasted_bytes_formatted": "198.45 MB"
+    },
+    {
+      "extension": ".h",
+      "file_count": 15864,
+      "total_bytes": 128083674,
+      "total_bytes_formatted": "122.15 MB",
+      "duplicate_count": 8254,
+      "wasted_bytes": 57861890,
+      "wasted_bytes_formatted": "55.18 MB"
+    },
+    {
+      "extension": "(no ext)",
+      "file_count": 2295,
+      "total_bytes": 3891377,
+      "total_bytes_formatted": "3.71 MB",
+      "duplicate_count": 1172,
+      "wasted_bytes": 1794879,
+      "wasted_bytes_formatted": "1.71 MB"
+    },
+    {
+      "extension": ".s",
+      "file_count": 338,
+      "total_bytes": 2645177,
+      "total_bytes_formatted": "2.52 MB",
+      "duplicate_count": 178,
+      "wasted_bytes": 1218214,
+      "wasted_bytes_formatted": "1.16 MB"
+    },
+    {
+      "extension": ".pl",
+      "file_count": 2,
+      "total_bytes": 203766,
+      "total_bytes_formatted": "198.99 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 101883,
+      "wasted_bytes_formatted": "99.50 KB"
+    },
+    {
+      "extension": ".tbl",
+      "file_count": 7,
+      "total_bytes": 116734,
+      "total_bytes_formatted": "114.00 KB",
+      "duplicate_count": 3,
+      "wasted_bytes": 49033,
+      "wasted_bytes_formatted": "47.88 KB"
+    },
+    {
+      "extension": ".awk",
+      "file_count": 11,
+      "total_bytes": 61607,
+      "total_bytes_formatted": "60.16 KB",
+      "duplicate_count": 8,
+      "wasted_bytes": 48208,
+      "wasted_bytes_formatted": "47.08 KB"
+    },
+    {
+      "extension": ".txt",
+      "file_count": 2,
+      "total_bytes": 91074,
+      "total_bytes_formatted": "88.94 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 45537,
+      "wasted_bytes_formatted": "44.47 KB"
+    },
+    {
+      "extension": ".kcsan",
+      "file_count": 4,
+      "total_bytes": 40952,
+      "total_bytes_formatted": "39.99 KB",
+      "duplicate_count": 3,
+      "wasted_bytes": 30714,
+      "wasted_bytes_formatted": "29.99 KB"
+    },
+    {
+      "extension": ".locking",
+      "file_count": 5,
+      "total_bytes": 35340,
+      "total_bytes_formatted": "34.51 KB",
+      "duplicate_count": 4,
+      "wasted_bytes": 28272,
+      "wasted_bytes_formatted": "27.61 KB"
+    },
+    {
+      "extension": ".ubsan",
+      "file_count": 5,
+      "total_bytes": 33430,
+      "total_bytes_formatted": "32.65 KB",
+      "duplicate_count": 4,
+      "wasted_bytes": 26744,
+      "wasted_bytes_formatted": "26.12 KB"
+    },
+    {
+      "extension": ".sh",
+      "file_count": 12,
+      "total_bytes": 34473,
+      "total_bytes_formatted": "33.67 KB",
+      "duplicate_count": 6,
+      "wasted_bytes": 20542,
+      "wasted_bytes_formatted": "20.06 KB"
+    },
+    {
+      "extension": ".config",
+      "file_count": 26,
+      "total_bytes": 26986,
+      "total_bytes_formatted": "26.35 KB",
+      "duplicate_count": 14,
+      "wasted_bytes": 13973,
+      "wasted_bytes_formatted": "13.65 KB"
+    },
+    {
+      "extension": ".uc",
+      "file_count": 9,
+      "total_bytes": 29691,
+      "total_bytes_formatted": "29.00 KB",
+      "duplicate_count": 4,
+      "wasted_bytes": 12843,
+      "wasted_bytes_formatted": "12.54 KB"
+    },
+    {
+      "extension": ".asn1",
+      "file_count": 25,
+      "total_bytes": 22212,
+      "total_bytes_formatted": "21.69 KB",
+      "duplicate_count": 13,
+      "wasted_bytes": 8421,
+      "wasted_bytes_formatted": "8.22 KB"
+    },
+    {
+      "extension": ".hex",
+      "file_count": 4,
+      "total_bytes": 16512,
+      "total_bytes_formatted": "16.12 KB",
+      "duplicate_count": 2,
+      "wasted_bytes": 8256,
+      "wasted_bytes_formatted": "8.06 KB"
+    },
+    {
+      "extension": ".bc",
+      "file_count": 3,
+      "total_bytes": 9279,
+      "total_bytes_formatted": "9.06 KB",
+      "duplicate_count": 2,
+      "wasted_bytes": 6186,
+      "wasted_bytes_formatted": "6.04 KB"
+    },
+    {
+      "extension": ".kexec",
+      "file_count": 2,
+      "total_bytes": 10550,
+      "total_bytes_formatted": "10.30 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 5275,
+      "wasted_bytes_formatted": "5.15 KB"
+    },
+    {
+      "extension": ".locks",
+      "file_count": 2,
+      "total_bytes": 10086,
+      "total_bytes_formatted": "9.85 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 5043,
+      "wasted_bytes_formatted": "4.92 KB"
+    },
+    {
+      "extension": ".rs",
+      "file_count": 2,
+      "total_bytes": 8024,
+      "total_bytes_formatted": "7.84 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 4012,
+      "wasted_bytes_formatted": "3.92 KB"
+    },
+    {
+      "extension": ".kfence",
+      "file_count": 2,
+      "total_bytes": 7266,
+      "total_bytes_formatted": "7.10 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 3633,
+      "wasted_bytes_formatted": "3.55 KB"
+    },
+    {
+      "extension": ".um",
+      "file_count": 2,
+      "total_bytes": 3160,
+      "total_bytes_formatted": "3.09 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1580,
+      "wasted_bytes_formatted": "1.54 KB"
+    },
+    {
+      "extension": ".in",
+      "file_count": 4,
+      "total_bytes": 2052,
       "total_bytes_formatted": "2.00 KB",
+      "duplicate_count": 3,
+      "wasted_bytes": 1539,
+      "wasted_bytes_formatted": "1.50 KB"
+    },
+    {
+      "extension": ".assembler",
+      "file_count": 3,
+      "total_bytes": 3781,
+      "total_bytes_formatted": "3.69 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1261,
+      "wasted_bytes_formatted": "1.23 KB"
+    },
+    {
+      "extension": ".ld",
+      "file_count": 2,
+      "total_bytes": 2492,
+      "total_bytes_formatted": "2.43 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1246,
+      "wasted_bytes_formatted": "1.22 KB"
+    },
+    {
+      "extension": ".postlink",
+      "file_count": 2,
+      "total_bytes": 2264,
+      "total_bytes_formatted": "2.21 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 1132,
+      "wasted_bytes_formatted": "1.11 KB"
+    },
+    {
+      "extension": ".debug",
+      "file_count": 7,
+      "total_bytes": 230807,
+      "total_bytes_formatted": "225.40 KB",
+      "duplicate_count": 1,
+      "wasted_bytes": 758,
+      "wasted_bytes_formatted": "758.00 B"
+    },
+    {
+      "extension": ".freezer",
+      "file_count": 2,
+      "total_bytes": 184,
+      "total_bytes_formatted": "184.00 B",
+      "duplicate_count": 1,
+      "wasted_bytes": 92,
+      "wasted_bytes_formatted": "92.00 B"
+    },
+    {
+      "extension": ".binfmt",
+      "file_count": 2,
+      "total_bytes": 12974,
+      "total_bytes_formatted": "12.67 KB",
       "duplicate_count": 0,
       "wasted_bytes": 0,
       "wasted_bytes_formatted": "0.00 B"
     },
     {
-      "folder": "(root)",
+      "extension": ".kgdb",
+      "file_count": 1,
+      "total_bytes": 5734,
+      "total_bytes_formatted": "5.60 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".dts",
+      "file_count": 1,
+      "total_bytes": 8989,
+      "total_bytes_formatted": "8.78 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".kmsan",
+      "file_count": 1,
+      "total_bytes": 2366,
+      "total_bytes_formatted": "2.31 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".c_shipped",
+      "file_count": 1,
+      "total_bytes": 331280,
+      "total_bytes_formatted": "323.52 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".cpu",
       "file_count": 2,
-      "total_bytes": 3048,
-      "total_bytes_formatted": "2.98 KB",
+      "total_bytes": 19425,
+      "total_bytes_formatted": "18.97 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".hz",
+      "file_count": 1,
+      "total_bytes": 1709,
+      "total_bytes_formatted": "1.67 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".preempt",
+      "file_count": 1,
+      "total_bytes": 4885,
+      "total_bytes_formatted": "4.77 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".utf8data",
+      "file_count": 1,
+      "total_bytes": 2516,
+      "total_bytes_formatted": "2.46 KB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    },
+    {
+      "extension": ".dat",
+      "file_count": 6,
+      "total_bytes": 2498560,
+      "total_bytes_formatted": "2.38 MB",
+      "duplicate_count": 0,
+      "wasted_bytes": 0,
+      "wasted_bytes_formatted": "0.00 B"
+    }
+  ],
+  "subfolders": [
+    {
+      "folder": "deeply_nested_archives",
+      "file_count": 3487,
+      "total_bytes": 258099291,
+      "total_bytes_formatted": "246.14 MB",
+      "duplicate_count": 3487,
+      "wasted_bytes": 258099291,
+      "wasted_bytes_formatted": "246.14 MB"
+    },
+    {
+      "folder": "documents",
+      "file_count": 4478,
+      "total_bytes": 1202636288,
+      "total_bytes_formatted": "1.12 GB",
+      "duplicate_count": 902,
+      "wasted_bytes": 249874598,
+      "wasted_bytes_formatted": "238.30 MB"
+    },
+    {
+      "folder": "source_code",
+      "file_count": 30000,
+      "total_bytes": 467133515,
+      "total_bytes_formatted": "445.49 MB",
+      "duplicate_count": 15012,
+      "wasted_bytes": 193318260,
+      "wasted_bytes_formatted": "184.36 MB"
+    },
+    {
+      "folder": "downloads_inbox",
+      "file_count": 3385,
+      "total_bytes": 254740345,
+      "total_bytes_formatted": "242.94 MB",
+      "duplicate_count": 1765,
+      "wasted_bytes": 171604160,
+      "wasted_bytes_formatted": "163.65 MB"
+    },
+    {
+      "folder": "media",
+      "file_count": 9237,
+      "total_bytes": 1503261798,
+      "total_bytes_formatted": "1.40 GB",
+      "duplicate_count": 1040,
+      "wasted_bytes": 169749028,
+      "wasted_bytes_formatted": "161.89 MB"
+    },
+    {
+      "folder": "shared_corporate_nas",
+      "file_count": 2256,
+      "total_bytes": 165361677,
+      "total_bytes_formatted": "157.70 MB",
+      "duplicate_count": 1331,
+      "wasted_bytes": 115872346,
+      "wasted_bytes_formatted": "110.50 MB"
+    },
+    {
+      "folder": "workspace_clones",
+      "file_count": 2366,
+      "total_bytes": 179306905,
+      "total_bytes_formatted": "171.00 MB",
+      "duplicate_count": 556,
+      "wasted_bytes": 38448789,
+      "wasted_bytes_formatted": "36.67 MB"
+    },
+    {
+      "folder": "backup_snapshots",
+      "file_count": 3414,
+      "total_bytes": 253111187,
+      "total_bytes_formatted": "241.39 MB",
+      "duplicate_count": 338,
+      "wasted_bytes": 20328687,
+      "wasted_bytes_formatted": "19.39 MB"
+    },
+    {
+      "folder": "dedup_edge_cases",
+      "file_count": 6,
+      "total_bytes": 2498560,
+      "total_bytes_formatted": "2.38 MB",
       "duplicate_count": 0,
       "wasted_bytes": 0,
       "wasted_bytes_formatted": "0.00 B"

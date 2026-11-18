@@ -156,6 +156,13 @@ def run_dedupfs_binary(command_type, target_dir, min_size=1, fpr=0.01):
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+@app.after_request
+def add_header(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 @app.route("/")
 def index():
     return render_template("index.html", presets=PRESETS)

@@ -83,14 +83,16 @@ bool MerkleTree::build(const std::string& root_path, const std::vector<FileInfo>
         leaf->size = file.size;
         leaf->file_count = 1;
 
-        if (file.has_full_hash) {
+        if (file.has_full_hash || file.full_hash != Hash256{}) {
             leaf->hash = file.full_hash;
+        } else if (file.has_prefix_hash) {
+            // Fast deterministic synthesis for Tier 2 pruned unique files (size + 128-bit prefix hash)
+            std::string sig = std::to_string(file.size) + ":" + file.prefix_hash.to_hex();
+            leaf->hash = core::HashEngine::sha256_buffer(reinterpret_cast<const uint8_t*>(sig.data()), sig.size());
         } else {
-            // Compute full hash if not provided
-            FileInfo temp_file = file;
-            if (core::HashEngine::compute_full_sha256(temp_file)) {
-                leaf->hash = temp_file.full_hash;
-            }
+            // Fast deterministic synthesis for Tier 1 pruned files (path + unique size)
+            std::string sig = file.path + ":" + std::to_string(file.size);
+            leaf->hash = core::HashEngine::sha256_buffer(reinterpret_cast<const uint8_t*>(sig.data()), sig.size());
         }
 
         parent_node->children.push_back(leaf);

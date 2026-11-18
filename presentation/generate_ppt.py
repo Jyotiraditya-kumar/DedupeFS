@@ -906,24 +906,24 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     bench_cards = [
         ("1. Naive O(N² · L) Verifier", "Pairwise Comparison", COLOR_RED, [
             "Time Complexity: O(N² · L)",
-            "Comparisons (9.5K files): 45,215,295",
-            "Disk I/O Read Volume: 482.7 MB",
-            "Scalability: Catastrophic thrashing at N > 10,000 files.",
-            "Status: Unusable for production systems."
+            "Comparisons (9.5K files): 45,215,295 pairs",
+            "Cold Disk Seek Time: ~400 s (6.6 min on SSD)",
+            "In-Memory Bypass: ~2.0 s (size skipped)",
+            "Scalability: Catastrophic thrashing at scale."
         ]),
         ("2. Traditional Full Hashing", "Unfiltered SHA-256", COLOR_AMBER, [
             "Time Complexity: O(N · L)",
             "Disk I/O: 279.6 MB (100% of data)",
+            "Warm Hash Latency: 0.26 s (cold disk: 8.5 s)",
             "No Tier 1/2 size or prefix pruning.",
-            "No in-memory Bloom filter pre-check.",
-            "Forces heavy disk I/O on every unique file."
+            "Forces full crypto read on every unique file."
         ]),
         ("3. DedupFS Multi-Tier ADS", "Our Proposed Engine", COLOR_EMERALD, [
             "Time Complexity: O(N) Amortized",
-            "Disk I/O Read Volume: 178.1 MB",
-            "Pruning Savings: 36.3% disk read bytes avoided!",
-            "Throughput: 358.2 MB/s",
-            "Speedup: Up to 1000x faster than Naive O(N²)."
+            "Multi-Tier Hashing: 0.16 s (1.65x faster)",
+            "Total Engine: 0.78 s (includes 10K Merkle DAG)",
+            "Disk I/O: 178.1 MB (36.3% I/O saved)",
+            "4,406 files spared from SHA-256 computation."
         ])
     ]
 

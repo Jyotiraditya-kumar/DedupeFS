@@ -1209,7 +1209,10 @@
               <i class="fa-solid fa-gauge-high text-emerald-400"></i>
               <span>Empirical Benchmarking &amp; Algorithmic Comparison</span>
             </h3>
-            <p class="text-xs text-slate-400 mt-0.5">Side-by-side performance comparison against Naive O(N²) and Traditional Full SHA-256 Hashing.</p>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Active Benchmark Corpus: <span class="text-sky-300 font-semibold" id="bmDatasetName">test_small_250MB</span>
+              (<span id="bmFilesCount">9,510</span> files &bull; <span id="bmDatasetVolume">279.6 MB</span>)
+            </p>
           </div>
           <button onclick="runLiveBenchmark()" id="btnRunBenchmark"
             class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-semibold flex items-center space-x-1.5 transition">
@@ -1220,43 +1223,61 @@
 
         <!-- 3 Comparison Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Card 1: Naive -->
           <div class="bg-slate-900/80 border border-rose-500/40 rounded-lg p-4 space-y-2">
-            <div class="text-xs font-bold text-rose-400 uppercase">1. Naive Pairwise Check</div>
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-rose-400 uppercase">1. Naive Pairwise Check</div>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-mono">Unindexed</span>
+            </div>
             <div class="text-base font-bold text-white">O(N² &middot; L) Complexity</div>
-            <ul class="text-xs text-slate-300 space-y-1 pt-1">
-              <li>&bull; Comparisons: <span class="font-bold text-white" id="bmNaiveComps">45,215,295</span></li>
+            <ul class="text-xs text-slate-300 space-y-1.5 pt-1">
+              <li>&bull; Total Comparisons: <span class="font-bold text-white" id="bmNaiveComps">45,215,295 pairs</span></li>
+              <li>&bull; Cold Storage Est. Time: <span class="font-bold text-rose-400" id="bmNaiveCold">397.9 s (6.6 min)</span></li>
+              <li>&bull; In-Memory Filtered Bypass: <span class="font-bold text-slate-300" id="bmNaiveTime">1.94 s</span></li>
               <li>&bull; Disk Read I/O: <span class="font-bold text-rose-300" id="bmNaiveIo">482.7 MB</span></li>
-              <li>&bull; Measured Runtime: <span class="font-bold text-rose-400" id="bmNaiveTime">2.03 s</span></li>
-              <li>&bull; Severe disk thrashing at N &gt; 10,000 files.</li>
+              <li class="text-[11px] text-slate-400 pt-1 border-t border-slate-800">Severe disk thrashing at scale; impossible for real-world production.</li>
             </ul>
           </div>
 
+          <!-- Card 2: Full Hashing -->
           <div class="bg-slate-900/80 border border-amber-500/40 rounded-lg p-4 space-y-2">
-            <div class="text-xs font-bold text-amber-400 uppercase">2. Traditional Full Hashing</div>
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-amber-400 uppercase">2. Traditional Full Hashing</div>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-mono">Linear Stream</span>
+            </div>
             <div class="text-base font-bold text-white">O(N &middot; L) Complexity</div>
-            <ul class="text-xs text-slate-300 space-y-1 pt-1">
+            <ul class="text-xs text-slate-300 space-y-1.5 pt-1">
               <li>&bull; Disk Read I/O: <span class="font-bold text-amber-300" id="bmFullIo">279.6 MB (100%)</span></li>
-              <li>&bull; Measured Runtime: <span class="font-bold text-amber-400" id="bmFullTime">0.27 s</span></li>
-              <li>&bull; Reads 100% of data from physical disk.</li>
+              <li>&bull; Measured Hash Runtime: <span class="font-bold text-amber-400" id="bmFullTime">0.26 s</span></li>
+              <li>&bull; Measured Throughput: <span class="font-bold text-white" id="bmFullTp">1,062.7 MB/s</span></li>
               <li>&bull; Zero size bucketing or Bloom filter pre-checks.</li>
+              <li class="text-[11px] text-slate-400 pt-1 border-t border-slate-800">Must read 100% of bytes into SHA-256 from disk even for unique files.</li>
             </ul>
           </div>
 
+          <!-- Card 3: DedupFS -->
           <div class="bg-slate-900/80 border border-emerald-500/40 rounded-lg p-4 space-y-2">
-            <div class="text-xs font-bold text-emerald-400 uppercase">3. DedupFS Multi-Tier ADS</div>
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-emerald-400 uppercase">3. DedupFS Multi-Tier ADS</div>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono">Multi-Tier Pipeline</span>
+            </div>
             <div class="text-base font-bold text-white">O(N) Amortized Complexity</div>
-            <ul class="text-xs text-slate-300 space-y-1 pt-1">
-              <li>&bull; Disk Read I/O: <span class="font-bold text-emerald-300" id="bmDedupIo">178.1 MB</span></li>
-              <li>&bull; Pruning Savings: <span class="font-bold text-emerald-400" id="bmDedupSaved">36.3% - 75% read I/O saved</span></li>
-              <li>&bull; Measured Throughput: <span class="font-bold text-white" id="bmDedupTp">358.2 MB/s</span></li>
-              <li>&bull; Up to <strong class="text-emerald-300">1000x faster</strong> than Naive on large corpora.</li>
+            <ul class="text-xs text-slate-300 space-y-1.5 pt-1">
+              <li>&bull; Multi-Tier Hash Phase: <span class="font-bold text-emerald-300" id="bmDedupHashTime">0.16 s</span> <span class="text-sky-300 text-[10px] font-semibold" id="bmHashSpeedup">(1.65x faster than Full Hash)</span></li>
+              <li>&bull; Merkle DAG &amp; Max-Heap: <span class="font-bold text-amber-300" id="bmDedupMerkleTime">0.38 s</span> <span class="text-slate-400 text-[10px]">(ADS 3 &amp; 4 build)</span></li>
+              <li>&bull; Total Engine Suite: <span class="font-bold text-emerald-400" id="bmDedupTime">0.78 s</span> <span class="text-slate-400 text-[10px]">(Scan + Hash + Tree + Reports)</span></li>
+              <li>&bull; Disk Read I/O: <span class="font-bold text-emerald-300" id="bmDedupIo">178.1 MB</span> (<span class="font-bold text-emerald-400" id="bmDedupSaved">36.3% read I/O saved</span>)</li>
+              <li class="text-[11px] text-emerald-300/90 pt-1 border-t border-slate-800">&bull; <span id="bmDedupPruned">4,406 files</span> pruned prior to SHA-256 gate.</li>
             </ul>
           </div>
         </div>
 
         <!-- Scalability Projection Table -->
         <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 space-y-2">
-          <span class="text-xs font-bold text-sky-400 uppercase tracking-wide">Theoretical &amp; Empirical Scalability Matrix Across File Scales:</span>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <span class="text-xs font-bold text-sky-400 uppercase tracking-wide">Theoretical &amp; Empirical Scalability Matrix Across File Scales:</span>
+            <span class="text-[10px] text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Physical Cold Storage Model @ 35 MB/s Disk Bandwidth</span>
+          </div>
           <div class="overflow-x-auto scrollbar-thin pt-1">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
@@ -2164,24 +2185,46 @@
 
       function renderBenchmarks(bm) {
         if (!bm || !bm.approaches) return;
+        if (bm.dataset) {
+          const p = bm.dataset.path || '';
+          const parts = p.split(/[\\/]/).filter(Boolean);
+          const name = parts.length > 0 ? parts[parts.length - 1] : p;
+          if (document.getElementById('bmDatasetName')) document.getElementById('bmDatasetName').innerText = name || 'test_small_250MB';
+          if (document.getElementById('bmFilesCount')) document.getElementById('bmFilesCount').innerText = bm.dataset.files_count ? bm.dataset.files_count.toLocaleString() : '9,510';
+          if (document.getElementById('bmDatasetVolume')) document.getElementById('bmDatasetVolume').innerText = `${bm.dataset.total_mb || 279.6} MB`;
+        }
+
         const naive = bm.approaches.find(a => a.id === 'naive');
         const full = bm.approaches.find(a => a.id === 'full_hash');
         const dedup = bm.approaches.find(a => a.id === 'dedupfs');
 
         if (naive) {
-          if (document.getElementById('bmNaiveComps')) document.getElementById('bmNaiveComps').innerText = naive.comparisons ? naive.comparisons.toLocaleString() : '45,215,295';
+          if (document.getElementById('bmNaiveComps')) document.getElementById('bmNaiveComps').innerText = naive.comparisons ? `${naive.comparisons.toLocaleString()} pairs` : '45,215,295 pairs';
+          if (document.getElementById('bmNaiveCold')) document.getElementById('bmNaiveCold').innerText = naive.cold_disk_estimated_s ? `${naive.cold_disk_estimated_s} s (${(naive.cold_disk_estimated_s/60).toFixed(1)} min)` : '397.9 s (6.6 min)';
           if (document.getElementById('bmNaiveIo')) document.getElementById('bmNaiveIo').innerText = `${naive.disk_io_mb} MB`;
-          if (document.getElementById('bmNaiveTime')) document.getElementById('bmNaiveTime').innerText = `${naive.runtime_seconds} s`;
+          if (document.getElementById('bmNaiveTime')) document.getElementById('bmNaiveTime').innerText = `${naive.in_memory_seconds || naive.runtime_seconds} s`;
         }
         if (full) {
           if (document.getElementById('bmFullIo')) document.getElementById('bmFullIo').innerText = `${full.disk_io_mb} MB (100%)`;
-          if (document.getElementById('bmFullTime')) document.getElementById('bmFullTime').innerText = `${full.runtime_seconds} s`;
+          if (document.getElementById('bmFullTime')) document.getElementById('bmFullTime').innerText = `${full.hash_only_time_s || full.runtime_seconds} s`;
+          if (document.getElementById('bmFullTp')) document.getElementById('bmFullTp').innerText = `${full.throughput_mbs ? full.throughput_mbs.toLocaleString() : '1,062.7'} MB/s`;
         }
         if (dedup) {
+          if (document.getElementById('bmDedupHashTime')) document.getElementById('bmDedupHashTime').innerText = `${dedup.hash_only_seconds || '0.16'} s`;
+          if (document.getElementById('bmHashSpeedup')) {
+            const sp = bm.summary_metrics && bm.summary_metrics.speedup_hash_phase ? bm.summary_metrics.speedup_hash_phase : '1.65';
+            document.getElementById('bmHashSpeedup').innerText = `(${sp}x faster than Full Hash)`;
+          }
+          if (document.getElementById('bmDedupMerkleTime')) document.getElementById('bmDedupMerkleTime').innerText = `${dedup.merkle_build_seconds || '0.38'} s`;
+          if (document.getElementById('bmDedupTime')) document.getElementById('bmDedupTime').innerText = `${dedup.runtime_seconds} s`;
           if (document.getElementById('bmDedupIo')) document.getElementById('bmDedupIo').innerText = `${dedup.disk_io_mb} MB`;
           if (document.getElementById('bmDedupTp')) document.getElementById('bmDedupTp').innerText = `${dedup.throughput_mbs} MB/s`;
           if (bm.summary_metrics && document.getElementById('bmDedupSaved')) {
             document.getElementById('bmDedupSaved').innerText = `${bm.summary_metrics.disk_io_saved_percent}% read I/O saved`;
+          }
+          if (document.getElementById('bmDedupPruned')) {
+            const pruned = dedup.pruned_files_count ? dedup.pruned_files_count.toLocaleString() : '4,406';
+            document.getElementById('bmDedupPruned').innerText = `${pruned} files spared from SHA-256`;
           }
         }
       }
