@@ -14,7 +14,8 @@ CORE_SRCS = $(SRC_DIR)/core/file_scanner.cpp \
             $(SRC_DIR)/core/hash_engine.cpp \
             $(SRC_DIR)/core/byte_verifier.cpp \
             $(SRC_DIR)/core/storage_optimizer.cpp \
-            $(SRC_DIR)/core/pipeline.cpp
+            $(SRC_DIR)/core/pipeline.cpp \
+            $(SRC_DIR)/core/benchmark_engine.cpp
 
 DS_SRCS = $(SRC_DIR)/ds/murmur3.cpp \
           $(SRC_DIR)/ds/bloom_filter.cpp \

@@ -291,10 +291,9 @@ def get_benchmarks():
 def run_benchmark():
     data = request.json or {}
     path = data.get("path", "").strip() or str(PROJECT_ROOT / "datasets" / "test_small_250MB" / "work")
-    bm_script = PROJECT_ROOT / "benchmarks" / "run_benchmarks.py"
     try:
         proc = subprocess.run(
-            [sys.executable, str(bm_script), str(path)],
+            [str(BINARY_PATH), "benchmark", str(path)],
             cwd=str(PROJECT_ROOT),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,

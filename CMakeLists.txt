@@ -20,6 +20,7 @@ set(LIB_SOURCES
     src/core/byte_verifier.cpp
     src/core/storage_optimizer.cpp
     src/core/pipeline.cpp
+    src/core/benchmark_engine.cpp
     src/ds/murmur3.cpp
     src/ds/bloom_filter.cpp
     src/ds/hash_table.cpp

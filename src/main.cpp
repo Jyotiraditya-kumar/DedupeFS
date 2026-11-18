@@ -1,4 +1,5 @@
 #include "core/pipeline.hpp"
+#include "core/benchmark_engine.hpp"
 #include "utils/logger.hpp"
 
 #include <iostream>
@@ -22,6 +23,7 @@ void print_usage(const char* prog) {
     std::cout << "Usage:\n"
               << "  " << prog << " scan <directory> [options]      Scan and audit duplicates (Dry-run by default)\n"
               << "  " << prog << " optimize <directory> [options]  Consolidate duplicate files via POSIX hard links\n"
+              << "  " << prog << " benchmark <directory> [options] Run native C++ comparative algorithmic benchmark\n"
               << "  " << prog << " help                           Display this help message\n\n"
               << "Options:\n"
               << "  --dry-run             Audit only, do not modify files (default for 'scan')\n"
@@ -32,11 +34,12 @@ void print_usage(const char* prog) {
               << "  --log-file <path>     Custom path for persistent session log (default: ./logs/dedupfs_<ts>.log)\n"
               << "  --no-reports          Disable automatic report generation\n"
               << "  --no-log-file         Disable persistent file logging\n"
+              << "  --out, -o <json_path> Destination JSON path for 'benchmark' command\n"
               << "  --help, -h            Show help\n\n"
               << "Examples:\n"
               << "  " << prog << " scan /home/user/data --verbose\n"
               << "  " << prog << " optimize /home/user/data\n"
-              << "  " << prog << " scan /home/user/data --report-dir ./my_reports --log-file ./my_log.log\n";
+              << "  " << prog << " benchmark /home/user/data --out benchmarks/benchmark_results.json\n";
 }
 
 int main(int argc, char* argv[]) {
@@ -50,6 +53,25 @@ int main(int argc, char* argv[]) {
     if (command == "help" || command == "--help" || command == "-h") {
         print_banner();
         print_usage(argv[0]);
+        return 0;
+    }
+
+    if (command == "benchmark") {
+        if (argc < 3) {
+            std::cerr << "Error: Directory path required for command 'benchmark'\n";
+            print_usage(argv[0]);
+            return 1;
+        }
+        std::string target_dir = argv[2];
+        std::string json_out = "benchmarks/benchmark_results.json";
+        for (int i = 3; i < argc; ++i) {
+            std::string arg = argv[i];
+            if ((arg == "--out" || arg == "-o") && i + 1 < argc) {
+                json_out = argv[++i];
+            }
+        }
+        dedupfs::core::BenchmarkEngine engine(target_dir, json_out);
+        engine.run_full_benchmark();
         return 0;
     }
 

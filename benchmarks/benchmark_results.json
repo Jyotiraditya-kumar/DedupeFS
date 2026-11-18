@@ -9,10 +9,10 @@
     {
       "id": "naive",
       "name": "Naive Pairwise Comparison",
-      "complexity": "O(N\u00b2 \u00b7 L)",
+      "complexity": "O(N² · L)",
       "runtime_seconds": 15124.1,
       "cold_disk_estimated_s": 15124.1,
-      "in_memory_seconds": 68.62,
+      "in_memory_seconds": 7.05,
       "disk_io_mb": 11200.47,
       "comparisons": 1718650506,
       "color": "#ef4444"
@@ -20,88 +20,88 @@
     {
       "id": "full_hash",
       "name": "Traditional Full SHA-256",
-      "complexity": "O(N \u00b7 L)",
-      "runtime_seconds": 7.239,
-      "hash_only_time_s": 6.973,
-      "scan_time_s": 0.266,
+      "complexity": "O(N · L)",
+      "runtime_seconds": 6.841,
+      "hash_only_time_s": 5.755,
+      "scan_time_s": 1.086,
       "disk_io_mb": 4087.59,
-      "throughput_mbs": 586.24,
+      "throughput_mbs": 710.26,
       "color": "#f59e0b"
     },
     {
       "id": "dedupfs",
       "name": "DedupFS Multi-Tier ADS Engine",
       "complexity": "O(N) Amortized",
-      "core_runtime_seconds": 3.387,
-      "hash_only_seconds": 2.284,
-      "runtime_seconds": 4.833,
-      "merkle_build_seconds": 0.996,
+      "core_runtime_seconds": 3.269,
+      "hash_only_seconds": 2.138,
+      "runtime_seconds": 4.730,
+      "merkle_build_seconds": 1.006,
       "disk_io_mb": 2959.17,
       "pruned_files_count": 18678,
       "full_hash_count": 39951,
-      "throughput_mbs": 845.71,
+      "throughput_mbs": 864.17,
       "color": "#10b981",
       "merkle_root": "182657d2e8b1b03e79ce5d13ce9dd588575370a20d9fa6ddf5114b91b6553a49",
       "subtrees_detected": 98
     }
   ],
   "summary_metrics": {
-    "speedup_vs_naive_cold": 3129.3,
-    "speedup_hash_phase": 3.05,
-    "speedup_core_vs_full": 2.14,
-    "speedup_total_vs_full": 1.5,
+    "speedup_vs_naive_cold": 3197.4,
+    "speedup_hash_phase": 2.69,
+    "speedup_core_vs_full": 2.09,
+    "speedup_total_vs_full": 1.45,
     "disk_io_saved_percent": 27.6,
-    "throughput_dedupfs_mbs": 845.71
+    "throughput_dedupfs_mbs": 864.17
   },
   "scalability_projection": [
     {
       "files_count": 100,
       "naive_seconds": 0.044,
-      "full_hash_seconds": 0.084,
-      "dedupfs_seconds": 0.011,
-      "speedup_factor": 7.8
+      "full_hash_seconds": 0.199,
+      "dedupfs_seconds": 0.024,
+      "speedup_factor": 8.5
     },
     {
       "files_count": 500,
       "naive_seconds": 1.098,
-      "full_hash_seconds": 0.419,
-      "dedupfs_seconds": 0.054,
-      "speedup_factor": 7.8
+      "full_hash_seconds": 0.996,
+      "dedupfs_seconds": 0.118,
+      "speedup_factor": 8.5
     },
     {
       "files_count": 1000,
       "naive_seconds": 4.396,
-      "full_hash_seconds": 0.837,
-      "dedupfs_seconds": 0.108,
-      "speedup_factor": 7.8
+      "full_hash_seconds": 1.992,
+      "dedupfs_seconds": 0.235,
+      "speedup_factor": 8.5
     },
     {
       "files_count": 5000,
       "naive_seconds": 109.978,
-      "full_hash_seconds": 4.185,
-      "dedupfs_seconds": 0.538,
-      "speedup_factor": 7.8
+      "full_hash_seconds": 9.960,
+      "dedupfs_seconds": 1.176,
+      "speedup_factor": 8.5
     },
     {
       "files_count": 10000,
       "naive_seconds": 439.956,
-      "full_hash_seconds": 8.371,
-      "dedupfs_seconds": 1.075,
-      "speedup_factor": 7.8
+      "full_hash_seconds": 19.920,
+      "dedupfs_seconds": 2.352,
+      "speedup_factor": 8.5
     },
     {
       "files_count": 50000,
-      "naive_seconds": 10999.78,
-      "full_hash_seconds": 41.853,
-      "dedupfs_seconds": 5.376,
-      "speedup_factor": 7.8
+      "naive_seconds": 10999.780,
+      "full_hash_seconds": 99.599,
+      "dedupfs_seconds": 11.758,
+      "speedup_factor": 8.5
     },
     {
       "files_count": 100000,
-      "naive_seconds": 43999.56,
-      "full_hash_seconds": 83.705,
-      "dedupfs_seconds": 10.752,
-      "speedup_factor": 7.8
+      "naive_seconds": 43999.560,
+      "full_hash_seconds": 199.199,
+      "dedupfs_seconds": 23.517,
+      "speedup_factor": 8.5
     }
   ]
 }

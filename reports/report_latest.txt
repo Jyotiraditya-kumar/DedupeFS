@@ -4,7 +4,7 @@
                 Course: Advanced Data Structures (M.Tech Semester 1)
         Authors: Aryan Ravi Zodape (206126006) & Jyotiraditya Kumar (206126014)
 ========================================================================================
-Execution Timestamp:     2026-11-18 08:04:40
+Execution Timestamp:     2026-11-18 08:12:04
 Target Directory:        datasets/test_large_3.5GB/work
 Operating Execution Mode:DRY-RUN (Non-Destructive Audit)
 Minimum File Size Filter:1.00 B (1 bytes)
@@ -174,7 +174,7 @@ Internal Nodes (Directories):                 2212
 Hierarchy Maximum Depth:                      13
 Identical Duplicate Subtrees Found:           98
 Subtree Redundant Volume:                     2.40 MB
-Merkle Tree Construction Latency:             996.45 ms
+Merkle Tree Construction Latency:             1.01 s
 
   >> Pedagogical Note for Professor:
      The Merkle Tree hierarchically hashes directory trees by deterministically hashing
@@ -197,16 +197,16 @@ Byte Verifications Rejected (Hash Collisions):0
 ========================================================================================
 10. EXECUTION LATENCY & HARDWARE PROFILING
 ========================================================================================
-Directory Scan Duration:                      1.06 s
-Multi-Tier Hashing & Bloom Indexing Duration: 2.28 s
-Merkle Tree Build Duration:                   996.45 ms
-Storage Optimization & Consolidation Duration:44.36 ms
-Total End-to-End Runtime:                     4.83 s
-Overall Engine Processing Throughput:         845.71 MB/s
-Peak Resident Memory Footprint (RSS):         122.18 MB
+Directory Scan Duration:                      1.09 s
+Multi-Tier Hashing & Bloom Indexing Duration: 2.14 s
+Merkle Tree Build Duration:                   1.01 s
+Storage Optimization & Consolidation Duration:41.89 ms
+Total End-to-End Runtime:                     4.73 s
+Overall Engine Processing Throughput:         864.17 MB/s
+Peak Resident Memory Footprint (RSS):         347.81 MB
 
-Associated File-Level Duplicate Audit: reports/duplicates_20261118_080440.txt
-Associated Standalone HTML Report:     reports/report_20261118_080440.html
+Associated File-Level Duplicate Audit: reports/duplicates_20261118_081204.txt
+Associated Standalone HTML Report:     reports/report_20261118_081204.html
 ========================================================================================
                              END OF EXECUTION REPORT
 ========================================================================================

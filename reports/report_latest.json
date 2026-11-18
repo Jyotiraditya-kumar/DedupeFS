@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-18 08:04:40",
+  "timestamp": "2026-11-18 08:12:04",
   "target_directory": "datasets/test_large_3.5GB/work",
   "execution_mode": "DRY-RUN (Non-Destructive Audit)",
   "min_file_size": 1,
@@ -16,13 +16,13 @@
     "space_saved_percent": 28.40,
     "duplicate_groups_count": 15413,
     "duplicate_files_count": 24431,
-    "total_runtime_ms": 4833.30,
-    "scan_time_ms": 1058.14,
-    "hash_time_ms": 2284.43,
-    "merkle_time_ms": 996.45,
-    "dedup_time_ms": 44.36,
-    "throughput_mbs": 845.71,
-    "peak_rss_bytes": 128270336
+    "total_runtime_ms": 4730.08,
+    "scan_time_ms": 1088.18,
+    "hash_time_ms": 2138.46,
+    "merkle_time_ms": 1005.98,
+    "dedup_time_ms": 41.89,
+    "throughput_mbs": 864.17,
+    "peak_rss_bytes": 364703744
   },
   "filtering": {
     "tier1_unique_size_discarded": 14132,
@@ -75,7 +75,7 @@
     "leaf_files_count": 58629,
     "directory_nodes_count": 2212,
     "max_depth": 13,
-    "build_time_ms": 996.45,
+    "build_time_ms": 1005.98,
     "duplicate_subtrees_count": 98,
     "duplicate_subtree_wasted_bytes": 2516697,
     "duplicate_subtree_wasted_bytes_formatted": "2.40 MB",
