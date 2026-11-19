@@ -330,7 +330,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
 
-    # --- STAGE II: CRYPTO HASHING & ADS INDEXING ---
+    # --- STAGE II: CRYPTO HASHING & INDEXING ---
     add_card(s3, Inches(4.75), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_AMBER, bg_color=BG_CARD)
     tb_l2 = s3.shapes.add_textbox(Inches(4.9), Inches(1.48), Inches(3.55), Inches(0.3))
     tf_l2 = tb_l2.text_frame
@@ -357,13 +357,13 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
 
     add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(6.55), Inches(2.75), Inches(0.25), Inches(0.18), COLOR_EMERALD)
 
-    # Step 5: Gate 3 (Bloom Filter ADS 1)
+    # Step 5: Gate 3 (Bloom Filter)
     add_card(s3, Inches(4.9), Inches(2.98), Inches(3.55), Inches(1.15), border_color=BORDER_COLOR, bg_color=BG_DARK)
     tb_s5 = s3.shapes.add_textbox(Inches(5.0), Inches(3.03), Inches(3.35), Inches(1.05))
     tf_s5 = tb_s5.text_frame
     tf_s5.word_wrap = True
     p = tf_s5.paragraphs[0]
-    p.text = "5. Gate 3: Bloom Filter (ADS 1) | FN = 0"
+    p.text = "5. Gate 3: Probabilistic Bloom Filter | FN = 0"
     p.font.size = Pt(10.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_EMERALD
@@ -383,13 +383,13 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
 
     add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(6.55), Inches(4.18), Inches(0.25), Inches(0.18), COLOR_CYAN)
 
-    # Step 6: Gate 4 (Hash Table ADS 2)
+    # Step 6: Gate 4 (Hash Table)
     add_card(s3, Inches(4.9), Inches(4.41), Inches(3.55), Inches(1.05), border_color=BORDER_COLOR, bg_color=BG_DARK)
     tb_s6 = s3.shapes.add_textbox(Inches(5.0), Inches(4.46), Inches(3.35), Inches(0.95))
     tf_s6 = tb_s6.text_frame
     tf_s6.word_wrap = True
     p = tf_s6.paragraphs[0]
-    p.text = "6. Gate 4: Chained Hash Table (ADS 2)"
+    p.text = "6. Gate 4: Chained Hash Table"
     p.font.size = Pt(10.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
@@ -416,12 +416,12 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     p.font.bold = True
     p.font.color.rgb = COLOR_AMBER
 
-    # --- STAGE III: DUAL ADS & ATOMIC HARDLINKING ---
+    # --- STAGE III: DATA STRUCTURES & ATOMIC HARDLINKING ---
     add_card(s3, Inches(8.9), Inches(1.4), Inches(3.85), Inches(5.35), border_color=COLOR_PURPLE, bg_color=BG_CARD)
     tb_l3 = s3.shapes.add_textbox(Inches(9.05), Inches(1.48), Inches(3.55), Inches(0.3))
     tf_l3 = tb_l3.text_frame
     p_l3 = tf_l3.paragraphs[0]
-    p_l3.text = "STAGE III: ADVANCED DATA STRUCTURES"
+    p_l3.text = "STAGE III: ANALYTICAL DATA STRUCTURES"
     p_l3.font.size = Pt(11)
     p_l3.font.bold = True
     p_l3.font.color.rgb = COLOR_PURPLE
@@ -453,22 +453,22 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
 
     add_arrow_shape(s3, MSO_SHAPE.DOWN_ARROW, Inches(10.7), Inches(2.95), Inches(0.25), Inches(0.18), COLOR_PURPLE)
 
-    # Step 8: Dual ADS Fork (Merkle + Max-Heap)
+    # Step 8: Parallel Fork (Merkle + Max-Heap)
     add_card(s3, Inches(9.05), Inches(3.18), Inches(3.55), Inches(1.25), border_color=BORDER_COLOR, bg_color=BG_DARK)
     tb_s8 = s3.shapes.add_textbox(Inches(9.15), Inches(3.23), Inches(3.35), Inches(1.15))
     tf_s8 = tb_s8.text_frame
     tf_s8.word_wrap = True
     p = tf_s8.paragraphs[0]
-    p.text = "8. Parallel ADS Execution | ADS 3 & 4"
+    p.text = "8. Parallel Execution: Tree & Heap Sync"
     p.font.size = Pt(10.5)
     p.font.bold = True
     p.font.color.rgb = COLOR_PURPLE
     p = tf_s8.add_paragraph()
-    p.text = "• ADS 3 (Merkle Tree): O(1) subtree duplicate detection & O(log N) tamper-proof audit proofs"
+    p.text = "• Merkle Tree: O(1) subtree duplicate detection & O(log N) tamper-proof audit proofs"
     p.font.size = Pt(8.5)
     p.font.color.rgb = COLOR_WHITE
     p = tf_s8.add_paragraph()
-    p.text = "• ADS 4 (Max-Heap): Floyd O(N) heapify & Top-K Pareto 80/20 storage reclamation ranking"
+    p.text = "• Max-Heap: Floyd O(N) heapify & Top-K Pareto 80/20 storage reclamation ranking"
     p.font.size = Pt(8.5)
     p.font.color.rgb = COLOR_WHITE
 
@@ -510,7 +510,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     # =========================================================================
     s4 = prs.slides.add_slide(blank_layout)
     set_slide_background(s4, BG_DARK)
-    add_header(s4, "Probabilistic Filtering: Optimal Bloom Filter (ADS 1)")
+    add_header(s4, "Probabilistic Pre-Filtering: Optimal Bloom Filter")
 
     add_card(s4, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s4.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
@@ -577,7 +577,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     # =========================================================================
     s5 = prs.slides.add_slide(blank_layout)
     set_slide_background(s5, BG_DARK)
-    add_header(s5, "Secondary Index: Chained Inverted Hash Table (ADS 2)")
+    add_header(s5, "Secondary Index: Chained Inverted Hash Table")
 
     add_card(s5, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s5.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
@@ -644,7 +644,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     # =========================================================================
     s6 = prs.slides.add_slide(blank_layout)
     set_slide_background(s6, BG_DARK)
-    add_header(s6, "Hierarchical Merkle Hash Tree (ADS 3)", "ADVANCED DATA STRUCTURES")
+    add_header(s6, "Hierarchical Merkle Hash Tree", "DATA STRUCTURE ARCHITECTURE")
 
     add_card(s6, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s6.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
@@ -711,7 +711,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
     # =========================================================================
     s7 = prs.slides.add_slide(blank_layout)
     set_slide_background(s7, BG_DARK)
-    add_header(s7, "Binary Max-Heap Priority Queue & Pareto Analysis (ADS 4)")
+    add_header(s7, "Binary Max-Heap Priority Queue & Pareto Analysis")
 
     add_card(s7, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.1))
     b = s7.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(5.2), Inches(4.7))
@@ -918,7 +918,7 @@ def build_presentation(output_path="presentation/DedupFS_MTech_Presentation.pptx
             "No Tier 1/2 size or prefix pruning.",
             "Forces full crypto read on every unique file."
         ]),
-        ("3. DedupFS Multi-Tier ADS", "Our Proposed Engine", COLOR_EMERALD, [
+        ("3. DedupFS Multi-Tier Engine", "Our Proposed Engine", COLOR_EMERALD, [
             "Time Complexity: O(N) Amortized",
             "Multi-Tier Hashing: 0.16 s (1.65x faster)",
             "Total Engine: 0.78 s (includes 10K Merkle DAG)",

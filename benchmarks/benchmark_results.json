@@ -1,6 +1,6 @@
 {
   "dataset": {
-    "path": "datasets/test_large_3.5GB/work",
+    "path": "/home/jyotiraditya/CodingProjects/DedupFS/datasets/test_large_3.5GB/work",
     "files_count": 58629,
     "total_bytes": 4286149566,
     "total_mb": 4087.59
@@ -12,7 +12,7 @@
       "complexity": "O(N² · L)",
       "runtime_seconds": 15124.1,
       "cold_disk_estimated_s": 15124.1,
-      "in_memory_seconds": 7.05,
+      "in_memory_seconds": 4.51,
       "disk_io_mb": 11200.47,
       "comparisons": 1718650506,
       "color": "#ef4444"
@@ -21,37 +21,37 @@
       "id": "full_hash",
       "name": "Traditional Full SHA-256",
       "complexity": "O(N · L)",
-      "runtime_seconds": 6.841,
-      "hash_only_time_s": 5.755,
-      "scan_time_s": 1.086,
+      "runtime_seconds": 8.333,
+      "hash_only_time_s": 7.309,
+      "scan_time_s": 1.024,
       "disk_io_mb": 4087.59,
-      "throughput_mbs": 710.26,
+      "throughput_mbs": 559.25,
       "color": "#f59e0b"
     },
     {
       "id": "dedupfs",
-      "name": "DedupFS Multi-Tier ADS Engine",
+      "name": "DedupFS Multi-Tier Engine",
       "complexity": "O(N) Amortized",
-      "core_runtime_seconds": 3.269,
-      "hash_only_seconds": 2.138,
-      "runtime_seconds": 4.730,
-      "merkle_build_seconds": 1.006,
+      "core_runtime_seconds": 3.232,
+      "hash_only_seconds": 2.104,
+      "runtime_seconds": 4.622,
+      "merkle_build_seconds": 0.943,
       "disk_io_mb": 2959.17,
       "pruned_files_count": 18678,
       "full_hash_count": 39951,
-      "throughput_mbs": 864.17,
+      "throughput_mbs": 884.39,
       "color": "#10b981",
-      "merkle_root": "182657d2e8b1b03e79ce5d13ce9dd588575370a20d9fa6ddf5114b91b6553a49",
+      "merkle_root": "cd29338013492aca919c563a102885d5c1930c90dd636ea9b5d58bcf3814ea95",
       "subtrees_detected": 98
     }
   ],
   "summary_metrics": {
-    "speedup_vs_naive_cold": 3197.4,
-    "speedup_hash_phase": 2.69,
-    "speedup_core_vs_full": 2.09,
-    "speedup_total_vs_full": 1.45,
+    "speedup_vs_naive_cold": 3272.3,
+    "speedup_hash_phase": 3.47,
+    "speedup_core_vs_full": 2.58,
+    "speedup_total_vs_full": 1.80,
     "disk_io_saved_percent": 27.6,
-    "throughput_dedupfs_mbs": 864.17
+    "throughput_dedupfs_mbs": 884.39
   },
   "scalability_projection": [
     {

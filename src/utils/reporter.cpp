@@ -536,7 +536,7 @@ void Reporter::generate_html_report(
         << "    <div class=\"stat-card\">\n"
         << "      <div class=\"stat-title\">Throughput</div>\n"
         << "      <div class=\"stat-value\">" << std::fixed << std::setprecision(1) << throughput_mbs << " MB/s</div>\n"
-        << "      <div class=\"stat-sub\">Total runtime: " << Logger::format_time_ms(stats.total_time_ms) << "</div>\n"
+        << "      <div class=\"stat-sub\">Runtime: " << Logger::format_time_ms(stats.total_time_ms) << " &bull; RSS: " << Logger::format_bytes(peak_ram) << "</div>\n"
         << "    </div>\n"
         << "  </div>\n\n";
 
@@ -602,7 +602,7 @@ void Reporter::generate_html_report(
 
     // SECTION 3: DATA STRUCTURES & TELEMETRY
     ofs << "  <div class=\"section\">\n"
-        << "    <h2 class=\"section-title\">Advanced Data Structures Telemetry &amp; Verification (All 4 ADS)</h2>\n"
+        << "    <h2 class=\"section-title\">Data Structures Telemetry &amp; System Verification</h2>\n"
         << "    <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;\">\n"
         << "      <div>\n"
         << "        <h3 style=\"color: var(--accent); font-size: 14px; margin-top: 0;\">1. Probabilistic Bloom Filter</h3>\n"

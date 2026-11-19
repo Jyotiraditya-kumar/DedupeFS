@@ -199,7 +199,7 @@
         </div>
       </div>
 
-      <!-- STAGE II: CRYPTOGRAPHIC VERIFICATION & ADS INDEXING -->
+      <!-- STAGE II: CRYPTOGRAPHIC VERIFICATION & INDEXING -->
       <div class="bg-slate-900/60 border border-amber-500/30 rounded-xl p-3.5 space-y-3">
         <div class="flex items-center justify-between border-b border-amber-900/40 pb-2">
           <span class="text-xs font-bold text-amber-400 uppercase tracking-wide">
@@ -220,10 +220,10 @@
         <!-- Down Arrow -->
         <div class="flex justify-center text-emerald-400 text-xs py-0.5"><i class="fa-solid fa-arrow-down"></i></div>
 
-        <!-- Step 5: Gate 3 (Bloom Filter ADS 1) -->
+        <!-- Step 5: Gate 3 (Bloom Filter) -->
         <div class="flow-box p-3 border-emerald-500/50 bg-slate-950/80">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-white">5. Gate 3: Bloom Filter (ADS 1)</span>
+            <span class="text-xs font-bold text-white">5. Gate 3: Probabilistic Bloom Filter</span>
             <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 font-mono">FN = 0 Invariant</span>
           </div>
           <p class="text-[11px] text-slate-300 mt-1">Kirsch-Mitzenmacher double-hashing <code>(h1 + i&middot;h2) mod m</code>.</p>
@@ -242,10 +242,10 @@
         <!-- Down Arrow -->
         <div class="flex justify-center text-sky-400 text-xs py-0.5"><i class="fa-solid fa-arrow-down"></i></div>
 
-        <!-- Step 6: Gate 4 & 5 (Hash Table ADS 2 & Byte Verifier) -->
+        <!-- Step 6: Gate 4 & 5 (Hash Table & Byte Verifier) -->
         <div class="flow-box p-3 border-sky-400 bg-slate-950/80">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-white">6. Gate 4: Chained Table (ADS 2)</span>
+            <span class="text-xs font-bold text-white">6. Gate 4: Chained Table</span>
             <span class="text-[9px] px-1.5 py-0.5 rounded bg-sky-950 text-sky-300 font-mono">&lambda; &le; 0.75</span>
           </div>
           <p class="text-[11px] text-slate-300 mt-1">Dynamic doubling ensures O(1) amortized equivalence lookup.</p>
@@ -267,30 +267,30 @@
         </div>
       </div>
 
-      <!-- STAGE III: DUAL ADS & ATOMIC HARDLINKING -->
+      <!-- STAGE III: DATA STRUCTURES & ATOMIC HARDLINKING -->
       <div class="bg-slate-900/60 border border-purple-500/30 rounded-xl p-3.5 space-y-3">
         <div class="flex items-center justify-between border-b border-purple-900/40 pb-2">
           <span class="text-xs font-bold text-purple-400 uppercase tracking-wide">
-            <i class="fa-solid fa-sitemap mr-1"></i> Stage III: Advanced Data Structures
+            <i class="fa-solid fa-sitemap mr-1"></i> Stage III: Analytical Data Structures
           </span>
           <span class="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">Stages 7 &ndash; 9</span>
         </div>
 
-        <!-- Step 7: Dual ADS Fork -->
+        <!-- Step 7: Parallel Fork -->
         <div class="flow-box p-3 border-purple-400 bg-slate-950/80 space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-white">7. Dual ADS Parallel Fork</span>
-            <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 font-mono">ADS 3 &amp; 4</span>
+            <span class="text-xs font-bold text-white">7. Parallel Data Structures Fork</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 font-mono">Parallel Sync</span>
           </div>
           <!-- Sub-branches -->
           <div class="grid grid-cols-2 gap-2 text-[10px] pt-1">
             <div class="p-2 rounded bg-purple-950/40 border border-purple-900/60">
-              <strong class="text-purple-300 block">ADS 3: Merkle Tree</strong>
+              <strong class="text-purple-300 block">Hierarchical Merkle Tree</strong>
               <span class="text-slate-300">&bull; O(1) Subtree Dups</span><br>
               <span class="text-slate-300">&bull; O(log N) Proofs</span>
             </div>
             <div class="p-2 rounded bg-purple-950/40 border border-purple-900/60">
-              <strong class="text-purple-300 block">ADS 4: Max-Heap</strong>
+              <strong class="text-purple-300 block">Binary Max-Heap</strong>
               <span class="text-slate-300">&bull; Floyd's O(N)</span><br>
               <span class="text-slate-300">&bull; Top-K Pareto 80/20</span>
             </div>
@@ -673,7 +673,7 @@
         </div>
 
         <div class="card p-4 border-t-4 border-t-emerald-500 space-y-2">
-          <div class="text-xs font-bold text-emerald-400 uppercase">3. DedupFS Multi-Tier ADS</div>
+          <div class="text-xs font-bold text-emerald-400 uppercase">3. DedupFS Multi-Tier Engine</div>
           <div class="text-base font-bold text-white">O(N) Amortized Complexity</div>
           <div class="text-xs text-slate-300 space-y-1">
             <div>Multi-Tier Hashing: <span class="font-bold text-emerald-300">0.16 s (1.65x faster)</span></div>

@@ -70,7 +70,7 @@ struct BenchmarkSuiteResult {
  * Evaluates algorithmic efficiency across:
  *   1. Naive O(N^2) Pairwise Byte Verifier
  *   2. Traditional Full SHA-256 Hashing (Single-pass linear scan)
- *   3. DedupFS Multi-Tier ADS Engine (Tiers 1-3, Bloom Filter, Chained Hash Table, Heap, Merkle)
+ *   3. DedupFS Multi-Tier Engine (Tiers 1-3, Bloom Filter, Chained Hash Table, Heap, Merkle)
  *
  * Guarantees 100% apples-to-apples language and I/O fairness:
  * Compiled with g++ -O3, identical OpenSSL EVP streaming C API, and identical POSIX file buffers.

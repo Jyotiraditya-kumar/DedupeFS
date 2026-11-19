@@ -37,7 +37,7 @@ public:
     size_t size() const { return heap_.size(); }
     void clear() { heap_.clear(); }
 
-    // Advanced ADS Algorithms
+    // Advanced Heap & Pareto Algorithms
     // 1. Top-K duplicate group extraction (O(K log N))
     std::vector<DuplicateGroup> extract_top_k(size_t k);
 

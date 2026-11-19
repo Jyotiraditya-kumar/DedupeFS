@@ -218,13 +218,13 @@ BenchmarkSuiteResult BenchmarkEngine::run_full_benchmark() {
               << "  -> Disk Read I/O Volume:      " << std::setprecision(2) << full_io_mb << " MB (100% of dataset)\n"
               << "  -> Measured Throughput:       " << results_.full_hash.throughput_mbs << " MB/s\n\n";
 
-    // Stage 3: DedupFS Multi-Tier ADS Engine
-    std::cout << "[STAGE 3/3] Benchmarking Algorithm 3: DedupFS Multi-Tier ADS Engine (C++17)...\n";
+    // Stage 3: DedupFS Multi-Tier Engine
+    std::cout << "[STAGE 3/3] Benchmarking Algorithm 3: DedupFS Multi-Tier Engine (C++17)...\n";
     results_.dedupfs = run_dedupfs_multitier();
     double dedup_io_mb = static_cast<double>(results_.dedupfs.bytes_read) / (1024.0 * 1024.0);
     std::cout << "  -> Multi-Tier Hash Phase:     " << std::fixed << std::setprecision(3) << results_.dedupfs.hash_only_time_s << " s (Tiers 1-3, Bloom, Hash Table, Verify)\n"
               << "  -> Core Dedup (+ Scan):       " << results_.dedupfs.core_time_s << " s (Full scan + dedup pipeline)\n"
-              << "  -> Merkle DAG & Heap:         " << results_.dedupfs.merkle_time_s << " s (ADS 3 & ADS 4 Construction)\n"
+              << "  -> Merkle DAG & Heap:         " << results_.dedupfs.merkle_time_s << " s (Merkle Tree & Heap Construction)\n"
               << "  -> Total Engine Suite:        " << results_.dedupfs.total_time_s << " s (Complete 11-stage suite & reports)\n"
               << "  -> Disk Read I/O Volume:      " << std::setprecision(2) << dedup_io_mb << " MB ("
               << results_.dedupfs.pruned_files_count << " files spared from SHA-256)\n"
@@ -310,7 +310,7 @@ bool BenchmarkEngine::export_json(const std::string& path) const {
         << "    },\n"
         << "    {\n"
         << "      \"id\": \"dedupfs\",\n"
-        << "      \"name\": \"DedupFS Multi-Tier ADS Engine\",\n"
+        << "      \"name\": \"DedupFS Multi-Tier Engine\",\n"
         << "      \"complexity\": \"O(N) Amortized\",\n"
         << "      \"core_runtime_seconds\": " << std::setprecision(3) << results_.dedupfs.core_time_s << ",\n"
         << "      \"hash_only_seconds\": " << results_.dedupfs.hash_only_time_s << ",\n"
